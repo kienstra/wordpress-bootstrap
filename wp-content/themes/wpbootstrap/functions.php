@@ -31,13 +31,17 @@ function wpbootstrap_scripts_with_jquery()
 }
 add_action( 'wp_enqueue_scripts', 'wpbootstrap_scripts_with_jquery' );
 
-if ( function_exists( 'register_sidebar' ) )
-   register_sidebar( array(
-	'before_widget' => '',
-	'after_widget'  => '',
-	'before_title'  => '<h3>',
-	'after_title'   => '</h3>',
-   ));
+function wpbootstrap_register_sidebar() { 
+  if ( function_exists( 'register_sidebar' ) ) {
+     register_sidebar( array(
+	  'before_widget' => '',
+	  'after_widget'  => '',
+	  'before_title'  => '<h3>',
+	  'after_title'   => '</h3>',
+     )) ;
+  }
+}
+add_action( 'widgets_init', 'wpbootstrap_register_sidebar' )  ;
 
 add_filter( 'login_errors', 'plain_error_message' ) ;
 
@@ -75,11 +79,15 @@ function create_widget($name, $id, $description) {
 
 }
 
-require_once( 'image-widget.php' ) ;
-
+/*
 function wpbootstrap_widgets_init() { 
   create_widget("Marketing Copy Right", "copy_right", "Displays in the right of the front page");
-  register_widget( 'Image_Picker' ) ; 
 }
+*/
+//add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
 
-add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
+require_once( 'image-widget.php' ) ;
+function wpboostrap_register_image_picker() {
+  register_widget( 'Image_Picker' ) ;
+}
+add_action('widgets_init', 'wpboostrap_register_image_picker' ) ; 

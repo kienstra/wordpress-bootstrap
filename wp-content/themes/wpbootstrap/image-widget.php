@@ -46,4 +46,4 @@ $link2 = ( empty($instance['link2']) ) ? 0 : $instance['link2'];
 }
 }
 
-?>
+
