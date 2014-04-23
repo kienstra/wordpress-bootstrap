@@ -13,7 +13,6 @@ if( ! function_exists( 'wpbootstrap_setup' ) ) :
                                               'video', 'quote', 'link' )
     ) ;
 }
-
 endif ;
 
 add_action( 'after_setup_theme', 'wpbootstrap_setup' ) ;
@@ -30,18 +29,6 @@ function wpbootstrap_scripts_with_jquery()
 	wp_enqueue_script( 'custom-script' );
 }
 add_action( 'wp_enqueue_scripts', 'wpbootstrap_scripts_with_jquery' );
-
-function wpbootstrap_register_sidebar() { 
-  if ( function_exists( 'register_sidebar' ) ) {
-     register_sidebar( array(
-	  'before_widget' => '',
-	  'after_widget'  => '',
-	  'before_title'  => '<h3>',
-	  'after_title'   => '</h3>',
-     )) ;
-  }
-}
-add_action( 'widgets_init', 'wpbootstrap_register_sidebar' )  ;
 
 add_filter( 'login_errors', 'plain_error_message' ) ;
 
@@ -66,28 +53,29 @@ function wpbootstrap_paginate_links() {
 }
 
 function create_widget($name, $id, $description) {
-
 	 register_sidebar(array(
-                'name' => __( $name ),
-                'id' => $id,
-       	     'description' => __( $description ),
-                'before_widget' => ' ',
-                'after_widget' => ' ',
-			       'before_title' => '<h5>',
-                'after_title' => '</h5>'
+                'name'		=> __( $name ),
+                'id'		=> $id,
+       	        'description'	=> __( $description ),
+                'before_widget'	=> ' ',
+                'after_widget'	=> ' ',
+	        'before_title'	=> '<h2>',
+                'after_title'	=> '</h2>'
         ));
 
 }
 
-/*
-function wpbootstrap_widgets_init() { 
-  create_widget("Marketing Copy Right", "copy_right", "Displays in the right of the front page");
-}
-*/
-//add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
-
-require_once( 'image-widget.php' ) ;
-function wpboostrap_register_image_picker() {
+function wpbootstrap_register_image_picker() { 
+  require_once( 'image-widget.php' ) ;
   register_widget( 'Image_Picker' ) ;
 }
-add_action('widgets_init', 'wpboostrap_register_image_picker' ) ; 
+
+//add_action('widgets_init', 'wpbootstrap_register_image_picker' ) ; 
+
+function wpbootstrap_widgets_init() { 
+  create_widget('Front Page: Left Side', 'copy_left', 'Displays in the left of the front page');
+  create_widget('Front Page: Right Side', 'copy_right', 'Displays in the right of the front page');
+  create_widget( 'Main Sidebar', 'main_sidebar', 'Diplays on News and Blog page' ) ;
+
+}
+add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 

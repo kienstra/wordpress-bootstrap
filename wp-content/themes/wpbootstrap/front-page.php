@@ -24,23 +24,14 @@ This is a new template for a simple marketing or informational website. It inclu
 <div class="row">
 
 <div class="col-md-6">
-<h2 class="copy-one-heading">
-  <?php echo get_theme_mod( 'copy_one_heading' ) ; ?>
-</h2>
-<span class="copy-one">
-  <?php echo get_theme_mod( 'copy_one' ) ;?>
-</span>
+  <?php if ( dynamic_sidebar( 'copy_left' ) ) ; ?>
 </br>
 <a class="btn btn-default" role="button" href="#">View </a>
 </div>
 
 <div class="col-md-6">
-  <h2 class="heading-right-side">
-    <?php echo get_theme_mod( 'heading_right_side' ) ; ?>
-  </h2>
-  <span class="copy-right-side">
-    <?php echo get_theme_mod( 'copy_right_side' ) ; ?>
-  </span>
+  <?php if ( dynamic_sidebar( 'copy_right' ) ) ; ?>
+
 </br>
 <a class="btn btn-default" role="button" href="#">View </a>
 
