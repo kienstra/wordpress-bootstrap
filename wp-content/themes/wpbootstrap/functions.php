@@ -4,16 +4,16 @@
 
 require( get_template_directory() . '/inc/theme-options.php' ) ;
 
-if( ! function_exists( 'wpbootstrap_setup' ) ) :
+if( ! function_exists( 'wpbootstrap_setup' ) ) {
   function wpbootstrap_setup() {
     add_theme_support( 'automatic-feed-links' ) ;
     add_theme_support( 'post-thumbnails' ) ;
     add_theme_support( 'who_knows' ) ;
     add_theme_support( 'post-formats', array( 'aside', 'image',
-                                              'video', 'quote', 'link' )
-    ) ;
+                                              'video', 'quote', 'link' ) ) ;
+    add_theme_support( 'custom-background' ) ;
+  }
 }
-endif ;
 
 add_action( 'after_setup_theme', 'wpbootstrap_setup' ) ;
 

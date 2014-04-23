@@ -24,7 +24,14 @@ This is a new template for a simple marketing or informational website. It inclu
 <div class="row">
 
 <div class="col-md-6">
-  <?php if ( dynamic_sidebar( 'copy_left' ) ) ; ?>
+  <img class="image-right-side" src="<?php echo get_theme_mod( 'image_right_side' ) ; ?>" style="max-width:100% ; max-height:100%">
+  <h2 class="heading-right-side">
+    <?php echo get_theme_mod( 'heading_right_side' ) ; ?>
+  </h2>
+  <span class="copy-right-side">
+    <?php echo get_theme_mod( 'copy_right_side' ) ; ?>
+  </span>
+
 </br>
 <a class="btn btn-default" role="button" href="#">View </a>
 </div>
