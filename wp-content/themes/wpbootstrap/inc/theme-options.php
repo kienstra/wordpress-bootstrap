@@ -20,27 +20,23 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 
 if ( class_exists( 'WP_Customize_Control' ) ) {
-  class RK_Textarea_Control extends WP_Customize_Control {
+  class RK_Image_Control extends WP_Customize_Control {
     public function render_content() {
-      $images = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) );
+      $images = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) ) ;
       if( $images->have_posts() ) :
-      ?>
-        <select name="images" value="<?php get_theme_mod( 'image_select' ) ; ?>">
-      <?php
+        echo '<select name="images" value="' . get_theme_mod( "image_right_side" ) . '">' ; 
+ 
         while ( $images->have_posts() ) :
 	  $images->the_post() ; 
- 	  ?>
-	    <option value="<?php the_permalink() ; ?>">
-	      <?php the_title() ; ?>
-	    </option>
-	  <?php 
-	endwhile ;
-        echo "</select>" ; 
-      endif ; 
-      wp_reset_postdata() ;
-    }
+       	  echo '<option value="' . get_the_permalink() . '">' ;
+	     the_title() ; 
+	    echo '</option>' ; 
+        endwhile;
+        wp_reset_postdata() ;
+      endif; 
   }
-}    
+}
+}
       
 
 function wpbootstrap_customize_register( $wp_customize ) {
@@ -93,17 +89,18 @@ function wpbootstrap_customize_register( $wp_customize ) {
 			'title'    => __( 'Marketing Copy, Right' ),
 			'priority' => 20,
 		) ) ;
+
    $wp_customize->add_setting( 'image_right_side', array(
 	'default'    => '',
 	'capability' => 'manage_options',
 	'transport'  => 'postMessage',
 		) );
 
-    $wp_customize->add_control( new WP_Customize_Image_Control(
+    $wp_customize->add_control( new RK_Image_Control(
     $wp_customize, 'image_right_side', 
       array( 'label' => __( 'Image', 'wpbootstrap' ),
     	   'section' => 'marketing_two',
-	   'settings' => 'image_right_side',
+	   'settings' => 'image_right_side'
            ) ) ) ;
 
 		$wp_customize->add_setting( 'heading_right_side', array(
