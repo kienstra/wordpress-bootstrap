@@ -4,22 +4,44 @@
 
 if ( class_exists( 'WP_Customize_Control' ) ) {
   class PTD_Textarea_Control extends WP_Customize_Control {
+
     public function render_content() { 
       ?>
       <label>
 	<span class="customize-control-title">
 	  <?php echo esc_html( $this->label ) ; ?>
 	</span>
-	<textarea class="large-text" cols="20" rows="10" <?php $this->link() ; ?>>
-	<?php echo  str_replace( '\p', '<br>', $this->value() ) ; ?>
-	// get rid of esc_textarea
-	</textarea>
-      </label>
-      <?php 
-      }
+	<textarea class="<?php echo $this->name ; ?> large-text" cols="20" rows="5" <?php $this->link() ; ?>>
+           <?php echo get_theme_mod( 'copy_right_side' ) ; ?>
+	</textarea>	
+    }
    }
 }
 
+
+if ( class_exists( 'WP_Customize_Control' ) ) {
+  class RK_Textarea_Control extends WP_Customize_Control {
+    public function render_content() {
+      $images = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) );
+      if( $images->have_posts() ) :
+      ?>
+        <select name="images" value="<?php get_theme_mod( 'image_select' ) ; ?>">
+      <?php
+        while ( $images->have_posts() ) :
+	  $images->the_post() ; 
+ 	  ?>
+	    <option value="<?php the_permalink() ; ?>">
+	      <?php the_title() ; ?>
+	    </option>
+	  <?php 
+	endwhile ;
+        echo "</select>" ; 
+      endif ; 
+      wp_reset_postdata() ;
+    }
+  }
+}    
+      
 
 function wpbootstrap_customize_register( $wp_customize ) {
   $wp_customize->get_setting( 'copy_one' )-> transport = 'postMessage' ;
@@ -51,14 +73,13 @@ function wpbootstrap_customize_register( $wp_customize ) {
 					  )
   ) ;
   
-  $wp_customize->add_control( new PTD_Textarea_Control(
-    $wp_customize, 'marketing_copy_control', 
+  $wp_customize->add_control( 'marketing_copy_control', 
       array( 'label' => __( 'Marketing Copy', 'wpbootstrap' ),
     	   'section' => 'content_wpbootstrap_marketing_copy',
 	   'settings' => 'copy_one',
       )
-    )
   ) ;
+  
 
    $wp_customize->add_section( 'content_wpbootstrap_marketing_copy', array( 
      	'title' => __( 'Child Marketing Copy', 'wpbootstrap' ) ,
@@ -75,19 +96,19 @@ function wpbootstrap_customize_register( $wp_customize ) {
    $wp_customize->add_setting( 'image_right_side', array(
 	'default'    => '',
 	'capability' => 'manage_options',
-	'transport'  => 'postMessage'
+	'transport'  => 'postMessage',
 		) );
 
     $wp_customize->add_control( new WP_Customize_Image_Control(
     $wp_customize, 'image_right_side', 
-      array( 'label' => __( 'Right Side Image', 'wpbootstrap' ),
+      array( 'label' => __( 'Image', 'wpbootstrap' ),
     	   'section' => 'marketing_two',
 	   'settings' => 'image_right_side',
            ) ) ) ;
 
 		$wp_customize->add_setting( 'heading_right_side', array(
 			'default'    => '',
-			'transport'  => 'postMessage'
+			'transport'  => 'postMessage'			
 		) );
 
 		$wp_customize->add_control( 'heading_right_side_control', array(
@@ -107,7 +128,8 @@ function wpbootstrap_customize_register( $wp_customize ) {
 		$wp_customize->add_setting( 'copy_right_side', array(
 			'default'    => '',
 			'capability' => 'manage_options',
-			'transport'  => 'postMessage'
+			'transport'  => 'postMessage',
+ 			'class_name' => 'copy-right-side',
 		) );
 
 		  $wp_customize->add_control( new PTD_Textarea_Control(
@@ -132,6 +154,17 @@ function wpbootstrap_customizer_script() {
     true
   ) ;
 }
-
 add_action( 'customize_preview_init', 'wpbootstrap_customizer_script' ) ;
-				     
+
+
+function tinymce_marketing() {
+	 $settings = array( 'tinymce' => array('theme_advanced_buttons9' => 'bold, italic, ul, min_size, max_size'), 'textarea_rows' => '30', 'quicktags' => false);
+	 wp_editor( '', 'market-right', $settings );
+}
+
+
+function my_second_editor() {
+	 $settings = array( 'textarea_rows' => '30', 'quicktags' => false);
+	 wp_editor( '', 'made-up', $settings );
+}				     
+

@@ -137,3 +137,14 @@ class Image_Picker extends WP_Widget
 
 // Add class for Random Posts Widget
 add_action( 'widgets_init', create_function('', 'return register_widget("Image_Picker");') ) ;
+
+add_filter('gettext', 'rename_admin_menu_items');
+add_filter('ngettext', 'rename_admin_menu_items');
+/**
+ * Replaces wp-admin menu item names
+ * @author Daan Kortenbach
+ */
+function rename_admin_menu_items( $menu ) {
+	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
+	 return $menu;
+}

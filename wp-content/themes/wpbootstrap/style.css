@@ -14,16 +14,17 @@ This simple theme was built using the example Bootstrap theme "Basic marketing s
 */
 
 @import url('bootstrap/css/bootstrap.css');
-@import url('bootstrap/css/bootstrap-theme.css');
+/*@import url('bootstrap/css/bootstrap-theme.css'); */
 
 body {
       padding-top: 0px;
       padding-bottom: 40px;
 }
-
+/*
 .navbar-nav li.current_page_item a { 
     color : black ; 
 }
+*/
 /* Fixed Navbar */
 /*
 body > div.navbar.navbar-default.navbar-static-top > div {

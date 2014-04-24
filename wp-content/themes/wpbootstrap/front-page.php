@@ -1,7 +1,4 @@
 <?php get_header(); ?>
-<style type="text/css"> 
-  div.navbar-header a.navbar-brand { color: rgb(51, 51, 51) } 
-</style>
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
       <?php the_content(); ?>
@@ -29,7 +26,7 @@ This is a new template for a simple marketing or informational website. It inclu
     <?php echo get_theme_mod( 'heading_right_side' ) ; ?>
   </h2>
   <span class="copy-right-side">
-    <?php echo get_theme_mod( 'copy_right_side' ) ; ?>
+    <?php echo nl2br( get_theme_mod( 'copy_right_side' ) ) ; ?>
   </span>
 
 </br>
