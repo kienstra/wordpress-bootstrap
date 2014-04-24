@@ -1,8 +1,41 @@
 <?php 
-// wp_bootstrap functions and definitionns
+
+// wp_bootstrap functions and definitionn
 // @package prowordpress
 
 if ( class_exists( 'WP_Customize_Control' ) ) {
+  class RK_Image_Control extends WP_Customize_Control {
+    public function render_content() {
+    ?>
+            <label>
+	<span class="rk-customize-control-title">
+	  <?php echo esc_html( $this->label ) ; ?>
+	</span>
+    <?php
+
+      $images_query = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) ) ;
+      if ( $images_query->have_posts() ) :
+        ?>
+        <select name="images_query" value="<?php echo get_theme_mod( 'image_right_side' ) ; ?>">
+	<?php
+        while ( $images_query->have_posts() ) :
+	  $images_query->the_post() ; 
+       ?>
+         <option value="<?php get_the_permalink() ; ?>">
+	   <?php the_title() ; ?>
+	 </option>
+       <?php
+	endwhile;
+	?>
+	</select>
+	<?php wp_reset_postdata() ;
+      endif; 
+  }
+}
+}
+
+if ( class_exists( 'WP_Customize_Control' ) ) {
+  echo "Class exists! " ; 
   class PTD_Textarea_Control extends WP_Customize_Control {
 
     public function render_content() { 
@@ -11,35 +44,17 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	<span class="customize-control-title">
 	  <?php echo esc_html( $this->label ) ; ?>
 	</span>
+      </label>
 	<textarea class="<?php echo $this->name ; ?> large-text" cols="20" rows="5" <?php $this->link() ; ?>>
            <?php echo get_theme_mod( 'copy_right_side' ) ; ?>
 	</textarea>	
-    }
+   <?php  }
    }
 }
 
 
-if ( class_exists( 'WP_Customize_Control' ) ) {
-  class RK_Image_Control extends WP_Customize_Control {
-    public function render_content() {
-      $images = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) ) ;
-      if( $images->have_posts() ) :
-        echo '<select name="images" value="' . get_theme_mod( "image_right_side" ) . '">' ; 
- 
-        while ( $images->have_posts() ) :
-	  $images->the_post() ; 
-       	  echo '<option value="' . get_the_permalink() . '">' ;
-	     the_title() ; 
-	    echo '</option>' ; 
-        endwhile;
-        wp_reset_postdata() ;
-      endif; 
-  }
-}
-}
-      
-
 function wpbootstrap_customize_register( $wp_customize ) {
+
   $wp_customize->get_setting( 'copy_one' )-> transport = 'postMessage' ;
 
       $wp_customize->add_setting( 'copy_one_heading', array( 
@@ -55,7 +70,6 @@ function wpbootstrap_customize_register( $wp_customize ) {
          )
     ) ;
     
-
     $wp_customize->add_section( 'wpbootstrap_marketing_copy', array( 
      	'title' => __( 'Marketing Copy', 'wpbootstrap' ) ,
 	'description' => __( 'Front page marketing copy', 'wpbootstrap' ) ,
@@ -75,7 +89,6 @@ function wpbootstrap_customize_register( $wp_customize ) {
 	   'settings' => 'copy_one',
       )
   ) ;
-  
 
    $wp_customize->add_section( 'content_wpbootstrap_marketing_copy', array( 
      	'title' => __( 'Child Marketing Copy', 'wpbootstrap' ) ,
@@ -91,10 +104,11 @@ function wpbootstrap_customize_register( $wp_customize ) {
 		) ) ;
 
    $wp_customize->add_setting( 'image_right_side', array(
-	'default'    => '',
+	'default'    =>  '',
 	'capability' => 'manage_options',
 	'transport'  => 'postMessage',
-		) );
+        )
+   ) ;
 
     $wp_customize->add_control( new RK_Image_Control(
     $wp_customize, 'image_right_side', 
@@ -102,7 +116,6 @@ function wpbootstrap_customize_register( $wp_customize ) {
     	   'section' => 'marketing_two',
 	   'settings' => 'image_right_side'
            ) ) ) ;
-
 		$wp_customize->add_setting( 'heading_right_side', array(
 			'default'    => '',
 			'transport'  => 'postMessage'			
@@ -113,8 +126,6 @@ function wpbootstrap_customize_register( $wp_customize ) {
 			'section'    => 'marketing_two',
 			'settings'    => 'heading_right_side'
 		) );
-
-
 
     $wp_customize->add_control( 'marketing_heading_control', 
           array( 'label' => __( 'Marketing Heading', 'wpbootstrap' ),
@@ -165,3 +176,4 @@ function my_second_editor() {
 	 wp_editor( '', 'made-up', $settings );
 }				     
 
+				     
