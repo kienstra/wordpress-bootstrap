@@ -33,10 +33,18 @@
         </div>
         <div class="navbar-collapse collapse">
 	<!-- just added -->
-	  <ul class ="nav navbar-nav">
+	  <ul class="nav navbar-nav">
 
-	    <?php wp_list_pages(array('title_li' => '', 'exclude' => 4)); ?>
- 	  
+	    <?php  wp_nav_menu( array( 
+		    'menu' => 'main_menu' ,
+	            'depth' => 2 ,
+                    'container' => false ,
+                    'menu_class' => 'nav navbar-nav' ,
+                    'walker' => new wp_bootstrap_navwalker()
+                   ) );
+                                   
+            ?>
+	    <?php //wp_list_pages(array('title_li' => '', 'depth' => 1, 'exclude' => 4)); ?>  
 	  </ul>
 	  </div><!--/.navbar-collapse -->
       </div>

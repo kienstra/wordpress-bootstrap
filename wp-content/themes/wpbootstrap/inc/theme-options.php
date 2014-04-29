@@ -15,7 +15,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
       $images_query = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) ) ;
       if ( $images_query->have_posts() ) :
         ?>
-        <select <?php echo $this->get_link() ; ?> class="image-right-side">
+        <select <?php echo $this->get_link() ; ?> class="image-selector-right-side" >
 	<?php
         while ( $images_query->have_posts() ) :
 	  $images_query->the_post() ; 
@@ -45,7 +45,8 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	  <?php echo esc_html( $this->label ) ; ?>
 	</span>
       </label>
-	<textarea class="<?php echo $this->name ; ?> large-text" cols="20" rows="5" <?php $this->link() ; ?>>
+      <?php // $boot_textarea_link = $this->link() ; ?>
+	<textarea class="<?php echo $this->name ; ?> large-text" cols="20" rows="15" <?php $this->link() ; ?>>
            <?php echo get_theme_mod( 'copy_right_side' ) ; ?>
 	</textarea>	
      <?php       
@@ -53,12 +54,24 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
    }
 }
 
+if ( class_exists( 'WP_Customize_Control' ) ) {
+  class RK_Customize_Image_Slider extends WP_Customize_Control {
+    public function render_content() { 
+      ?>
+        <span class="customize-control-title">
+	  <?php echo esc_html( $this->label ) ; ?>
+	</span>
+        <input type="range" <?php echo $this->link() ; ?> value="<?php get_theme_mod( 'image_slider_right_side' ) ; ?>" />
+    <?php
+    }
+  }
+}
 
 function wpbootstrap_customize_register( $wp_customize ) {
 
 
   $wp_customize->add_section( 'marketing_two', array(
-			'title'    => __( 'Marketing Copy, Right' ),
+			'title'    => __( 'Right Panel' ),
 			'priority' => 20,
 		) ) ;
 
@@ -83,9 +96,9 @@ function wpbootstrap_customize_register( $wp_customize ) {
 
 		  $wp_customize->add_control( new PTD_Textarea_Control(
     $wp_customize, 'copy_right_side', 
-      array( 'label' => __( 'Right Side Marketing Copy', 'wpbootstrap' ),
-    	   'section' => 'marketing_two',
-	   'settings' => 'copy_right_side',
+      array( 'label'	=> __( 'Copy', 'wpbootstrap' ),
+    	   'section'	=>  'marketing_two',
+	   'settings'	=> 'copy_right_side',
            ) ) ) ;
 
    $wp_customize->add_setting( 'image_right_side', array(
@@ -102,9 +115,20 @@ function wpbootstrap_customize_register( $wp_customize ) {
 	   'settings' => 'image_right_side'
            ) ) ) ;
 
+   $wp_customize->add_setting( 'image_slider_right_side', array(
+	'default'    =>  '',
+	'capability' => 'manage_options',
+	'transport'  => 'postMessage',
+        )
+   ) ;
 
-
-
+    $wp_customize->add_control( new RK_Customize_Image_Slider(
+    $wp_customize, 'image_slider_right_side', 
+      array( 'label' => __( 'Size', 'wpbootstrap' ),
+    	   'section' => 'marketing_two',
+	   'settings' => 'image_slider_right_side'
+           ) ) ) ;
+    
 
   $wp_customize->get_setting( 'copy_one' )->transport = 'postMessage' ;
 }

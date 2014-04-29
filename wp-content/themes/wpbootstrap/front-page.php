@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
       <?php the_content(); ?>
@@ -21,7 +22,7 @@ This is a new template for a simple marketing or informational website. It inclu
 <div class="row">
 
 <div class="col-md-6">
-  <img class="image-right-side" src="<?php echo get_theme_mod( 'image_right_side' ) ; ?>" style="max-width:100% ; max-height:100%">
+  <img class="image-right-side" src="<?php echo get_theme_mod( 'image_right_side' ) ; ?>" width="<?php echo get_theme_mod( 'image_slider_right_side' ) . '%' ; ?>" >
   <h2 class="heading-right-side">
     <?php echo get_theme_mod( 'heading_right_side' ) ; ?>
   </h2>
@@ -39,20 +40,35 @@ This is a new template for a simple marketing or informational website. It inclu
 </br>
 <a class="btn btn-default" role="button" href="#">View </a>
 
-</div>
+  </div>
+</div> <!-- row -->
 
-<!--
-<div class="col-md-6">
-<h2>Heading</h2>
-Donec sed odio dui. Cras justo odio, dapibus ac facilisis
-in, egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-ut fermentum massa justo sit amet risus.
-</br>
-<a class="btn btn-default" role="button" href="#">View </a>
-</div>
--->
+<div class="row">
+  <div class="col-md-6">
+    <h3>Featured Post</h3>
+    <hr>
+    <div>
+      <?php
+        $args = array(
+	        'post_type'		=> 'post' ,
+		'category_name'		=> 'Show On Front Page' ,
+		'posts_per_page'	=> 1 ,
+		'ignore_sticky_posts'   => 1 ,
+	       ) ;
+	$the_query = new WP_Query( $args ) ;
+        if ( $the_query->have_posts() ) : 
+	  while ( $the_query->have_posts()  ) : 
+	    $the_query->the_post() ; 
+	    get_template_part( 'content', 'post' ) ;
+	  endwhile;
+	endif ; 
+      ?>       
+    </div>
+  </div>    
 
+  <div class="col-md-6">
+
+  </div>
 </div>  
 
 <?php get_footer(); ?>

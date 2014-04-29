@@ -13,7 +13,7 @@ License URI: http://creativecommons.org/licenses/by-sa/3.0/
 This simple theme was built using the example Bootstrap theme "Basic marketing site" found on the Bootstrap web site http://twitter.github.com/bootstrap/examples/hero.html
 */
 
-@import url('bootstrap/css/bootstrap.css');
+@import url('bootstrap/css/old-bootstrap.css');
 /*@import url('bootstrap/css/bootstrap-theme.css'); */
 
 body {
@@ -40,4 +40,54 @@ body > div.container {
 }
 
 /* END Fixed Navbar */
-/*
+
+/* ONLY WITH BOOTSTRAP LESS
+
+.gform_wrapper ul {
+  .list-unstyled();
+}
+.gform_wrapper li {
+  .form-group();
+}
+.gform_wrapper form {
+  margin-bottom: 0;
+}
+.gform_wrapper .gfield_required {
+  padding-left: 1px;
+  color: @state-danger-text;
+}
+.ginput_container input,
+.ginput_container select,
+.ginput_container textarea {
+  .form-control();
+}
+.ginput_container textarea {
+  height: auto;
+}
+.gform_button {
+  .btn();
+  .btn-primary();
+}
+.gform_wrapper .gfield_error {
+  .gfield_label {
+    color: @state-danger-text;
+  }
+  input,
+  select,
+  textarea {
+    border-color: @alert-danger-border;
+    background-color: @alert-danger-bg;
+    color: @alert-danger-text;
+    .form-control-focus(@alert-danger-text);
+  }
+}
+.validation_error {
+  .alert();
+  .alert-danger();
+}
+#gforms_confirmation_message {
+  .alert();
+  .alert-success();
+}
+
+**/

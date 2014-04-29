@@ -3,10 +3,12 @@
 // @package wpbootstrap
 
 require( get_template_directory() . '/inc/theme-options.php' ) ;
+require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
 
-if( ! function_exists( 'wpbootstrap_setup' ) ) {
-  function wpbootstrap_setup() {
+if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
+  function wpbootstrap_support_setup() {
     add_theme_support( 'automatic-feed-links' ) ;
+    add_theme_support( 'menus' ) ;
     add_theme_support( 'post-thumbnails' ) ;
     add_theme_support( 'who_knows' ) ;
     add_theme_support( 'post-formats', array( 'aside', 'image',
@@ -14,15 +16,21 @@ if( ! function_exists( 'wpbootstrap_setup' ) ) {
     add_theme_support( 'custom-background' ) ;
   }
 }
+add_action( 'after_setup_theme', 'wpbootstrap_support_setup' ) ;
 
-add_action( 'after_setup_theme', 'wpbootstrap_setup' ) ;
+if ( ! function_exists( 'wpbootstrap_menu_setup' ) ) {
+  function wpbootstrap_menu_setup() {
+    register_nav_menu( 'main', __( 'Main Menu', 'wpbootstrap' ) ) ;
+  }
+}
+add_action( 'after_setup_theme', 'wpbootstrap_menu_setup' ) ;
+  
 
 function simple_copyright() {
   echo "&copy" . " " . get_bloginfo( 'admin' ) . " " . date( 'Y' ) ;
 }
 
-function wpbootstrap_scripts_with_jquery()
-{
+function wpbootstrap_scripts_with_jquery() {
 	// Register the script like this for a theme
 	wp_register_script( 'custom-script', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
 	// For either a plugin or a theme, you can then enqueue the script:
@@ -62,25 +70,14 @@ function create_widget($name, $id, $description) {
 	        'before_title'	=> '<h2>',
                 'after_title'	=> '</h2>'
         ));
-
 }
-
-function wpbootstrap_register_image_picker() { 
-  require_once( 'image-widget.php' ) ;
-  register_widget( 'Image_Picker' ) ;
-}
-
-//add_action('widgets_init', 'wpbootstrap_register_image_picker' ) ; 
 
 function wpbootstrap_widgets_init() { 
   create_widget('Front Page: Left Side', 'copy_left', 'Displays in the left of the front page');
   create_widget('Front Page: Right Side', 'copy_right', 'Displays in the right of the front page');
   create_widget( 'Main Sidebar', 'main_sidebar', 'Diplays on News and Blog page' ) ;
-
 }
 add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
-
-
 
 class Image_Picker extends WP_Widget
 {
@@ -107,7 +104,8 @@ class Image_Picker extends WP_Widget
               } 
          } ?>
       <select name="<?php echo $this->get_field_name( 'link1' ); ?>"><?php echo $options[0]; ?></select>
-      <select name="<?php echo $this->get_field_name( 'link2' ); ?>"><?php echo $options[1]; ?></select><?php
+      <select name="<?php echo $this->get_field_name( 'link2' ); ?>"><?php echo $options[1]; ?></select>
+      <?php
       } else {
             echo 'There are no images in the media library. Click <a href="' . admin_url('/media-new.php') . '" title="Add Images">here</a> to add some images';
       }
@@ -140,6 +138,7 @@ add_action( 'widgets_init', create_function('', 'return register_widget("Image_P
 
 add_filter('gettext', 'rename_admin_menu_items');
 add_filter('ngettext', 'rename_admin_menu_items');
+
 /**
  * Replaces wp-admin menu item names
  * @author Daan Kortenbach
@@ -147,4 +146,9 @@ add_filter('ngettext', 'rename_admin_menu_items');
 function rename_admin_menu_items( $menu ) {
 	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
 	 return $menu;
+}
+
+add_action( 'init', 'remove_page_editor' ) ;
+function remove_page_editor() { 
+  remove_post_type_support( 'page', 'editor' ) ;
 }
