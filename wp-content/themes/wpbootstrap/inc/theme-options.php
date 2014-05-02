@@ -69,8 +69,35 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 function wpbootstrap_customize_register( $wp_customize ) {
 
+    $wp_customize->add_setting( 'image_right_side', array(
+	'default'    =>  '',
+	'capability' => 'manage_options',
+	'transport'  => 'postMessage',
+        )
+   ) ;
 
-  $wp_customize->add_section( 'marketing_two', array(
+    $wp_customize->add_control( new RK_Customize_Image_Control(
+    $wp_customize, 'image_right_side', 
+      array( 'label' => __( 'Image', 'wpbootstrap' ),
+    	   'section' => 'marketing_two',
+	   'settings' => 'image_right_side'
+           ) ) ) ;
+
+   $wp_customize->add_setting( 'image_slider_right_side', array(
+	'default'    =>  '',
+	'capability' => 'manage_options',
+	'transport'  => 'postMessage',
+        )
+   ) ;
+
+    $wp_customize->add_control( new RK_Customize_Image_Slider(
+    $wp_customize, 'image_slider_right_side', 
+      array( 'label' => __( 'Image  Size', 'wpbootstrap' ),
+    	   'section' => 'marketing_two',
+	   'settings' => 'image_slider_right_side'
+           ) ) ) ;
+
+                $wp_customize->add_section( 'marketing_two', array(
 			'title'    => __( 'Right Panel' ),
 			'priority' => 20,
 		) ) ;
@@ -99,36 +126,7 @@ function wpbootstrap_customize_register( $wp_customize ) {
       array( 'label'	=> __( 'Copy', 'wpbootstrap' ),
     	   'section'	=>  'marketing_two',
 	   'settings'	=> 'copy_right_side',
-           ) ) ) ;
-
-   $wp_customize->add_setting( 'image_right_side', array(
-	'default'    =>  '',
-	'capability' => 'manage_options',
-	'transport'  => 'postMessage',
-        )
-   ) ;
-
-    $wp_customize->add_control( new RK_Customize_Image_Control(
-    $wp_customize, 'image_right_side', 
-      array( 'label' => __( 'Image', 'wpbootstrap' ),
-    	   'section' => 'marketing_two',
-	   'settings' => 'image_right_side'
-           ) ) ) ;
-
-   $wp_customize->add_setting( 'image_slider_right_side', array(
-	'default'    =>  '',
-	'capability' => 'manage_options',
-	'transport'  => 'postMessage',
-        )
-   ) ;
-
-    $wp_customize->add_control( new RK_Customize_Image_Slider(
-    $wp_customize, 'image_slider_right_side', 
-      array( 'label' => __( 'Size', 'wpbootstrap' ),
-    	   'section' => 'marketing_two',
-	   'settings' => 'image_slider_right_side'
-           ) ) ) ;
-    
+           ) ) ) ;    
 
   $wp_customize->get_setting( 'copy_one' )->transport = 'postMessage' ;
 }
