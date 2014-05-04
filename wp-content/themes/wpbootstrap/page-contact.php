@@ -1,4 +1,8 @@
-<?php get_header(); ?>
+<?php get_header(); 
+  wp_register_style( 'gravity-fix', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ;
+  wp_enqueue_style( 'gravity-fix' ) ; 
+?>
+
 <div class="row">
   <div class="col-md-8"> 
     <div class="modal fade" id="opt-in">
