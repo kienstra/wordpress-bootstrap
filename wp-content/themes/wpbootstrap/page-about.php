@@ -8,7 +8,7 @@ Template Name: About Page
 <div class="row">
   <div class="col-md-8"> 
 
-    <?php  echo do_shortcode( "[gallery ids='211,209,210']" ) ; ?>
+    <?php  echo do_shortcode( "[gallery ids='211,209,210,194,197,201']" ) ; ?>
     <?php echo do_shortcode( "[gallery_modal]" ) ; ?>
   <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
