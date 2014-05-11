@@ -14,10 +14,23 @@ This simple theme was built using the example Bootstrap theme "Basic marketing s
 */
 
 @import url( 'bootstrap/css/bootstrap-flatly.css' ) ;
+@import url( 'bootstrap/css/sticky-footer.css' ) ;
+
 
 body {
       padding-top: 0px;
       padding-bottom: 40px;
+}
+
+ul.pagination li.active a:hover { 
+  cursor: pointer ;
+  border: 3px ;
+  border-color: white ;
+  transition: .2s ;
+}
+
+ul.pager {
+  text-align: left ; 
 }
 
 /*

@@ -11,9 +11,11 @@
 
       <hr>
       <?php comments_template(); ?>
-        <?php echo previous_post_link() ; ?>
-	&nbsp; | &nbsp; 
-	<?php echo next_post_link() ; ?>
+      <ul class="pager">
+        <?php echo previous_post_link( '<li>%link</li>' , '<span class="glyphicon glyphicon-arrow-left"></span> %title' ) ; ?>
+        <?php echo next_post_link( '<li>%link</li>' , '%title <span class="glyphicon glyphicon-arrow-right"></span>' ) ; ?>     	      
+
+      </ul>
     <?php endwhile; else: ?>
       <p><?php _e('Sorry, this page does not exist' ); ?></p>
     <?php endif; ?>

@@ -1,9 +1,7 @@
-      <hr>
-
-      <footer>
-      <div id="footer" style="position:relative">
+      <footer> 
+      <div id="footer">
                <!-- <div class="container"> -->
-         <p class="text-muted" style="text-align: center">
+         <p class="text-muted">
            <?php simple_copyright() ; ?>
          </p>
         </div>

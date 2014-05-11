@@ -2,9 +2,11 @@
 /*
 Template Name: About Page
 */
-?>
+wp_register_style( 'gravity-fix', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ; 
+wp_enqueue_style( 'gravity-fix' ) ;
+get_header(); 
 
-<?php get_header(); ?>
+?>
 <div class="row">
   <div class="col-md-8"> 
 
@@ -21,7 +23,7 @@ Template Name: About Page
 
   </div>
   <div class="col-md-4">
-    <?php get_sidebar() ;?>
+    <?php dynamic_sidebar( 'main_sidebar' ) ; ?>
 
   </div>
 </div>

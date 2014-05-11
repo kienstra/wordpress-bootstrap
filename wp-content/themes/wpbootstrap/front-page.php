@@ -22,7 +22,9 @@ This is a new template for a simple marketing or informational website. It inclu
 <div class="row">
 
 <div class="col-md-6">
-  <img class="image-right-side" src="<?php echo get_theme_mod( 'image_right_side' ) ; ?>" width="<?php echo get_theme_mod( 'image_slider_right_side' ) . '%' ; ?>" >
+  <div class="image-container" style="text-align: center">
+    <img class="image-right-side" src="<?php echo get_theme_mod( 'image_right_side' ) ; ?>" width="<?php echo get_theme_mod( 'image_slider_right_side' ) . '%' ; ?>" >
+  </div>
   <h2 class="heading-right-side">
     <?php echo get_theme_mod( 'heading_right_side' ) ; ?>
   </h2>

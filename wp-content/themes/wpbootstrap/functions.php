@@ -35,6 +35,7 @@ function wpbootstrap_scripts_with_jquery() {
 	wp_register_script( 'custom-script', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
 	// For either a plugin or a theme, you can then enqueue the script:
 	wp_enqueue_script( 'custom-script' );
+        wp_register_style( 'gravity-fix', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ; 
 }
 add_action( 'wp_enqueue_scripts', 'wpbootstrap_scripts_with_jquery' );
 
@@ -48,16 +49,29 @@ function wpbootstrap_paginate_links() {
   global $wp_query ; 
   $big = 999999999 ;  
 
-  echo paginate_links( array( 
+  $pagination = paginate_links( array( 
     'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
     'format' => '/page/%#%',
+    'type' => 'array' ,
     'current' => max( 1, get_query_var( 'paged' ) ),
     'total'  => $wp_query->max_num_pages,
     'prev_next' => True,
-    'prev_text' => __( '<< Newer posts' ),
-    'next_text' => __( 'Older posts >>' ),
-    )    
+    'prev_text' => __( '&larr;Newer posts' ),
+    'next_text' => __( 'Older posts &rarr;' ),
+    )
   ) ;
+
+  ?>
+  <ul class="pagination">
+  <?php 
+  foreach ( $pagination as $page ) { 
+    $class = strpos( $page , 'href' ) ? 
+    	       'active' : 'disabled' ;
+    echo " <li class='$class'>$page</li> " ;
+  } 
+  ?>
+  </ul>
+<?php
 }
 
 function create_widget($name, $id, $description) {
@@ -65,8 +79,8 @@ function create_widget($name, $id, $description) {
                 'name'		=> __( $name ),
                 'id'		=> $id,
        	        'description'	=> __( $description ),
-                'before_widget'	=> ' ',
-                'after_widget'	=> ' ',
+                'before_widget'	=> '<div> ',
+                'after_widget'	=> '</div> ',
 	        'before_title'	=> '<h2>',
                 'after_title'	=> '</h2>'
         ));
@@ -148,7 +162,42 @@ function rename_admin_menu_items( $menu ) {
 	 return $menu;
 }
 
-add_action( 'init', 'remove_page_editor' ) ;
+//add_action( 'init', 'remove_page_editor' ) ;
 function remove_page_editor() { 
   remove_post_type_support( 'page', 'editor' ) ;
 }
+
+add_filter( 'upload_mimes', 'cc_mime_types' );
+function cc_mime_types( $mimes ){
+	 $mimes['svg'] = 'image/svg+xml';
+	 return $mimes;
+}
+
+add_action( 'login_enqueue_scripts' , 'wpbootstrap_login_logo' ) ; 
+function wpbootstrap_login_logo() {
+?>
+  <style type="text/css">
+    .login #login {
+      padding-top: 50px ;
+    }
+    #login h1 a {
+      width: 100% ;
+      height: 220px ;
+      padding-bottom : 30px ;
+      background : url( http://lorempixel.com/320/250 ) ;
+      background-size : 320px 250px ;
+    }
+  </style>
+<?php 
+}
+
+add_filter( 'login_header_url' , 'wpbootstrap_login_logo_url' ) ; 
+function wpbootstrap_login_logo_url() { 
+  return get_bloginfo( 'url ' ) ; 
+}
+
+add_filter( 'login_headertitle' , 'wpbootstrap_login_logo_url_title' ) ;
+function wpbootstrap_login_logo_url_title() { 
+  return "Bootstrap Media" ; 
+} 
+
