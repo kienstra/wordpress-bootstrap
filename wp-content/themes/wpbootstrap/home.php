@@ -19,7 +19,7 @@
 
   </div>
   <div class="col-md-4"> <!--span4 -->
-       <?php get_sidebar(); ?>
+    <?php if ( dynamic_sidebar( 'main_sidebar' ) ) ; ?>
   </div>
 </div>
 

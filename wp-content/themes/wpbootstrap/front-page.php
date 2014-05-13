@@ -10,40 +10,22 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
 <div class="container">
-<h1>Hello, world!</h1>
-<p>
-This is a new template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
-</p>
-<a class="btn btn-primary btn-lg" role="button">Learn</a>
+  <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
+</div>
+</div>
 
-</div>
-</div>
-<div class="container"><!-- Example row of columns -->
+<div class="container">
 <div class="row">
 
 <div class="col-md-6">
-  <div class="image-container" style="text-align: center">
-    <img class="image-right-side" src="<?php echo get_theme_mod( 'image_right_side' ) ; ?>" width="<?php echo get_theme_mod( 'image_slider_right_side' ) . '%' ; ?>" >
-  </div>
-  <h2 class="heading-right-side">
-    <?php echo get_theme_mod( 'heading_right_side' ) ; ?>
-  </h2>
-  <span class="copy-right-side">
-    <?php echo nl2br( get_theme_mod( 'copy_right_side' ) ) ; ?>
-  </span>
-
-</br>
-<a class="btn btn-default" role="button" href="#">View </a>
-</div>
+  <?php do_shortcode( '[panel_to_customize name="left_panel"]' ) ; ?>
+</div> 
 
 <div class="col-md-6">
-  <?php if ( dynamic_sidebar( 'copy_right' ) ) ; ?>
+  <?php do_shortcode( '[panel_to_customize name="right_panel"]' ) ; ?>
+</div> 
 
-</br>
-<a class="btn btn-default" role="button" href="#">View </a>
-
-  </div>
-</div> <!-- row -->
+</div>
 
 <div class="row">
   <div class="col-md-6">
@@ -69,7 +51,7 @@ This is a new template for a simple marketing or informational website. It inclu
   </div>    
 
   <div class="col-md-6">
-
+    <span> some text that has no significance </span>
   </div>
 </div>  
 

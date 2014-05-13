@@ -2,7 +2,7 @@
 // wp_bootstrap functions and definitionns
 // @package wpbootstrap
 
-require( get_template_directory() . '/inc/theme-options.php' ) ;
+require( get_template_directory() . '/inc/refac-theme-options.php' ) ;
 require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
 
 if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
@@ -200,4 +200,72 @@ add_filter( 'login_headertitle' , 'wpbootstrap_login_logo_url_title' ) ;
 function wpbootstrap_login_logo_url_title() { 
   return "Bootstrap Media" ; 
 } 
+
+add_action( 'template_redirect' , 'wpbootstrap_process_simple_registration' ) ;
+function wpbootstrap_process_simple_registration() {
+  // Check that this is a post request
+  if ( ( 'POST' === $_SERVER[ 'REQUEST_METHOD' ] ) && isset( $_POST ) && isset( $_POST[ 'simple_registration' ] ) ) {
+    $email = $_POST[ 'email_address' ] ;
+    if ( email_exists( $email ) || username_exists( $email ) ) { 
+      wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=1' ) ;
+      exit() ;
+    } else { 
+	$password = wp_generate_password( 8 ) ;
+	$user = wp_create_user( $email, $password, $email ) ;
+	if ( is_wp_error( $user ) ) { 
+	  wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=1' ) ;
+	  exit() ; 
+	} else { 
+	  wp_new_user_notification( $user, $password ) ;
+	}
+     }
+  }  
+}
+  
+add_action( 'template_redirect' , 'wpbootstrap_process_full_registration' ) ; 
+  function wpbootstrap_process_full_registration () { 
+    if ( ( 'POST' === $_SERVER[ 'REQUEST_METHOD' ] ) && isset( $_POST ) && isset( $_POST[ 'full_registration' ] ) ) {
+      unset( $_POST[ 'full_registration' ] ) ;
+      $userdata = array()  ;
+      foreach( $_POST as $key => $value ) { 
+        $userdata[ $key ] = $value ;
+      }
+      if ( email_exists( $userdata[ 'user_email' ] ) ) {
+        wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=1' ) ;
+	exit() ; 
+      } elseif ( username_exists( $userdata[ 'user_login' ] ) ) { 
+          wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=2' ) ; 
+          exit() ; 
+      } else {
+          $user = wp_insert_user( $userdata ) ; 
+	  if ( is_wp_error( $user ) ) { 
+	    wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=3' ) ;
+	    exit() ; 
+	  } else {
+	      wp_new_user_notification( $user ) ;
+	      wp_signon() ; 
+	      wp_redirect( home_url() ) ;
+	      exit ; 
+	  }
+      }
+    }
+}
+
+add_action( 'template_redirect' , 'wpbootstrap_process_update_user' ) ; 
+function wpbootstrap_process_update_user() { 
+  if ( ( 'POST' === $_SERVER[ 'REQUEST_METHOD' ] ) && isset( $_POST ) && isset( $_POST[ 'update_user_profile' ] ) ) {
+   unset( $_POST[ 'update_user_profile' ] ) ; 
+   $user_id = get_current_user_id() ; 
+    $userdata = array( 'user_id' => $user_id ) ;
+    foreach( $_POST as $key => $value ) { 
+      $userdata[ $key ] = $value ; 
+    }
+    wp_update_user( $userdata ) ; 
+    wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?update=1' ) ;
+    exit() ; 
+  }
+}
+    
+
+
 
