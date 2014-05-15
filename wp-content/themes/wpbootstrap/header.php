@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Le styles -->
-    <link href="<?php bloginfo('stylesheet_url');?>" rel="stylesheet">
     <!-- enqueue jumbotron custom styles? Jumbotron%20Template%20for%20Bootstrap_files/jumbotron.css -->
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
