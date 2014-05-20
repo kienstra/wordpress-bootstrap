@@ -51,7 +51,7 @@
   </div>    
 
   <div class="col-md-6">
-    <span> some text that has no significance </span>
+    <span> lorem ipsum dolor sit amet </span>
   </div>
 </div>  
 

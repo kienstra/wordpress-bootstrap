@@ -9,31 +9,33 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
       ?>
        <label>
        <span class="customize-control-title">
-       <?php echo esc_html( $this->label ) ; ?>
+         <?php echo esc_html( $this->label ) ; ?>
        </span>
       <?php
       $images_query = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) ) ;
       if ( $images_query->have_posts() ) :
-        ?>
+      ?>
         <select <?php echo $this->get_link() ; ?> class="image-selector-right-side" >
 	<?php
         while ( $images_query->have_posts() ) :
 	  $images_query->the_post() ; 
        ?>
-         <option value="<?php echo wp_get_attachment_url(); ?>" <?php selected( $this->value(), get_permalink(), false ) ; ?>">
+         <option value="<?php echo wp_get_attachment_url(); ?>" <?php selected( $this->value(), get_permalink(), false ) ; ?>> 
 	   <?php the_title() ; ?>
 	 </option>
        <?php
-	endwhile;
-	?>
+	endwhile; 
+       ?>
 	</select>
 	</label>
-
 	<?php wp_reset_postdata() ;
       endif; 
+    }
   }
 }
-}
+  
+
+
 
 if ( class_exists( 'WP_Customize_Control' ) ) {
   class PTD_Textarea_Control extends WP_Customize_Control {
@@ -67,72 +69,112 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
   }
 }
 
-function wpbootstrap_customize_register( $wp_customize ) {
+class RK_Customize_Section {
 
-    $wp_customize->add_setting( 'image_right_side', array(
-	'default'    =>  '',
-	'capability' => 'manage_options',
-	'transport'  => 'postMessage',
-        )
-   ) ;
+    public $wp_customize ;
 
-    $wp_customize->add_control( new RK_Customize_Image_Control(
-    $wp_customize, 'image_right_side', 
-      array( 'label' => __( 'Image', 'wpbootstrap' ),
-    	   'section' => 'marketing_two',
-	   'settings' => 'image_right_side'
-           ) ) ) ;
+    public function __construct( $section_name , $customize ) { 
+      $this->wp_customize =  $customize ;
+      $this->add_section( $section_name ) ; 
+      $this->image_with_slider( $section_name ) ;
+      $this->heading_and_copy( $section_name ) ;
+    }
 
-   $wp_customize->add_setting( 'image_slider_right_side', array(
-	'default'    =>  '',
-	'capability' => 'manage_options',
-	'transport'  => 'postMessage',
-        )
-   ) ;
+    public function add_section( $name ) {
+      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;
+      $this->wp_customize->add_section( $name , array(
+        'title'    => __( $capitalized_with_space , 'wpbootstrap' ) ,
+        'priority' => 0 ,
+     ) ) ;     
+    }
 
-    $wp_customize->add_control( new RK_Customize_Image_Slider(
-    $wp_customize, 'image_slider_right_side', 
-      array( 'label' => __( 'Image  Size', 'wpbootstrap' ),
-    	   'section' => 'marketing_two',
-	   'settings' => 'image_slider_right_side'
-           ) ) ) ;
+    public function image_with_slider( $name ) { 
 
-                $wp_customize->add_section( 'marketing_two', array(
-			'title'    => __( 'Right Panel' ),
-			'priority' => 20,
-		) ) ;
+	$this->wp_customize->add_setting( "image_$name", array(
+          'default'    =>  '',
+          'capability' => 'manage_options',
+          'transport'  => 'postMessage',
+	) ) ;
 
-		$wp_customize->add_setting( 'heading_right_side', array(
+        $this->wp_customize->add_control( new RK_Customize_Image_Control(
+	  $this->wp_customize, "image_$name", 
+	    array( 'label' => __( 'Image', 'wpbootstrap' ),
+		 'section' => $name,
+		 'settings' => "image_$name" ,
+	  ) ) ) ;
+
+	 $this->wp_customize->add_setting( "image_slider_$name", array(
+	      'default'    =>  '',
+	      'capability' => 'manage_options',
+	      'transport'  => 'postMessage',
+	 ) ) ;
+
+	  $this->wp_customize->add_control( new RK_Customize_Image_Slider(
+     	    $this->wp_customize, "image_slider_$name", 
+	    array( 'label' => __( 'Image  Size', 'wpbootstrap' ),
+		 'section' => $name,
+		 'settings' => "image_slider_$name" ,
+	   ) ) ) ; 
+      }
+
+      public function heading_and_copy( $name ) { 
+	$this->wp_customize->add_setting( "heading_$name", array(
 			'default'    => '',
-			'transport'  => 'postMessage'			
+			'capability' => 'manage_options' ,
+			'transport'  => 'postMessage' ,		
 		) );
 
-		$wp_customize->add_control( 'heading_right_side_control', array(
+	$this->wp_customize->add_control( "heading_$name", array(
 			'label'      => __( 'Heading', 'wpbootstrap' ),
-			'section'    => 'marketing_two',
-			'settings'    => 'heading_right_side'
+			'section'    => $name,
+			'settings'    => "heading_$name" ,
+			'capability' => 'manage_options',
 		) );
 
-
-		$wp_customize->add_setting( 'copy_right_side', array(
+	$this->wp_customize->add_setting( "copy_$name", array(
 			'default'    => '',
 			'capability' => 'manage_options',
 			'transport'  => 'postMessage',
- 			'class_name' => 'copy-right-side',
+ 			"class_name" => 'copy-right-side',
 		) );
 
-		  $wp_customize->add_control( new PTD_Textarea_Control(
-    $wp_customize, 'copy_right_side', 
-      array( 'label'	=> __( 'Copy', 'wpbootstrap' ),
-    	   'section'	=>  'marketing_two',
-	   'settings'	=> 'copy_right_side',
+        $this->wp_customize->add_control( new PTD_Textarea_Control( $this->wp_customize, "copy_$name", 
+          array( 'label'	=> __( 'Copy', 'wpbootstrap' ),
+    	  	   'section'	=>  $name ,
+	  	    'settings'	=> "copy_$name",
            ) ) ) ;    
-
-  $wp_customize->get_setting( 'copy_one' )->transport = 'postMessage' ;
+     }
 }
 
 add_action( 'customize_register', 'wpbootstrap_customize_register' ) ;
+function wpbootstrap_customize_register( $wp_customize ) {
+  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;  
+  new RK_Customize_Section( 'left_panel' , $wp_customize ) ;
+  new RK_Customize_Section( 'top_jumbotron' , $wp_customize ) ;
+}
 
+add_shortcode( 'panel_to_customize', 'rk_make_panel' ) ;
+function rk_make_panel( $atts ) { 
+    $name = $atts[ 'name' ] ; 
+  ?>
+    <div>
+      <div class="container">
+	<img class="image_<?php echo $name ; ?> img-responsive" src='<?php echo get_theme_mod( "image_$name" ) ; ?>' style='width:<?php echo get_theme_mod( "image_slider_$name" ) . "%" ; ?>' alt='<?php echo get_theme_mod( "image_$name" ) ; ?>' >
+      </div>
+      <div class="container">
+	<h2 class="heading_<?php echo $name ; ?>">
+	  <?php echo get_theme_mod( "heading_$name" ) ; ?>
+	</h2>
+      </div>
+      <div>
+	<span class="copy_<?php echo $name ; ?>">
+	  <?php echo nl2br( get_theme_mod( "copy_$name" ) ) ; ?>         
+	</span>
+      </div>
+    </div>
+  <?php
+}
+    
 function wpbootstrap_customizer_script() {
   wp_enqueue_script( 
     'wpbootstrap-customizer-script', 
@@ -144,17 +186,3 @@ function wpbootstrap_customizer_script() {
 }
 
 add_action( 'customize_preview_init', 'wpbootstrap_customizer_script' ) ;
-
-
-function tinymce_marketing() {
-	 $settings = array( 'tinymce' => array('theme_advanced_buttons9' => 'bold, italic, ul, min_size, max_size'), 'textarea_rows' => '30', 'quicktags' => false);
-	 wp_editor( '', 'market-right', $settings );
-}
-
-
-function my_second_editor() {
-	 $settings = array( 'textarea_rows' => '30', 'quicktags' => false);
-	 wp_editor( '', 'made-up', $settings );
-}				     
-
-				     

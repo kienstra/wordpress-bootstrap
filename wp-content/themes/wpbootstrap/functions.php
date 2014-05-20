@@ -2,7 +2,7 @@
 // wp_bootstrap functions and definitionns
 // @package wpbootstrap
 
-require( get_template_directory() . '/inc/refac-theme-options.php' ) ;
+require_once( get_template_directory() . '/inc/theme-options.php' ) ;
 require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
 
 if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
@@ -10,7 +10,6 @@ if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
     add_theme_support( 'automatic-feed-links' ) ;
     add_theme_support( 'menus' ) ;
     add_theme_support( 'post-thumbnails' ) ;
-    add_theme_support( 'who_knows' ) ;
     add_theme_support( 'post-formats', array( 'aside', 'image',
                                               'video', 'quote', 'link' ) ) ;
     add_theme_support( 'custom-background' ) ;
@@ -30,6 +29,27 @@ function simple_copyright() {
   echo "&copy" . " " . get_bloginfo( 'admin' ) . " " . date( 'Y' ) ;
 }
 
+add_action( 'wp_enqueue_scripts', 'theme_styles' ) ; 
+function theme_styles() { 
+  wp_enqueue_style( 'boostrap_css' , get_template_directory_uri() . '/bootstrap/css/bootstrap-flatly.css' ) ;
+  wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
+}
+
+
+function theme_js() { 
+  global $wp_scripts ;
+  wp_register_script( 'html5_shiv' , 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' , '' , '' , false ) ;
+  wp_register_script( 'respond_js' , 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' , '' , '' , false ) ;
+  wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
+  wp_enqueue_script( 'theme_js' , get_template_directory_uri() . '/js/theme.js' , array( 'jquery' , 'bootstrap_js' ) , '' , true ) ;  
+  $wp_scripts->add_data( 'html5_shiv' , 'conditional' , 'lt IE 9' ) ;
+  $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;
+}
+add_action( 'wp_enqueue_scripts', 'theme_js' ) ;
+
+
+/*
+
 function wpbootstrap_scripts_with_jquery() {
 	wp_enqueue_style( 'style_css' , get_template_directory_uri() . '/style.css' ) ; 
 	wp_register_script( 'custom-script', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
@@ -38,9 +58,9 @@ function wpbootstrap_scripts_with_jquery() {
         wp_register_style( 'gravity-fix', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ; 
 }
 add_action( 'wp_enqueue_scripts', 'wpbootstrap_scripts_with_jquery' );
+*/
 
 add_filter( 'login_errors', 'plain_error_message' ) ;
-
 remove_action( 'wp_head', 'rsd_link' ) ;
 remove_action( 'wp_head', 'wp_generator' ) ;
 remove_action( 'wp_head', 'wlwmanifest_link' ) ;
@@ -63,12 +83,14 @@ function wpbootstrap_paginate_links() {
 
   ?>
   <ul class="pagination">
-  <?php 
-  foreach ( $pagination as $page ) { 
-    $class = strpos( $page , 'href' ) ? 
-    	       'active' : 'disabled' ;
-    echo " <li class='$class'>$page</li> " ;
-  } 
+  <?php
+  if ( $pagination ) {
+    foreach ( $pagination as $page ) { 
+      $class = strpos( $page , 'href' ) ? 
+		 'active' : 'disabled' ;
+      echo " <li class='$class'>$page</li> " ;
+    }
+  }
   ?>
   </ul>
 <?php
@@ -79,7 +101,7 @@ function create_widget($name, $id, $description) {
                 'name'		=> __( $name ),
                 'id'		=> $id,
        	        'description'	=> __( $description ),
-                'before_widget'	=> '<div> ',
+                'before_widget'	=> '<div class="widget"> ',
                 'after_widget'	=> '</div> ',
 	        'before_title'	=> '<h2>',
                 'after_title'	=> '</h2>'
@@ -87,71 +109,9 @@ function create_widget($name, $id, $description) {
 }
 
 function wpbootstrap_widgets_init() { 
-  create_widget('Front Page: Left Side', 'copy_left', 'Displays in the left of the front page');
-  create_widget('Front Page: Right Side', 'copy_right', 'Displays in the right of the front page');
   create_widget( 'Main Sidebar', 'main_sidebar', 'Diplays on News and Blog page' ) ;
 }
 add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
-
-class Image_Picker extends WP_Widget
-{
-  function Image_Picker() {
-    $widget_ops = array('classname' => 'Image_Picker', 'description' => 'Pick 2 images from media library');
-    $this->WP_Widget('Image_Picker', 'Image Picker', $widget_ops);
-  }
-
-  function form($instance) {
-      //WIDGET BACK-END SETTINGS
-      $instance = wp_parse_args((array) $instance, array('link1' => '', 'link2' => ''));
-      $link1 = $instance['link1'];
-      $link2 = $instance['link2'];
-      $images = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'image' , 'posts_per_page' => -1 ) );
-      if( $images->have_posts() ){ 
-          $options = array();
-          for( $i = 0; $i < 2; $i++ ) {
-              $options[$i] = '';
-              while( $images->have_posts() ) {
-                  $images->the_post();
-                  $img_src = wp_get_attachment_image_src(get_the_ID());
-                  $the_link = ( $i == 0 ) ? $link1 : $link2;
-                  $options[$i] .= '<option value="' . $img_src[0] . '" ' . selected( $the_link, $img_src[0], false ) . '>' . get_the_title() . '</option>';
-              } 
-         } ?>
-      <select name="<?php echo $this->get_field_name( 'link1' ); ?>"><?php echo $options[0]; ?></select>
-      <select name="<?php echo $this->get_field_name( 'link2' ); ?>"><?php echo $options[1]; ?></select>
-      <?php
-      } else {
-            echo 'There are no images in the media library. Click <a href="' . admin_url('/media-new.php') . '" title="Add Images">here</a> to add some images';
-      }
-
-  }
-
-  function update($new_instance, $old_instance) {
-      $instance = $old_instance;
-      $instance['link1'] = $new_instance['link1'];
-      $instance['link2'] = $new_instance['link2'];
-      return $instance;
-  }
-
-  function widget($args, $instance) {
-      $link1 = ( empty($instance['link1']) ) ? 0 : $instance['link1'];
-      $link2 = ( empty($instance['link2']) ) ? 0 : $instance['link2']; ?>
-
-      <!-- Display images --><?php 
-      if( !( $link1 || $link2 ) ) {
-          echo "Please configure this widget.";
-      } else { 
-          if($link1) { ?><div class="sidebar-image"><img src="<?php echo $link1; ?>" height="100%" width="100%" alt="" border="0"></div><?php }
-          if($link1) { ?><div class="sidebar-image"><img src="<?php echo $link2; ?>" alt=""  border="0"></div><?php }
-      } 
-  }
-}
-
-// Add class for Random Posts Widget
-add_action( 'widgets_init', create_function('', 'return register_widget("Image_Picker");') ) ;
-
-add_filter('gettext', 'rename_admin_menu_items');
-add_filter('ngettext', 'rename_admin_menu_items');
 
 /**
  * Replaces wp-admin menu item names
@@ -161,6 +121,9 @@ function rename_admin_menu_items( $menu ) {
 	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
 	 return $menu;
 }
+add_filter('gettext', 'rename_admin_menu_items');
+add_filter('ngettext', 'rename_admin_menu_items');
+
 
 //add_action( 'init', 'remove_page_editor' ) ;
 function remove_page_editor() { 
