@@ -1,16 +1,18 @@
-      <footer> 
+    </div>
+  </div>
+    <footer> 
       <div id="footer">
         <nav class="navbar navbar-default navbar-static-bottom" role="navigation">
           <div class="container">
-	    <?php echo do_shortcode( '[gravityform id=4 title="false"]' ) ; ?>
-	    <p class="text-muted">
-	      <?php simple_copyright() ; ?>
-	    </p>
-	  </div>
+	    <div style="color:white ; display: inline-block">
+	      <h3>Get Free Updates </h3>
+	    </div>
+	    <div class="navbar-form navbar-left">
+	      <?php echo do_shortcode( '[mc4wp_form]' ) ; ?>
+	    </div>
+	   </div>
+          <p class="copyright-text text-muted"><?php simple_copyright() ; ?></p>
         </nav>
-       </div>
-     </div> <!-- .container -->      
-<!-- old position      <div id="footer">  -->
       </footer>
 
     <?php wp_footer(); ?>

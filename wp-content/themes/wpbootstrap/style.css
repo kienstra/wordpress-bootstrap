@@ -69,3 +69,22 @@ ul.pager {
 .widget {
   margin-bottom: 30px;
 }
+
+.comment-form-comment label[for=comment] {
+  display: block ;
+}
+
+p.copyright-text {
+  text-align: center ;
+}
+
+/* Mailchimp styles */
+
+.mc4wp-form .form-group {
+  margin-right: 10px ;
+  max-width: 250px; 
+}
+
+.mc4wp-form input[type="submit"] {
+    vertical-align: bottom ;
+ }

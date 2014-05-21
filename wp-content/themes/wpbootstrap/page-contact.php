@@ -15,7 +15,8 @@
 	</div>
       </div>
       <div class="modal-body">
-        <?php echo do_shortcode( '[gravityform class="container" id="1" name="Opt-in" title="false" description="false"]' ); 
+	<?php echo do_shortcode( '[mc4wp_form]' ) ; ?>
+        <?php // echo do_shortcode( '[gravityform class="container" id="1" name="Opt-in" title="false" description="false"]' ); 
 	?>
         
       </div>
