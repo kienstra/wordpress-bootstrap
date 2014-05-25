@@ -34,12 +34,9 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
   }
 }
   
-
-
-
 if ( class_exists( 'WP_Customize_Control' ) ) {
   class PTD_Textarea_Control extends WP_Customize_Control {
-
+  
     public function render_content() { 
       ?>
       <label>
@@ -72,19 +69,21 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 class RK_Customize_Section {
 
     public $wp_customize ;
-
+    public static $section_counter = 0 ;
+    
     public function __construct( $section_name , $customize ) { 
       $this->wp_customize =  $customize ;
       $this->add_section( $section_name ) ; 
       $this->image_with_slider( $section_name ) ;
       $this->heading_and_copy( $section_name ) ;
+      $this->section_counter++ ;
     }
 
     public function add_section( $name ) {
-      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;
+      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;      
       $this->wp_customize->add_section( $name , array(
         'title'    => __( $capitalized_with_space , 'wpbootstrap' ) ,
-        'priority' => 0 ,
+        'priority' => self::$section_counter ,
      ) ) ;     
     }
 
@@ -148,25 +147,23 @@ class RK_Customize_Section {
 
 add_action( 'customize_register', 'wpbootstrap_customize_register' ) ;
 function wpbootstrap_customize_register( $wp_customize ) {
-  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;  
-  new RK_Customize_Section( 'left_panel' , $wp_customize ) ;
   new RK_Customize_Section( 'top_jumbotron' , $wp_customize ) ;
+  new RK_Customize_Section( 'left_panel' , $wp_customize ) ;
+  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;  
 }
 
 add_shortcode( 'panel_to_customize', 'rk_make_panel' ) ;
 function rk_make_panel( $atts ) { 
     $name = $atts[ 'name' ] ; 
   ?>
-    <div>
-      <div class="container">
-	<img class="image_<?php echo $name ; ?> img-responsive" src='<?php echo get_theme_mod( "image_$name" ) ; ?>' style='width:<?php echo get_theme_mod( "image_slider_$name" ) . "%" ; ?>' alt='<?php echo get_theme_mod( "image_$name" ) ; ?>' >
-      </div>
-      <div class="container">
-	<h2 class="heading_<?php echo $name ; ?>">
+    <div class="customized-col">
+      <img class="img-customize img-rounded image_<?php echo $name ; ?> img-responsive" src='<?php echo get_theme_mod( "image_$name" ) ; ?>' style='width: auto ; max-height:<?php echo ( get_theme_mod( "image_slider_$name" ) * 300 / 100 ) . "px" ; ?>' alt='<?php echo get_theme_mod( "image_$name" ) ; ?>' >
+
+        <h2 class="heading_<?php echo $name ; ?>">
 	  <?php echo get_theme_mod( "heading_$name" ) ; ?>
 	</h2>
-      </div>
-      <div>
+
+      <div class="copy">
 	<span class="copy_<?php echo $name ; ?>">
 	  <?php echo nl2br( get_theme_mod( "copy_$name" ) ) ; ?>         
 	</span>

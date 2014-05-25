@@ -88,3 +88,48 @@ p.copyright-text {
 .mc4wp-form input[type="submit"] {
     vertical-align: bottom ;
  }
+
+/* if admin bar, lower navbar */                                                                                                 .admin-bar .navbar-fixed-top {
+  margin-top : 30px ;
+}
+
+@media ( max-width: 600px ) {
+  #wpadminbar {
+    top : -46px ;
+  }
+}
+
+html body #wpadminbar {
+  z-index: 5000 !important  ;
+}
+  
+.row .customized-col img ,
+.jumbotron img.img-customize {
+  margin: auto ;
+}
+
+.customized-col h2 {
+  text-align : center ;
+}
+
+@media ( min-width: 990px ) {
+  .customized-col .copy {
+ /*    max-width: 390px; */
+  }
+}
+
+@media ( max-width: 990px ) {
+  .customized-col .copy {
+    text-align: center;
+  }
+}
+
+div.copy {
+  text-align: center ;
+  margin: auto ;
+}
+
+.customized-col div.copy span {
+  display: inline-block ;
+  text-align: left ;
+}

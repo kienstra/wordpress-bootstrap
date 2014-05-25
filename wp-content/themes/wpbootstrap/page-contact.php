@@ -1,6 +1,4 @@
 <?php get_header(); 
-  wp_register_style( 'gravity-fix', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ;
-  wp_enqueue_style( 'gravity-fix' ) ; 
 ?>
 
 <div class="row">

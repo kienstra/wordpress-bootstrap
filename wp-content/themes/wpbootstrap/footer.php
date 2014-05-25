@@ -4,9 +4,6 @@
       <div id="footer">
         <nav class="navbar navbar-default navbar-static-bottom" role="navigation">
           <div class="container">
-	    <div style="color:white ; display: inline-block">
-	      <h3>Get Free Updates </h3>
-	    </div>
 	    <div class="navbar-form navbar-left">
 	      <?php echo do_shortcode( '[mc4wp_form]' ) ; ?>
 	    </div>
