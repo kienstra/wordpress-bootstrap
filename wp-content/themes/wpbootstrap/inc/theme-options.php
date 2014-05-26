@@ -80,7 +80,7 @@ class RK_Customize_Section {
     }
 
     public function add_section( $name ) {
-      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;      
+      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;     
       $this->wp_customize->add_section( $name , array(
         'title'    => __( $capitalized_with_space , 'wpbootstrap' ) ,
         'priority' => self::$section_counter ,
@@ -89,7 +89,7 @@ class RK_Customize_Section {
 
     public function image_with_slider( $name ) { 
 
-	$this->wp_customize->add_setting( "image_$name", array(
+	$this->wp_customize->add_setting( "image_{$name}", array(
           'default'    =>  '',
           'capability' => 'manage_options',
           'transport'  => 'postMessage',
@@ -149,14 +149,14 @@ add_action( 'customize_register', 'wpbootstrap_customize_register' ) ;
 function wpbootstrap_customize_register( $wp_customize ) {
   new RK_Customize_Section( 'top_jumbotron' , $wp_customize ) ;
   new RK_Customize_Section( 'left_panel' , $wp_customize ) ;
-  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;  
+  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;
 }
 
 add_shortcode( 'panel_to_customize', 'rk_make_panel' ) ;
 function rk_make_panel( $atts ) { 
     $name = $atts[ 'name' ] ; 
   ?>
-    <div class="customized-col">
+    <div class="customized-col" id="<?php echo $name; ?>">
       <img class="img-customize img-rounded image_<?php echo $name ; ?> img-responsive" src='<?php echo get_theme_mod( "image_$name" ) ; ?>' style='width: auto ; max-height:<?php echo ( get_theme_mod( "image_slider_$name" ) * 300 / 100 ) . "px" ; ?>' alt='<?php echo get_theme_mod( "image_$name" ) ; ?>' >
 
         <h2 class="heading_<?php echo $name ; ?>">
@@ -175,11 +175,10 @@ function rk_make_panel( $atts ) {
 function wpbootstrap_customizer_script() {
   wp_enqueue_script( 
     'wpbootstrap-customizer-script', 
-    get_template_directory_uri() . '/javascript/theme-options.js', 
+     get_template_directory_uri() . '/javascript/theme-options.js', 
     array( 'jquery', 'customize-preview' ), 
     '1', 
-    true
+    true 
   ) ;
 }
-
 add_action( 'customize_preview_init', 'wpbootstrap_customizer_script' ) ;

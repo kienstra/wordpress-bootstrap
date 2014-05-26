@@ -1,9 +1,12 @@
 ( function ($) { 
 
-  bind_panel( 'top_jumbotron' ) ;
-  bind_panel( 'left_panel' ) ;
-  bind_panel( 'right_panel' ) ;    
-
+  // TODO : fallback for iframe 
+  $('.customized-col').map( function() {
+    id = $(this).attr('id') ;
+    bind_panel( id ) ;
+    console.log( 'the id is: ' + id ) ; 
+  } ) ;
+  
   function bind_panel( panel_name ) {
       image_and_slider_bind( panel_name ) ;
       heading_and_copy_bind( panel_name ) ;
