@@ -2,7 +2,7 @@
 // wp_bootstrap functions and definitionns
 // @package wpbootstrap
 
-require_once( get_template_directory() . '/inc/theme-options.php' ) ;
+//require_once( get_template_directory() . '/inc/theme-options.php' ) ;
 require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
 
 if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
