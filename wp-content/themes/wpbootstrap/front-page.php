@@ -9,9 +9,10 @@
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
-<div class="container">
-  <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
-</div>
+  <div class="container">
+    <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
+ <!-- </div> -->
+  </div>
 </div>
 
 <div class="container">
