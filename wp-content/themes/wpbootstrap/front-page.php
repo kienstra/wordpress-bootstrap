@@ -11,21 +11,18 @@
 <div class="jumbotron">
   <div class="container">
     <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
- <!-- </div> -->
   </div>
 </div>
 
 <div class="container">
 <div class="row">
+  <div class="col-md-6">
+    <?php do_shortcode( '[panel_to_customize name="left_panel"]' ) ; ?>
+  </div> 
 
-<div class="col-md-6">
-  <?php do_shortcode( '[panel_to_customize name="left_panel"]' ) ; ?>
-</div> 
-
-<div class="col-md-6">
-  <?php do_shortcode( '[panel_to_customize name="right_panel"]' ) ; ?>
-</div> 
-
+  <div class="col-md-6">
+    <?php do_shortcode( '[panel_to_customize name="right_panel"]' ) ; ?>
+  </div> 
 </div>
 
 <div class="row">

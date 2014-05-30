@@ -4,7 +4,6 @@
   $('.customized-col').map( function() {
     id = $(this).attr('id') ;
     bind_panel( id ) ;
-    //console.log( 'the id is: ' + id ) ; 
   } ) ;
   
   function bind_panel( panel_name ) {
