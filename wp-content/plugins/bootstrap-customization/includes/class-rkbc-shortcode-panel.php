@@ -1,8 +1,8 @@
 <?php
 
 // Shortcode logic
-
-if ( ! class_exists( 'BcMakePanel' ) ) {
+  
+if ( ! class_exists( 'RkbcShortcodePanel' ) ) {
   class RkbcShortcodePanel {
     private static $instance ;
     private $name ;
@@ -10,15 +10,15 @@ if ( ! class_exists( 'BcMakePanel' ) ) {
     private $opening_div ;
     private static $closing_div = "</div>" ;
 
-    public function __construct( $atts ) {
-      $this->name = $atts[ 'name' ] ;
+    public function __construct( $name ) {
+      $this->name = $name ;
       $this->opening_div = "<div class='customized-col' id='{$this->name}'>" ;
       $this->make_full_section() ;
     }
 
-    public function init_and_get( $atts ) {
-      self::$instance = new self( $atts ) ;
-      echo self::$instance->container ;
+    public static function init_and_get( $name ) {
+      self::$instance = new self( $name ) ;
+      return self::$instance->container ;
     }     
 
     public function make_full_section() {
@@ -67,23 +67,33 @@ if ( ! class_exists( 'BcMakePanel' ) ) {
   }
 }
 
+//add_shortcode( 'panel_to_customize', 'make_panel_wrapper' ) ;
+function make_panel_wrapper( $args ) {
+  $name = $args[ 'name' ] ;
+  RkbcShortcodePanel::init_and_get( $name ) ;  
+}
+
 if ( ! class_exists( 'RkcbMakeColumns' ) ) {
-  class RkbcMakeColumns() {
+  class RkbcMakeColumns {
     private $col_top ;
     private static $col_bottom = "</div>\n" ;
     private $column_class ;
     private $container ;
     private $number_of_columns ;
-    private static $instance ;
+    private $column_names ;
+    private static $instance ;    
 
     public function construct() {
+      $options = get_options( 'rkbc_plugin_options' ) ;
+      $this->number_of_columns = $options[ 'column_amount' ] ;
+      $this->assign_html_class() ;
+      $this->assign_column_names() ;
+      $this->make_all_columns() ;      
     }
 
-    public function init_and_get( $number_of_columns ) {
+    public function init_and_get() {
       self::$instance = new self() ;
-      $this->assign_html_class() ;
-      $this->make_all_columns() ;
-      return $container ;
+      return self::$instance->container ;
     }
       
     private function assign_html_class() {
@@ -100,51 +110,54 @@ if ( ! class_exists( 'RkcbMakeColumns' ) ) {
       }
     }
 
+    private function assign_column_names() { 
+      $options = get_option( 'rkbc_panel_shortcode' ) ;
+      $column_amount_to_names = $options[ 'column_amount_to_names' ] ;
+      $this->column_names = $column_amount_to_names[ $this->number_of_columns ] ;
+    }
+    
     public function make_all_columns() {
       $container = '' ;
       $col_top = "<div class='{$this->column_class}'>" ;
-      foreach( $this->number_of_columns ) {
+      foreach( $this->column_names as $name ) {
 	$this->container .= $col_top
-	  .= RkbcShortcodePanel->init_and_get()
-	  .= $this->col_bottom ;
+			 .  RkbcShortcodePanel::$init_and_get( $name . '_panel' ) 
+			 .  self::$col_bottom ;
       }
     }     
   }
 }
       
 if ( ! class_exists( 'RkbcFullSections' ) ) {
-  class RkbcFullSections() {
+  class RkbcFullSections {
     private $section_types ;
     private static $instance ;
     private static $jumbotron_top = "<div class='jumbotron'>\n<div class='container'>\n" ;
     private static $jumbotron_bottom = "</div>\n</div>" ;
     private static $row_top = "<div class='container'>\n<div class='row'>\n" ;
-    private static $row_bottom = "</div>\n</div>" ;
-    private static $container ;
+    private static $row_bottom = "</div>\n" ;
+    private $container ;
     
     public function construct( ) {
-      $options = get_option( 'rkbc_plugin_options' ) ;
-      $this->section_types = 3 ; // $options[ 'number_of_panels' ] ;
+      $this->instance->add_jumbotron_to_container() ;
+      $this->instance->add_row_to_container() ;
     }
 
     public function init_and_get() {
       self::$instance = new self() ;
-      add_jumbotron_to_container() ;
-      add_row_to_container() ;
-      return $this->container ;
+      return self::$instance->container ;
     }
     
-
     private function add_jumbotron_to_container() {
       $this->container .= self::$jumbotron_top
-      	     .= RkbcMakePanel->init_and_get() ;
-      	     .= self::$jumbotron_bottom ;
+      	     . RkbcShortcodePanel::init_and_get( 'top_jumbotron' ) 
+      	     .  self::$jumbotron_bottom ;
     }
 
     private function add_row_to_container() {
-      $this->container .= $this->row_top
-      		       .= RkbcMakeColumns->init_and_get(  $this->number_of_columns ) ;
-      		       .= $this->row_bottom ;
+      $this->container .= self::$row_top
+      		       . RkbcMakeColumns::init_and_get()
+      		       .  self::$row_bottom ;
     }
   }
 }

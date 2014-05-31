@@ -7,23 +7,24 @@
       <p><?php _e('Sorry, no posts matched your criteria' ); ?></p>
 <?php endif; ?>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
+  <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
+
+<!-- <div class="jumbotron">
   <div class="container">
-    <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
-  </div>
-</div>
+    </div>
+</div> 
 
 <div class="container">
 <div class="row">
-  <div class="col-md-6">
-    <?php do_shortcode( '[panel_to_customize name="left_panel"]' ) ; ?>
-  </div> 
-
-  <div class="col-md-6">
-    <?php do_shortcode( '[panel_to_customize name="right_panel"]' ) ; ?>
-  </div> 
 </div>
+
+  <div class="col-md-6"> </div> 
+    <?php do_shortcode( '[panel_to_customize name="left_panel"]' ) ; ?>
+
+  <div class="col-md-6"> </div> 
+    <?php do_shortcode( '[panel_to_customize name="right_panel"]' ) ; ?>
+-->
+
 
 <div class="row">
   <div class="col-md-6">

@@ -150,8 +150,9 @@ class RK_Customize_Section {
 
 add_action( 'customize_register' , 'rkbc_make_section', 11 ); 
 function rkbc_make_section( $wp_customize ) {
-  $options = get_option( 'rkbc_plugin_options' ) ;
-  foreach ( $options[ 'panels' ] as $panel_name ) {
+  $options = get_option( 'rkbc_plugin_options' ) ; 
+  $panels = $options[ 'panels' ] ; 
+  foreach ( $panels as $panel_name ) {
     new RK_Customize_Section( $panel_name , $wp_customize ) ;
   }
 }

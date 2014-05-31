@@ -12,9 +12,9 @@ class BootstrapCustomization {
   private function __construct() {
     add_action( 'customize_preview_init' , array( $this, 'enqueue_styles' ) ) ;
     add_action( 'customize_preview_init' , array( $this, 'enqueue_scripts' ) ) ;
-    register_activation_hook( __FILE__ , array( $this, 'install_with_default_options' ) ) ; 
     register_activation_hook( __FILE__ , array( $this, 'deactivate_if_early_version' ) ) ;
-    add_action( 'plugins_loaded' , array( $this, 'get_required_files' ) ) ;
+    register_activation_hook( __FILE__ ,  array( $this, 'install_with_default_options' ) ) ; 
+    $this->get_required_files() ;
   }
 
   public static function get_instance() {
@@ -49,12 +49,17 @@ class BootstrapCustomization {
   public function install_with_default_options() {
     $rkbc_plugin_options = array( 
       'output_css' => false ,
-      'column_amount' => 'three' ,
-      'panels' => array(
-         'top_jumbotron' , 'left_panel', 'right_panel' ) ) ;      	                	      
+      'column_amount' => 2 ,
+      'column_amount_to_names' => array(
+          2 => array( 'left' , 'right' ) ,
+	  3 => array( 'left', 'middle' , 'right' ) ,
+	  4 => array( 'first' , 'second' , 'third' , 'fourth' ) ,
+    ) ) ;
+         
+    delete_option( 'rkbc_plugin_options' ) ;
     add_option( 'rkbc_plugin_options' , $rkbc_plugin_options ) ;
-    var_dump( get_option( 'rkbc_plugin_options' ) ) ; 
-    
+    $options = get_option( 'rkbc_plugin_options' ) ;
+    var_dump( $options ) ; 
   }
 }
    
