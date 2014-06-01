@@ -72,22 +72,69 @@ class RK_Customize_Section {
 
     public $wp_customize ;
     public static $section_counter = 0 ;
+    private static $section_names ;
+    private static $section_titles ;
+    private static $instance ;
     
-    public function __construct( $section_name , $customize ) { 
-      $this->wp_customize =  $customize ;
-      $this->add_section( $section_name ) ; 
+    public function __construct( $wp_customize ) { 
+      $this->wp_customize = $wp_customize ;
+      $this->set_section_names() ;
+      $this->set_section_titles() ;
+    }
+    
+    public function init_and_create_all_sections( $wp_customize ) {
+      self::$instance = new self( $wp_customize ) ;
+      self::$instance->create_all_sections() ;
+    }    
+
+    private function create_all_sections() {
+       $section_names = self::$section_names ; 
+       $section_titles = self::$section_titles ;
+       $array_size = sizeof( $section_names ) ;
+       var_dump( $section_names ) ;       
+       for( $i = 0 ; $i < $array_size ; $i++ ) {  
+         $name = $section_names[ $i ] ;
+         $title = $section_titles[ $i ] ;
+         $this->make_full_section( $name , $title ) ;
+       }
+     }
+
+    public function make_full_section( $section_name , $title ) {
+      $this->initialize_section( $section_name, $title ) ; 
       $this->image_with_slider( $section_name ) ;
-      $this->heading_and_copy( $section_name ) ;
+      $this->heading_and_copy( $section_name , $title ) ;
       self::$section_counter++ ;
     }
 
-    public function add_section( $name ) {
-      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;     
+    public function initialize_section( $name , $title ) {
+      // $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;     
       $this->wp_customize->add_section( $name , array(
-        'title'    => __( $capitalized_with_space , 'wpbootstrap' ) ,
+        'title'    => $title ,
         'priority' => self::$section_counter ,
      ) ) ;     
     }
+
+    private function set_section_names() {
+      self::$section_names = get_panel_names() ;
+    }
+
+    public function set_section_titles() {
+      $amount_to_names = array(
+	      2 => array( 'Left' , 'Right' ) ,
+	      3 => array( 'Left' , 'Middle' , 'Right' ) ,
+	      4 => array( 'First' , 'Second' , 'Third' , 'Fourth' ) ,
+      ) ;
+      $options = get_option( 'rkbc_plugin_options' ) ;
+      $column_amount = $options[ 'column_amount' ] ;      
+      $names = $amount_to_names[ $column_amount ] ;
+      $result = array( 'Top Jumbotron' ) ;
+
+      foreach( $names as $name ) {
+	array_push( $result, $name . ' Panel' ) ;
+      }
+      self::$section_titles = $result ;
+    }
+
 
     public function image_with_slider( $name ) { 
 
@@ -118,9 +165,9 @@ class RK_Customize_Section {
 	   ) ) ) ; 
       }
 
-      public function heading_and_copy( $name ) { 
+      public function heading_and_copy( $name , $title ) { 
 	$this->wp_customize->add_setting( "heading_$name", array(
-			'default'    => '',
+			'default'    =>  $title . ' Heading',
 			'capability' => 'manage_options' ,
 			'transport'  => 'postMessage' ,		
 		) );
@@ -133,7 +180,7 @@ class RK_Customize_Section {
 		) );
 
 	$this->wp_customize->add_setting( "copy_$name", array(
-			'default'    => '',
+			'default'    => $title .  ' copy, edit this by clicking on '. $title . ' on the left',
 			'capability' => 'manage_options',
 			'transport'  => 'postMessage',
  			"class_name" => 'copy-right-side',
@@ -147,13 +194,16 @@ class RK_Customize_Section {
      }
   } 
 }
-
-add_action( 'customize_register' , 'rkbc_make_section', 11 ); 
-function rkbc_make_section( $wp_customize ) {
-  $options = get_option( 'rkbc_plugin_options' ) ; 
-  $panels = $options[ 'panels' ] ; 
-  foreach ( $panels as $panel_name ) {
-    new RK_Customize_Section( $panel_name , $wp_customize ) ;
+       
+function get_panel_names() {
+  $possible_names = array( 'one' , 'two' , 'three' , 'four' ) ;
+  $options = get_option( 'rkbc_plugin_options' ) ;
+  $column_amount = $options[ 'column_amount' ] ;
+  $result = array( 'top_jumbotron' ) ;
+  for ( $i = 0 ; $i < $column_amount ; $i++ ) {
+    array_push( $result , $possible_names[ $i ] ) ;
   }
+  return $result ;
 }
 
+add_action( 'customize_register' , array( 'RK_Customize_Section' , 'init_and_create_all_sections' ) , 11 ) ;

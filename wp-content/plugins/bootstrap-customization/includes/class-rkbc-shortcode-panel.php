@@ -2,7 +2,7 @@
 
 // Shortcode logic
   
-if ( ! class_exists( 'RkbcShortcodePanel' ) ) {
+
   class RkbcShortcodePanel {
     private static $instance ;
     private $name ;
@@ -65,15 +65,15 @@ if ( ! class_exists( 'RkbcShortcodePanel' ) ) {
       $this->container .= self::$closing_div ;
     } 
   }
-}
 
-//add_shortcode( 'panel_to_customize', 'make_panel_wrapper' ) ;
+
+
 function make_panel_wrapper( $args ) {
   $name = $args[ 'name' ] ;
   RkbcShortcodePanel::init_and_get( $name ) ;  
 }
 
-if ( ! class_exists( 'RkcbMakeColumns' ) ) {
+
   class RkbcMakeColumns {
     private $col_top ;
     private static $col_bottom = "</div>\n" ;
@@ -83,8 +83,8 @@ if ( ! class_exists( 'RkcbMakeColumns' ) ) {
     private $column_names ;
     private static $instance ;    
 
-    public function construct() {
-      $options = get_options( 'rkbc_plugin_options' ) ;
+    public function __construct() {
+      $options = get_option( 'rkbc_plugin_options' ) ;
       $this->number_of_columns = $options[ 'column_amount' ] ;
       $this->assign_html_class() ;
       $this->assign_column_names() ;
@@ -111,24 +111,25 @@ if ( ! class_exists( 'RkcbMakeColumns' ) ) {
     }
 
     private function assign_column_names() { 
-      $options = get_option( 'rkbc_panel_shortcode' ) ;
-      $column_amount_to_names = $options[ 'column_amount_to_names' ] ;
-      $this->column_names = $column_amount_to_names[ $this->number_of_columns ] ;
+      $this->column_names = get_panel_names() ;
     }
     
     public function make_all_columns() {
       $container = '' ;
       $col_top = "<div class='{$this->column_class}'>" ;
-      foreach( $this->column_names as $name ) {
+      $column_names = $this->column_names ;
+
+      foreach( $column_names as $name ) {
+        if ( 'top_jumbotron' == $name ) {
+	  continue;
+	}
 	$this->container .= $col_top
-			 .  RkbcShortcodePanel::$init_and_get( $name . '_panel' ) 
+			 .  RkbcShortcodePanel::init_and_get( $name ) 
 			 .  self::$col_bottom ;
       }
     }     
   }
-}
-      
-if ( ! class_exists( 'RkbcFullSections' ) ) {
+
   class RkbcFullSections {
     private $section_types ;
     private static $instance ;
@@ -138,20 +139,21 @@ if ( ! class_exists( 'RkbcFullSections' ) ) {
     private static $row_bottom = "</div>\n" ;
     private $container ;
     
-    public function construct( ) {
-      $this->instance->add_jumbotron_to_container() ;
-      $this->instance->add_row_to_container() ;
+    public function __construct() {
+      $this->container = '' ;
+      $this->add_jumbotron_to_container() ;
+      $this->add_row_to_container() ;
     }
 
     public function init_and_get() {
       self::$instance = new self() ;
-      return self::$instance->container ;
+      echo self::$instance->container ;
     }
     
     private function add_jumbotron_to_container() {
       $this->container .= self::$jumbotron_top
-      	     . RkbcShortcodePanel::init_and_get( 'top_jumbotron' ) 
-      	     .  self::$jumbotron_bottom ;
+        . RkbcShortcodePanel::init_and_get( 'top_jumbotron' )
+	. self::$jumbotron_bottom ;	     
     }
 
     private function add_row_to_container() {
@@ -160,6 +162,6 @@ if ( ! class_exists( 'RkbcFullSections' ) ) {
       		       .  self::$row_bottom ;
     }
   }
-}
+
 
 add_shortcode( 'panel_to_customize', array( 'RkbcFullSections', 'init_and_get' ) ) ;

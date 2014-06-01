@@ -27,8 +27,29 @@ function rkbc_plugin_options_page() {
 add_action( 'admin_init' , 'rkbc_settings_setup' ) ;
 function rkbc_settings_setup() {
 
-  register_setting('rkbc_plugin_options' , 'rkbc_plugin_options' ,
-	   'rkbc_plugin_validate_options' ) ;
+  register_setting( 'rkbc_plugin_options' , 'rkbc_plugin_options' , 'rkbc_plugin_validate_options' ) ;
+
+  function rkbc_plugin_validate_options( $input ) {
+    if ( is_numeric( $input[ 'column_amount' ] ) ) {
+      $result[ 'column_amount' ] = $input[ 'column_amount' ] ;
+    } else { $result[ 'column_amount' ] = "" ;
+    }
+    if ( is_numeric( $input[ 'output_css' ] ) ) {
+      $result[ 'output_css' ] = $input[ 'output_css' ] ;
+    } else { $result[ 'output_css'] = "" ;
+    }
+    return $result ;
+  }
+  
+/*  function rkbc_plugin_validate_options_css( $input ) {
+    if ( is_bool( $input[ 'output_css' ] ) ) {
+      $result[ 'output_css' ] = $input[ 'output_css' ] ;
+    } else { $result[ 'output_css' ] = "" ;
+    }
+    return $result ;
+  }  
+*/
+
   add_settings_section( 'rkbc_plugin_primary' , 'Bootstrap Customization Section',
 			'rkbc_plugin_section_text', 'rkbc_options_page' ) ;
   add_settings_field( 'rkbc_plugin_output_css' , 'Output CSS?' , 'rkbc_plugin_setting_css_output' ,
@@ -41,8 +62,9 @@ function rkbc_settings_setup() {
   function rkbc_plugin_setting_css_output() {
     $options = get_option( 'rkbc_plugin_options' ) ;
     $text = $options[ 'output_css' ] ;
-    $is_checked = ( true == $text || 1 == $text ) ? 'checked' : '' ;
-    echo "<input id='text_string' name='' type='checkbox' '{${checked($text, 'true' ) }}' value={${checked( $text, true ) }} />";
+    ?>
+     <input type='checkbox' id='rkbc_plugin_options' name='rkbc_plugin_options[output_css]' value='1' <?php checked( 1, $text ) ; ?> />
+  <?php
   }
 
   add_settings_field( 'rkbc_plugin_number_columns' , 'Number of Columns' , 'rkbc_plugin_setting_column_output' ,
@@ -52,10 +74,10 @@ function rkbc_settings_setup() {
     $options = get_option( 'rkbc_plugin_options' ) ;
     $column_amount = $options[ 'column_amount' ] ;
     ?>
-      <select id='column_amount' name='rkbc_plugin_options[column_amount]' >
-	    <option value='two' <?php selected( $column_amount, 'two' )?> >two</option>
-	    <option value='three' <?php selected( $column_amount, 'three' )?> >three</option>
-	    <option value='four' <?php selected( $column_amount, 'four' )?> >four</option>
+      <select id='rkbc_plugin_options' value="<?php echo $column_amount ; ?>" name='rkbc_plugin_options[column_amount]' >
+	    <option value='2' <?php selected( $column_amount , 2 )?> >two</option>
+	    <option value='3' <?php selected( $column_amount , 3 )?> >three</option>
+	    <option value='4' <?php selected( $column_amount, 4 )?> >four</option>
 	  </select>
     <?php
   }   	    
