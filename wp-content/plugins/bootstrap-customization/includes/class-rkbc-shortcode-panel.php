@@ -150,7 +150,7 @@ function make_panel_wrapper( $args ) {
 
     public function init_and_get() {
       self::$instance = new self() ;
-      echo self::$instance->container ;
+      return self::$instance->container ;
     }
     
     private function add_jumbotron_to_container() {
@@ -166,5 +166,40 @@ function make_panel_wrapper( $args ) {
     }
   }
 
-
+/*
 add_shortcode( 'panel_to_customize', array( 'RkbcFullSections', 'init_and_get' ) ) ;
+add_action( 'pre_get_posts' , 'find_home' ) ;
+function rkbc_content_hook( $query ) {
+  if ( $query->is_main_query() ) {
+    echo "Condition is true!!!" ;
+    return RkbcFullSections::init_and_get() ;
+  }
+}
+
+function find_home() {
+  global $post ;
+  $query = new WP_Query( array( 'name' => 'home' )  )  ;
+  if ( $query->has_posts() ) : while ( $query->has_posts() ) : the_post() ;
+    echo $post->name ;
+   endwhile ; endif ;
+}
+
+**
+function prepend_customized_content_to_front_page() {
+  $args = array( 'ID' => '4' ,
+  		 'post_content' => ''  // RkbcFullSections::init_and_get() ,
+  ) ;
+  wp_update_post( $args ) ;
+}		
+add_action( 'init' , 'prepend_customized_content_to_front_page' ) ;
+
+**/
+
+function rkbc_content_filter( $content ) {
+  global $post ;
+  if ( $GLOBALS[ 'post' ]->post_name == "home" ) {
+    $content = RkbcFullSections::init_and_get() . $content ;
+  }
+  return $content ;
+}
+add_action( 'the_content' , 'rkbc_content_filter' ) ;

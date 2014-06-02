@@ -7,7 +7,7 @@
       <p><?php _e('Sorry, no posts matched your criteria' ); ?></p>
 <?php endif; ?>
 
-  <?php do_shortcode( '[panel_to_customize name="top_jumbotron"]' ) ; ?>
+
 
 <!-- <div class="jumbotron">
   <div class="container">
