@@ -83,5 +83,12 @@ function rkbc_settings_setup() {
   }   	    
 }
 
-    
+add_filter( 'plugin_action_links' , 'rkbc_settings_link' , 2 , 2 ) ;
+function rkbc_settings_link( $actions, $file ) {
+  if ( false !== strpos( $file, 'bootstrap-customization' ) ) {
+    $actions[ 'settings' ] = '<a href="options-general.php?page=rkbc_options_page">Settings</a>' ;
+    $actions[ 'customize' ] = '<a href="customize.php">Use Plugin</a>' ;
+  }
+  return $actions ;
+}
 

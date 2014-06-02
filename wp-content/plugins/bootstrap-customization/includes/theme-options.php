@@ -91,7 +91,6 @@ class RK_Customize_Section {
        $section_names = self::$section_names ; 
        $section_titles = self::$section_titles ;
        $array_size = sizeof( $section_names ) ;
-       var_dump( $section_names ) ;       
        for( $i = 0 ; $i < $array_size ; $i++ ) {  
          $name = $section_names[ $i ] ;
          $title = $section_titles[ $i ] ;
@@ -152,7 +151,7 @@ class RK_Customize_Section {
 	  ) ) ) ;
 
 	 $this->wp_customize->add_setting( "image_slider_$name", array(
-	      'default'    =>  '',
+	      'default'    =>  '100',
 	      'capability' => 'manage_options',
 	      'transport'  => 'postMessage',
 	 ) ) ;

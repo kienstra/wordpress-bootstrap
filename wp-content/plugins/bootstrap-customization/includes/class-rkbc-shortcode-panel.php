@@ -38,16 +38,19 @@
     }
 
     public function make_heading_section() {
-      $heading_html =get_theme_mod( 'heading_' . $this->name ) ;
+      $selector = 'heading_' . $this->name ;
+      $default = $this->name . ' Heading' ;
+      $heading_html =get_theme_mod( $selector , $default ) ;
       $this->container .=
-	"<h2 class='heading_{$this->name}'>
+	"<h2 class='{$selector}'>
 	  {$heading_html}
 	 </h2>\n" ;
     }
 
     public function make_copy_section() {
       $selector = 'copy_' . $this->name ;
-      $copy_html = get_theme_mod( $selector ) ;
+      $default = $this->name . ' copy, enter text by selecting customize theme' ;
+      $copy_html = get_theme_mod( $selector , $default ) ;
       $stripped_copy =  nl2br( strip_tags( $copy_html ) ) ;
       $this->container .=
 	"<div class='copy'>
