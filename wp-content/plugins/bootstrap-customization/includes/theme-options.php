@@ -78,8 +78,8 @@ class RK_Customize_Section {
     
     public function __construct( $wp_customize ) { 
       $this->wp_customize = $wp_customize ;
-      $this->set_section_names() ;
-      $this->set_section_titles() ;
+      $this->determine_section_names() ;
+      $this->determine_section_titles() ;
     }
     
     public function init_and_create_all_sections( $wp_customize ) {
@@ -106,30 +106,29 @@ class RK_Customize_Section {
     }
 
     public function initialize_section( $name , $title ) {
-      // $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;     
       $this->wp_customize->add_section( $name , array(
         'title'    => $title ,
         'priority' => self::$section_counter ,
      ) ) ;     
     }
 
-    private function set_section_names() {
+    private function determine_section_names() {
       self::$section_names = get_panel_names() ;
     }
 
-    public function set_section_titles() {
-      $amount_to_names = array(
+    public function determine_section_titles() {
+      $amount_to_titles = array(
 	      2 => array( 'Left' , 'Right' ) ,
 	      3 => array( 'Left' , 'Middle' , 'Right' ) ,
 	      4 => array( 'First' , 'Second' , 'Third' , 'Fourth' ) ,
       ) ;
       $options = get_option( 'rkbc_plugin_options' ) ;
       $column_amount = $options[ 'column_amount' ] ;      
-      $names = $amount_to_names[ $column_amount ] ;
+      $titles = $amount_to_titles[ $column_amount ] ;
       $result = array( 'Top Jumbotron' ) ;
 
-      foreach( $names as $name ) {
-	array_push( $result, $name . ' Panel' ) ;
+      foreach( $titles as $title ) {
+	array_push( $result, $title . ' Panel' ) ;
       }
       self::$section_titles = $result ;
     }

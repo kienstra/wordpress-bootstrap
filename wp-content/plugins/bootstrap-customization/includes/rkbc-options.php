@@ -26,7 +26,6 @@ function rkbc_plugin_options_page() {
 
 add_action( 'admin_init' , 'rkbc_settings_setup' ) ;
 function rkbc_settings_setup() {
-
   register_setting( 'rkbc_plugin_options' , 'rkbc_plugin_options' , 'rkbc_plugin_validate_options' ) ;
 
   function rkbc_plugin_validate_options( $input ) {
@@ -38,36 +37,39 @@ function rkbc_settings_setup() {
       $result[ 'output_css' ] = $input[ 'output_css' ] ;
     } else { $result[ 'output_css'] = "" ;
     }
-    return $result ;
-  }
-  
-/*  function rkbc_plugin_validate_options_css( $input ) {
-    if ( is_bool( $input[ 'output_css' ] ) ) {
-      $result[ 'output_css' ] = $input[ 'output_css' ] ;
-    } else { $result[ 'output_css' ] = "" ;
+    if ( is_numeric( $input[ 'use_shortcode' ] ) ) {
+      $result[ 'use_shortcode' ] = $input[ 'use_shortcode' ] ;
+    } else {
+      $result[ 'use_shortcode' ] = "" ;
     }
     return $result ;
-  }  
-*/
+  }
 
   add_settings_section( 'rkbc_plugin_primary' , 'Bootstrap Customization Section',
-			'rkbc_plugin_section_text', 'rkbc_options_page' ) ;
-  add_settings_field( 'rkbc_plugin_output_css' , 'Output CSS?' , 'rkbc_plugin_setting_css_output' ,
-		      'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
+			  'rkbc_plugin_section_text', 'rkbc_options_page' ) ;
 
   function rkbc_plugin_section_text() {
-    echo '<p>Put your settings in here.</p>' ;
+    echo '<p>These are the Bootstrap Customizer settings.</p>' ;
   }
+  
+  add_settings_field( 'rkbc_plugin_output_css' , 'Do you have Twitter Bootstrap?' , 'rkbc_plugin_setting_css_output' ,
+			'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
 
   function rkbc_plugin_setting_css_output() {
     $options = get_option( 'rkbc_plugin_options' ) ;
-    $text = $options[ 'output_css' ] ;
+    $output_css = $options[ 'output_css' ] ;
     ?>
-     <input type='checkbox' id='rkbc_plugin_options' name='rkbc_plugin_options[output_css]' value='1' <?php checked( 1, $text ) ; ?> />
-  <?php
+    <input type="radio" id="no_output_css" <?php checked( 0 , $output_css ) ; ?> name="rkbc_plugin_options[output_css]" value="0" />
+    <label for="no_output_css" >Yes</label>
+      &nbsp; 
+    <input type="radio" id="yes_output_css" <?php checked( 1 , $output_css ) ; ?> name="rkbc_plugin_options[output_css]" value="1">
+    <label for="yes_output_css" >No</label>
+    <?php if ( 1 == $output_css ) {
+    	     echo "<br><br>This plugin will add a Bootstrap stylesheet to your front page." ;
+  	  }
   }
 
-  add_settings_field( 'rkbc_plugin_number_columns' , 'Number of Columns' , 'rkbc_plugin_setting_column_output' ,
+  add_settings_field( 'rkbc_plugin_number_columns' , _( 'Number of columns' ) , 'rkbc_plugin_setting_column_output' ,
 		      'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
 
   function rkbc_plugin_setting_column_output() {
@@ -80,12 +82,29 @@ function rkbc_settings_setup() {
 	    <option value='4' <?php selected( $column_amount, 4 )?> >four</option>
 	  </select>
     <?php
-  }   	    
+    }   	    
+  
+
+  add_settings_field( 'rkbc_plugin_use_shortcode' , 'Show content on front page:' , 'rkbc_plugin_setting_shortcode_output' , 'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
+
+  function rkbc_plugin_setting_shortcode_output() {
+    $options = get_option( 'rkbc_plugin_options' ) ;
+    $use_shortcode = $options[ 'use_shortcode' ] ;
+    ?>
+      <input type="radio" id="automatically" <?php checked( $use_shortcode , '0' ) ; ?> value="0" name="rkbc_plugin_options[use_shortcode]" />
+      <label for="automatically">Automatically</label>
+      &nbsp; 
+      <input type="radio" id="use_shortcode" <?php checked( $use_shortcode , '1' ) ; ?> value="1"  name="rkbc_plugin_options[use_shortcode]" />
+      <label for="use_shortcode" >With Shortcode</label>
+    <?php if ( $use_shortcode ) {
+      echo "</br></br> Enter <strong>[rkbc_bootstrap]</strong> in the front page text editor." ;
+    }
+  } 
 }
 
-add_filter( 'plugin_action_links' , 'rkbc_settings_link' , 2 , 2 ) ;
-function rkbc_settings_link( $actions, $file ) {
-  if ( false !== strpos( $file, 'bootstrap-customization' ) ) {
+add_filter( 'plugin_action_links' , 'rkbc_add_settings_link' , 2 , 2 ) ;
+function rkbc_add_settings_link( $actions, $file ) {
+if ( false !== strpos( $file, 'bootstrap-customization' ) ) {
     $actions[ 'settings' ] = '<a href="options-general.php?page=rkbc_options_page">Settings</a>' ;
     $actions[ 'customize' ] = '<a href="customize.php">Use Plugin</a>' ;
   }

@@ -1,6 +1,5 @@
 ( function ($) { 
 
-  // TODO : fallback for iframe 
   $('.customized-col').map( function() {
     id = $(this).attr('id') ;
     bind_panel( id ) ;
