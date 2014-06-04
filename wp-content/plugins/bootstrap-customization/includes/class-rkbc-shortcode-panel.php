@@ -144,9 +144,9 @@ class RkbcMakePanel {
   public function add_image_section_to_container() {
     $selector = 'image_' . $this->name ;
     $src = get_theme_mod( $selector ) ;
-    $max_height = 3 * get_theme_mod( 'image_slider_' . $this->name ) ;
+    $max_height = get_theme_mod( 'image_slider_' . $this->name ) ;
     $this->container .=
-      "<img class='img-customize img-rounded {$selector} img-responsive' src='{$src}' style='width: auto ; max-height:{$max_height}px' alt='{$selector}'>\n" ;
+      "<div style='max-height:300px'><img class='img-customize img-rounded {$selector} img-responsive' src='{$src}' style='width: auto ; height: auto ; max-height:{$max_height}%' alt='{$selector}'>\n</div>" ;
   }
 
   public function add_heading_section_to_container() {
