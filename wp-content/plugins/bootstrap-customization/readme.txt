@@ -1,21 +1,30 @@
-=== Bootstrap Live Editor ===
+=== Bootstrap Instant Editor ===
 Contributors: ryankienstra
-Tags: live editor, bootstrap, wysiwyg
-Requires at least: 3.0.4
+Tags: bootstrap, wysiwyg, live editor, instant editor
+Requires at least: 3.4
 Tested up to: 3.9.1
-Stable tag: 1.1
+Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Donate Link: http://www.jdrf.com
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
-Edit your front page in the side panel, while seeing your page updated immediately.
+See your full front page as you edit, with instant updates. Select any image, resize it, and enter text. 
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+Using Bootstrap, this generates a jumbotron and a row of 2, 3, or 4 columns. They're automatically added to your front page, but you can change the placement with shortcode.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+You'll get instant feedback, but it won't be published until you click "Save Changes."
+
+All images and text will be centered, and images can be resized.
+
+Click "Customize Your Theme," and find the "Top Jumbotron" and "Panels" listed on the left. Edit them, and watch your front page update.
+
+Requires Bootstrap 3. If you don't have it, indicate this on the plugin settings page. It will be added your front page. This will change your style completely, though.
+
+Your "Reading Settings" must have "Front Page Displays" set to "Static Page."
+
+Please report bugs or request features at ryankienstra.com/contact
 
 A few notes about the sections above:
 
@@ -40,23 +49,21 @@ you put the stable version, in order to eliminate any doubt.
 == Installation ==
 
 This section describes how to install the plugin and get it working.
-1. Upload bootstrap-live-editor to the /
-
-e.g.
-
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+1. Upload the bootstrap-instant-editor directory to your /wp-content/plugins directory
+2. Activate it in the 'Plugins' menu
+3. Use it by going to "Reading Settings" and clicking "Customize Your Theme." Or visit the settings in the plugin settings section.
+5. If this doesn't work, be sure your "Reading Settings" have "Front Page Displays" set to "Static Page."
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Will this work if I don't have Bootstrap 3? =
+Yes, but it'll completely change the rest of your front page. Go to the settings page and indicate that you don't have Bootstrap. A stylesheet will be added for you.
 
-An answer to that question.
+= Can I keep my own front page content? =
+Yes, go to this plugin's settings page and select "shortcodes." But this plugin generates a jumbotron and a row, which look best at top of the page. It won't interfere with your top navbar, though. If you would like more settings, please contact me.
 
-= What about foo bar? =
-
-Answer to foo bar dilemma.
+= Does this work with .svg images? =
+No, but I would like to add support for them.
 
 == Screenshots ==
 
@@ -69,25 +76,12 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 == Changelog ==
 
 = 1.0 =
-* A change since the previous version.
-* Another change.
-
-= 0.5 =
-* List versions from most recent at top to oldest at bottom.
+* First version
 
 == Upgrade Notice ==
-
-= 1.0 =
-Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
-
-= 0.5 =
-This version fixes a security related bug.  Upgrade immediately.
+N/A, this is version 1.0.0
 
 == Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation."  Arbitrary sections will be shown below the built-in sections outlined above.
 
 == A brief Markdown Example ==
 

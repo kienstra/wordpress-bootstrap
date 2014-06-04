@@ -106,7 +106,7 @@ class RkbcMakeRowOfColumns {
 
     foreach( $column_names as $panel_name ) {
       if ( 'top_jumbotron' == $panel_name ) {
-	continue;
+	continue ;
       }
       $this->container .= $col_top
 		       .  RkbcMakePanel::init_and_get( $panel_name ) 
@@ -123,8 +123,8 @@ class RkbcMakePanel {
   private static $closing_div = "</div>" ;
 
   public function __construct( $panel_name ) {
-    $this->name = $panel_name ;
-    $this->opening_div = "<div class='customized-col' id='{$this->name}'>" ;
+    $this->panel_name = $panel_name ;
+    $this->opening_div = "<div class='customized-col' id='{$this->panel_name}'>" ;
     $this->make_full_section() ;
   }
 
@@ -142,17 +142,18 @@ class RkbcMakePanel {
   }		 
 
   public function add_image_section_to_container() {
-    $selector = 'image_' . $this->name ;
+    $selector = 'image_' . $this->panel_name ;
     $src = get_theme_mod( $selector ) ;
-    $max_height = get_theme_mod( 'image_slider_' . $this->name ) ;
+    $alt = ( $src != "" ) ? $selector : "" ;
+    $max_height = get_theme_mod( 'image_slider_' . $this->panel_name ) ;
     $this->container .=
-      "<div style='max-height:270px'><img class='img-customize img-rounded {$selector} img-responsive' src='{$src}' style='width: auto ; height: auto ; max-height:{$max_height}%' alt='{$selector}'>\n</div>" ;
+      "<div style='max-height:270px'><img class='img-customize img-rounded {$selector} img-responsive' src='{$src}' style='width: auto ; height:auto ; max-height:{$max_height}%' alt='{$alt}'>\n</div>" ;
   }
 
   public function add_heading_section_to_container() {
-    $selector = 'heading_' . $this->name ;
-    $default = $this->name . ' Heading' ;
-    $heading_html =get_theme_mod( $selector , $default ) ;
+    $selector = 'heading_' . $this->panel_name ;
+    $default = $this->panel_name . ' Heading' ;
+    $heading_html = get_theme_mod( $selector , $default ) ;
     $this->container .=
       "<h2 class='{$selector}'>
 	{$heading_html}
@@ -160,8 +161,8 @@ class RkbcMakePanel {
   }
 
   public function add_copy_section_to_container() {
-    $selector = 'copy_' . $this->name ;
-    $default = $this->name . ' copy, enter text by selecting customize theme' ;
+    $selector = 'copy_' . $this->panel_name ;
+    $default = $this->panel_name . ' copy, enter text by selecting customize theme' ;
     $copy_html = get_theme_mod( $selector , $default ) ;
     $stripped_copy =  nl2br( strip_tags( $copy_html ) ) ;
     $this->container .=
