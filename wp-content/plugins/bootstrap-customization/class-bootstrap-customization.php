@@ -38,7 +38,7 @@ class BootstrapCustomization {
   }
 
   private function get_required_files() {
-    require_once( plugin_dir_path( __FILE__ ) . 'includes/theme-options.php' ) ;
+    require_once( plugin_dir_path( __FILE__ ) . 'includes/bie-theme-options.php' ) ;
     require_once( plugin_dir_path( __FILE__ ) . 'includes/class-rkbc-shortcode-panel.php' ) ;
     require_once( plugin_dir_path( __FILE__ ) . 'includes/rkbc-options.php' ) ; 
   }

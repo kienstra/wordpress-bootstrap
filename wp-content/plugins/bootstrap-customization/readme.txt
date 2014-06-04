@@ -1,12 +1,13 @@
 === Bootstrap Instant Editor ===
 Contributors: ryankienstra
+Donate link: http://www.jdrf.com
 Tags: bootstrap, wysiwyg, live editor, instant editor
 Requires at least: 3.4
 Tested up to: 3.9.1
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Donate Link: http://www.jdrf.com
+
 
 See your full front page as you edit, with instant updates. Select any image, resize it, and enter text. 
 
