@@ -2,6 +2,7 @@ html {
   position: relative;
   min-height: 100%;
 }
+
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
@@ -17,12 +18,3 @@ body {
   margin-bottom: 0px;
 }
 
-/*html #wpadminbar {
-  top: 0;
-  position: fixed;
-}
-
-html body .navbar-static-top {
-  z-index : 1000;
-}
-*/
