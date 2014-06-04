@@ -1,0 +1,28 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+#footer {
+  margin-top: 15px;
+  position: absolute ;
+  height: 40px ;
+  width: 100%;
+}
+
+#footer .navbar {
+  margin-bottom: 0px;
+}
+
+/*html #wpadminbar {
+  top: 0;
+  position: fixed;
+}
+
+html body .navbar-static-top {
+  z-index : 1000;
+}
+*/
