@@ -1,19 +1,17 @@
 /*
-Theme Name: WP Bootstrap
+Theme Name: Kienstra Bootstrap
 Theme URI: http://teamtreehouse.com/wordpress-bootstrap-theme-tutorial
-Description: A demo theme built to accompany the Treehouse blog post <a href="http://teamtreehouse.com/wordpress-bootstrap-theme-tutorial">How to Build a WordPress Theme with Bootstrap</a>.
-Author: Zac Gordon
-Author URI: http://teamtreehouse.com/
+Description: A Frameword Built on Bootstrap
+Author: Ryan Kienstra
+Author URI: http://ryankienstra.com
 Version: 1.0
-Tags: responsive, white, bootstrap
+Tags: Bootstrap
 
 License: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 License URI: http://creativecommons.org/licenses/by-sa/3.0/
 
-This simple theme was built using the example Bootstrap theme "Basic marketinng site" found on the Bootstrap web site http://twitter.github.com/bootstrap/examples/hero.html
 */
 
-/* @import url( 'bootstrap/css/bootstrap-flatly.css' ) ; */
 @import url( 'bootstrap/css/sticky-footer.css' ) ;
 @import url( 'bootstrap/css/gravity-fix.css' ) ;
 
@@ -37,9 +35,15 @@ This simple theme was built using the example Bootstrap theme "Basic marketinng 
   }
 }
 
+@media ( min-width : 700px ) {
+    html body .container {
+      width: 95% ;
+    }
+}
+
 body {
-      padding-top: 0px;
-      padding-bottom: 40px;
+  padding-top: 0px;
+  padding-bottom: 40px;
 }
 
 .container .navbar-collapse {
@@ -57,10 +61,16 @@ ul.pager {
   text-align: left ; 
 }
 
+.col-md-6 {
+  padding-top: 10px ;
+  padding-bottom: 10px ;
+}
+
+/* Gravity form styles */
+
 .widget .gform_wrapper form {
     margin-left: 0 ;
 }
-
 
 .modal-content .modal-body .gform_wrapper form {
     text-align: left ;
@@ -89,7 +99,8 @@ p.copyright-text {
     vertical-align: bottom ;
  }
 
-/* if admin bar, lower navbar */                                                                                                 .admin-bar .navbar-fixed-top {
+/* if admin bar, lower navbar */
+.admin-bar .navbar-fixed-top {
   margin-top : 30px ;
 }
 
@@ -103,33 +114,3 @@ html body #wpadminbar {
   z-index: 5000 !important  ;
 }
   
-.row .customized-col img ,
-.jumbotron img.img-customize {
-  margin: auto ;
-}
-
-.customized-col h2 {
-  text-align : center ;
-}
-
-@media ( min-width: 990px ) {
-  .customized-col .copy {
- /*    max-width: 390px; */
-  }
-}
-
-@media ( max-width: 990px ) {
-  .customized-col .copy {
-    text-align: center;
-  }
-}
-
-div.copy {
-  text-align: center ;
-  margin: auto ;
-}
-
-.customized-col div.copy span {
-  display: inline-block ;
-  text-align: left ;
-}

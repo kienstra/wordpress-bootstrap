@@ -14,7 +14,7 @@ function rkbc_plugin_options_page() {
   ?>
   <div class="wrap">
     <?php screen_icon() ; ?>
-    <h2>Bootstrap Customization Settings</h2>
+    <h2>Bootstrap Customization</h2>
     <form action="options.php" method="post">
       <?php settings_fields( 'rkbc_plugin_options' ) ; ?>
       <?php do_settings_sections( 'rkbc_options_page' ) ; ?>
@@ -45,30 +45,13 @@ function rkbc_settings_setup() {
     return $result ;
   }
 
-  add_settings_section( 'rkbc_plugin_primary' , 'Bootstrap Customization Section',
+  add_settings_section( 'rkbc_plugin_primary' , 'Settings',
 			  'rkbc_plugin_section_text', 'rkbc_options_page' ) ;
 
   function rkbc_plugin_section_text() {
-    echo '<p>These are the Bootstrap Customizer settings.</p>' ;
+    echo '<p>Live-edit your front page using the <a href="customize.php">Theme Customizer</a></p>' ;
   }
   
-  add_settings_field( 'rkbc_plugin_output_css' , 'Do you have Twitter Bootstrap?' , 'rkbc_plugin_setting_css_output' ,
-			'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
-
-  function rkbc_plugin_setting_css_output() {
-    $options = get_option( 'rkbc_plugin_options' ) ;
-    $output_css = $options[ 'output_css' ] ;
-    ?>
-    <input type="radio" id="no_output_css" <?php checked( 0 , $output_css ) ; ?> name="rkbc_plugin_options[output_css]" value="0" />
-    <label for="no_output_css" >Yes</label>
-      &nbsp; 
-    <input type="radio" id="yes_output_css" <?php checked( 1 , $output_css ) ; ?> name="rkbc_plugin_options[output_css]" value="1">
-    <label for="yes_output_css" >No</label>
-    <?php if ( 1 == $output_css ) {
-    	     echo "<br><br>This plugin will add a Bootstrap stylesheet to your front page." ;
-  	  }
-  }
-
   add_settings_field( 'rkbc_plugin_number_columns' , _( 'Number of columns' ) , 'rkbc_plugin_setting_column_output' ,
 		      'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
 
@@ -84,7 +67,6 @@ function rkbc_settings_setup() {
     <?php
     }   	    
   
-
   add_settings_field( 'rkbc_plugin_use_shortcode' , 'Show content on front page:' , 'rkbc_plugin_setting_shortcode_output' , 'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
 
   function rkbc_plugin_setting_shortcode_output() {
@@ -99,9 +81,37 @@ function rkbc_settings_setup() {
     <?php if ( $use_shortcode ) {
       echo "</br></br> Enter <strong>[rkbc_bootstrap]</strong> in the front page text editor." ;
     }
-  } 
-}
+  }
 
+  add_settings_field( 'rkbc_plugin_output_css' , 'Do you have Twitter Bootstrap?' , 'rkbc_plugin_setting_css_output' ,
+			'rkbc_options_page' , 'rkbc_plugin_primary' ) ;
+
+  function rkbc_plugin_setting_css_output() {
+    $options = get_option( 'rkbc_plugin_options' ) ;
+    $output_css = $options[ 'output_css' ] ;
+    ?>
+    <input type="radio" id="no_output_css" <?php checked( 0 , $output_css ) ; ?> name="rkbc_plugin_options[output_css]" value="0" />
+    <label for="no_output_css" >Yes</label>
+      &nbsp; 
+    <input type="radio" id="yes_output_css" <?php checked( 1 , $output_css ) ; ?> name="rkbc_plugin_options[output_css]" value="1">
+    <label for="yes_output_css" >No</label>
+    <?php if ( 1 == $output_css ) {
+    	     echo "<br><br>A Bootstrap stylesheet will be added to your front page." ;
+  	  }
+    
+      $front_page_displays = get_option( 'show_on_front' ) ;
+      if ( 'page' != $front_page_displays ) {
+	$uri = 'options-reading.php' ;
+	?>
+     	  </br></br><font color="red">Please <a href="<?php echo $uri ; ?>" >set</a> "front page displays" to "static page"</font>
+	<?php 
+      }	  
+  }
+
+  
+} /** End function rkbc_settings_setup */
+
+// Add settings link on the main plugin page
 add_filter( 'plugin_action_links' , 'rkbc_add_settings_link' , 2 , 2 ) ;
 function rkbc_add_settings_link( $actions, $file ) {
 if ( false !== strpos( $file, 'bootstrap-customization' ) ) {

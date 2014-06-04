@@ -12,8 +12,15 @@ if ( 1 == $use_shortcode ) {
 }
 function rkbc_content_filter( $content ) {
 //  global $post ;
-//  if ( $GLOBALS[ 'post' ]->post_name == "home" ) {
-  if ( is_front_page() ) {
+//  if ( $GLOBALS[ 'post' ]->post_name == "home"   page or posts
+/*  $page_or_posts = get_option( 'show_on_front' ) ;
+  $has_executed = false ;
+  if ( 'posts' == $page_or_posts && false == $has_executed ) {
+    $content = RkbcMakeAllSections::init_and_get() . $content ;
+    $has_executed = true ;
+  }
+*/
+  if ( is_front_page() && $GLOBALS[ 'post' ]->post_type == 'page' ) {
     $content = RkbcMakeAllSections::init_and_get() . $content ;
   }
   return $content ;

@@ -28,8 +28,8 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h3>Featured Post</h3>
     <hr>
+    <h4><em>Featured Post</em></h4>
     <div>
       <?php
         $args = array(
@@ -50,7 +50,7 @@
   </div>    
 
   <div class="col-md-6">
-    <span> lorem ipsum dolor sit amet </span>
+
   </div>
 </div>  
 

@@ -11,7 +11,7 @@ class BootstrapCustomization {
 
   private function __construct() {
     $this->deactivate_if_early_wordpress_version() ;
-    add_action( 'customize_preview_init' , array( $this, 'enqueue_styles_if_setting_allows' ) ) ;
+    add_action( 'wp_enqueue_scripts' , array( $this, 'enqueue_styles_based_on_setting' ) ) ;
     add_action( 'customize_preview_init' , array( $this, 'enqueue_scripts' ) ) ;    
     $this->get_required_files() ;
   }
@@ -24,10 +24,11 @@ class BootstrapCustomization {
     return self::$instance ;
   }
 
-  public function enqueue_styles_if_setting_allows() {
-    $options = get_option( 'rkbc_plugin_optiions' ) ;
+  public function enqueue_styles_based_on_setting() {
+    wp_enqueue_style( self::$plugin_slug . '-style' , plugins_url( self::$plugin_slug . '/css/ble-style.css' ) ) ; 
+    $options = get_option( 'rkbc_plugin_options' ) ;
     if ( 1 == $options[ 'output_css' ] ) {
-      wp_enqueue_style( self::$plugin_slug . '-styles' , plugins_url( self::$plugin_slug . '/css/style.css' , __FILE__ ) , array() , $this::$version ) ;
+      wp_enqueue_style( 'bootstrap-style' , plugins_url( self::$plugin_slug . '/css/bootstrap.min.css' ) ) ;
     }
   }
   
