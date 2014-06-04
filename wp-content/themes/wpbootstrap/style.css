@@ -20,16 +20,13 @@ License URI: http://creativecommons.org/licenses/by-sa/3.0/
   body .jumbotron {
     padding: 10px ;
   }
-
   body .jumbotron .container {
    margin: 0;
    padding: 0 10px ;
   }
-
   body > .container {
    padding: 5px ;   
   }
-
   .gallery-item img {
     max-height: 120px ; 
   }
