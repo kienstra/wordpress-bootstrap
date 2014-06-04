@@ -14,8 +14,8 @@
   function image_and_slider_bind( panel_name ) {
     wp.customize( 'image_slider_' + panel_name , function( value ) {
       value.bind( function( to ) {
-				var percentage = String( to ) + "%" ; 
-        $( '.image_' + panel_name ).css( 'max-height' , ( to * 300 / 100 ) ) ;
+	var percentage = String( to * 0.5 ) + "%" ; 
+        $( '.image_' + panel_name ).css( 'max-height' , ( percentage ) ) ;
       } ) ;
     } ) ; 
 
