@@ -35,12 +35,6 @@ License URI: http://creativecommons.org/licenses/by-sa/3.0/
   }
 }
 
-@media ( min-width : 700px ) {
-    html body .container {
-      width: 95% ;
-    }
-}
-
 body {
   padding-top: 0px;
   padding-bottom: 40px;
