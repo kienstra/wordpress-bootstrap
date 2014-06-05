@@ -5,7 +5,7 @@
     <h1><?php wp_title('') ; ?></h1>  
   <?php if ( have_posts() ) :  while ( have_posts() ) : the_post() ; ?>
       <article class="post">
-	<?php the_content ; ?>
+	<?php the_content() ; ?>
       <hr>
       </article>
   <?php  endwhile; else: ?>
