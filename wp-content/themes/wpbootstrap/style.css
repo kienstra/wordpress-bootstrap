@@ -90,6 +90,19 @@ p.copyright-text {
     vertical-align: bottom ;
  }
 
+.mc4wp-form h3 {
+  display : inline-block ;
+  margin-bottom : 0 ;
+  margin-right : 10px;
+  vertical-align : bottom;
+}
+
+.navbar .mc4wp-form h3 {
+  color : white ;
+}
+
+
+
 /* if admin bar, lower navbar */
 .admin-bar .navbar-fixed-top {
   margin-top : 30px ;
