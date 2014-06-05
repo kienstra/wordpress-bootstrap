@@ -101,7 +101,9 @@ p.copyright-text {
   color : white ;
 }
 
-
+.widget .mc4wp-form h3 {
+  margin-bottom : 13px ;
+}
 
 /* if admin bar, lower navbar */
 .admin-bar .navbar-fixed-top {

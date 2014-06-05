@@ -10,8 +10,7 @@ License: GPL2
 
 */
 
-if ( ! defined( 'WPINC' )  )
-{
+if ( ! defined( 'WPINC' )  ) {
  die ;
 }
 
@@ -21,7 +20,8 @@ function install_with_default_options() {
       'output_css' => 0 ,
       'column_amount' => 3 ,
       'use_shortcode' => 0 ,
-      'support_vectors' => 0 ,
+      'allow_vectors' => 0 ,
+      'allow_buttons' => 0 ,
     ) ;
     add_option( 'bie_plugin_options' , $bie_plugin_options ) ;
     $options = get_option( 'bie_plugin_options' ) ;
