@@ -106,8 +106,8 @@ function rename_admin_menu_items( $menu ) {
 	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
 	 return $menu;
 }
-add_filter('gettext', 'rename_admin_menu_items');
-add_filter('ngettext', 'rename_admin_menu_items');
+//nadd_filter('gettext', 'rename_admin_menu_items');
+//add_filter('ngettext', 'rename_admin_menu_items');
 
 
 //add_action( 'init', 'remove_page_editor' ) ;
