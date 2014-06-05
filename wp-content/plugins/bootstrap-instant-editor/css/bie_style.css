@@ -1,0 +1,36 @@
+/*
+@Ver: 1.0.0 ;
+*/
+
+.customized-col {
+  padding-top: 10px ;
+  padding-bottom: 10px ;
+}
+
+.customized-col .bie-img-container {
+  max-height : 270 px ;
+}
+
+.customized-col .bie-img-container img {
+  width: auto ;
+  height: auto ;
+}
+
+.customized-col h2 {
+  text-align : center ;
+}
+
+.customized-col .copy {
+  text-align: center ;
+  margin: auto ;
+}
+
+.customized-col .copy span {
+  display: inline-block ;
+  text-align: left ;
+}
+
+.row .customized-col img ,
+.jumbotron img.img-customize {
+  margin: auto ;
+}
