@@ -8,7 +8,7 @@ $use_shortcode = $options[ 'use_shortcode' ] ;
 if ( 1 == $use_shortcode ) {
   add_shortcode( 'bie_bootstrap' , array( 'BieMakeAllSections', 'init_and_get' ) ) ;
 } else if ( 0 == $use_shortcode ) {
-  add_action( 'the_content' , 'bie_content_filter' ) ;
+  add_filter( 'the_content' , 'bie_content_filter' , '1' ) ;
 }
 function bie_content_filter( $content ) {
   if ( is_front_page() && $GLOBALS[ 'post' ]->post_type == 'page' ) {
