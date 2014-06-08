@@ -71,7 +71,6 @@ function wpbootstrap_paginate_links() {
   <?php
   if ( $pagination ) {
     foreach ( $pagination as $page ) { 
-      $class = strpos( $page , 'href' ) ? 
 		 'active' : 'disabled' ;
       echo " <li class='$class'>$page</li> " ;
     }
@@ -82,21 +81,24 @@ function wpbootstrap_paginate_links() {
 }
 
 function create_widget($name, $id, $description) {
-	 register_sidebar(array(
-                'name'		=> __( $name ),
-                'id'		=> $id,
-       	        'description'	=> __( $description ),
-                'before_widget'	=> '<div class="widget"> ',
-                'after_widget'	=> '</div> ',
-	        'before_title'	=> '<h2>',
-                'after_title'	=> '</h2>'
-        ));
+       register_sidebar(array(
+	      'name'		=> __( $name ),
+	      'id'		=> $id,
+	      'description'	=> __( $description ),
+	      'before_widget'	=> '<div class="widget"> ',
+	      'after_widget'	=> '</div> ',
+	      'before_title'	=> '<h2>',
+	      'after_title'	=> '</h2>'
+      ) ) ;
+      echo "just registered sidebar" ;
 }
-
+  
+add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
 function wpbootstrap_widgets_init() { 
   create_widget( 'Main Sidebar', 'main_sidebar', 'Diplays on News and Blog page' ) ;
 }
-add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
+			    
+
 
 /**
  * Replaces wp-admin menu item names

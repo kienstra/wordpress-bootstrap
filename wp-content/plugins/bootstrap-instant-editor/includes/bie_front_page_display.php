@@ -175,3 +175,11 @@ class BieMakePanel {
 
 
 
+class WP_Widget_WLE extends WP_Widget {
+  private static $instance_counter = 0 ;
+
+  function widget( $args, $instance ) {
+    echo BieMakePanel::init_and_get() ;
+  }
+}
+    
