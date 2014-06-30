@@ -70,8 +70,9 @@ function wpbootstrap_paginate_links() {
   <ul class="pagination">
   <?php
   if ( $pagination ) {
-    foreach ( $pagination as $page ) { 
-		 'active' : 'disabled' ;
+    foreach ( $pagination as $page ) {
+    $class = strpos( $page , 'href' ) ?
+             'active' : 'disabled' ;
       echo " <li class='$class'>$page</li> " ;
     }
   }
@@ -216,6 +217,5 @@ function wpbootstrap_process_update_user() {
   }
 }
     
-
 
 
