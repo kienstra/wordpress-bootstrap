@@ -91,7 +91,6 @@ function create_widget($name, $id, $description) {
 	      'before_title'	=> '<h2>',
 	      'after_title'	=> '</h2>'
       ) ) ;
-      echo "just registered sidebar" ;
 }
   
 add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
