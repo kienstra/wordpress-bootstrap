@@ -81,24 +81,28 @@ function wpbootstrap_paginate_links() {
 <?php
 }
 
-function create_widget($name, $id, $description) {
+function rk_register_sidebar($name, $id, $description ) {
        register_sidebar(array(
-	      'name'		=> __( $name ),
-	      'id'		=> $id,
-	      'description'	=> __( $description ),
-	      'before_widget'	=> '<div class="widget"> ',
-	      'after_widget'	=> '</div> ',
-	      'before_title'	=> '<h2>',
-	      'after_title'	=> '</h2>'
+	      'name'		=> __( $name ) ,
+	      'id'		=> $id ,
+	      'description'	=> __( $description ) ,
+	      'before_widget'	=> '<div class="widget"> ' ,
+	      'after_widget'	=> '</div> ' ,
+	      'before_title'	=> '<h2>' ,
+	      'after_title'	=> '</h2>' ,
       ) ) ;
 }
   
 add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
 function wpbootstrap_widgets_init() { 
-  create_widget( 'Main Sidebar', 'main_sidebar', 'Diplays on News and Blog page' ) ;
+  rk_register_sidebar( 'Main Sidebar' , 'main_sidebar', 'Diplays on News and Blog page' ) ;
+  rk_register_sidebar( 'Sidebar Test' , 'sidebar_test' , 'Bootstrap row' ) ;
+  rk_register_sidebar( 'Second Sidebar Test' , 'second_sidebar_test' , 'Bootstrap row' ) ;
+  rk_register_sidebar( 'Third Sidebar Test' , 'third_sidebar_test' , 'Bootstrap row' ) ;   
 }
-			    
 
+
+			    
 
 /**
  * Replaces wp-admin menu item names
@@ -108,9 +112,8 @@ function rename_admin_menu_items( $menu ) {
 	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
 	 return $menu;
 }
-//nadd_filter('gettext', 'rename_admin_menu_items');
-//add_filter('ngettext', 'rename_admin_menu_items');
 
+//add_filter('gettext', 'rename_admin_menu_items');
 
 //add_action( 'init', 'remove_page_editor' ) ;
 function remove_page_editor() { 
