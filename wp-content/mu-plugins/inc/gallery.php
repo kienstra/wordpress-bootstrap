@@ -1,7 +1,7 @@
 <?php
 
 wp_register_style( 'carousel', get_template_directory_uri() . '/bootstrap/css/carousel.css' ) ;
-wp_enqueue_style( 'carousel' ) ;
+wp_enqueue_style( 'carousel' , get_template_directory_uri() . '/bootstrap/css/carousel.css' ) ;
 ?>
 
 <div id="gallery-modal" class="modal fade">
