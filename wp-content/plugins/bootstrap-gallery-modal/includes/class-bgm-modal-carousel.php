@@ -1,0 +1,74 @@
+<?php
+class BGM_Modal_Carousel {
+
+  private $gallery_id ;
+  private $carousel_inner_items ;
+  private $image_indicators ;
+  private $slide_to_index ;
+  private $image_src_full_size ;
+  private $image_src_in_gallery ;
+  private static $instance_id = 1 ;                                                                                                                      
+  
+  function __construct() {
+    $this->gallery_id = 'gallery-' . self::$instance_id ;
+    $this->carousel_inner_items  = '' ;
+    $this->image_indicators = '' ;
+    $this->slide_to_index = 0 ;
+    self::$instance_id++;       
+  }
+    
+  public function add_image( $image_src_full_size, $image_src_in_gallery) {
+    $this->append_image_to_inner_items( $image_src_full_size, $image_src_in_gallery) ;
+    $this->append_to_carousel_indicators( $image_src_full_size ) ;
+  }
+  
+  private function append_image_to_inner_items( $image_src_full_size, $image_src_in_gallery) {
+    $is_active = (0 == $this->slide_to_index ) ? 'active' : '' ;
+
+    $this->carousel_inner_items .= 
+    "<div class='item {$is_active}'>
+       <div class='container'>
+        <div class='carousel-caption'>
+         <img src='{$image_src_full_size}' data-src-in-gallery='{$image_src_in_gallery}'>
+        </div>
+      </div>
+    </div> \n" ;
+  }
+
+  // Requires: images call this function in their order in the gallery
+  // Effects: concatenates "li" node to carousel indicators
+  private function append_to_carousel_indicators( $image_src_full_size ){
+    $is_active = (0 == $this->slide_to_index ) ? 'active' : '' ;
+    
+    $this->image_indicators .= 
+    "<li class='{$is_active}' data-target='#carousel-{$this->gallery_id}' data-slide-to='{$this->slide_to_index}' data-src='{$image_src_full_size}'></li>" ;
+    $this->slide_to_index++ ;
+  }
+
+  public function get() {
+    return 
+    "<div id='carousel-{$this->gallery_id}' class='modal fade gallery-modal'>
+      <div class='modal-dialog modal-lg'>
+        <div class='modal-content modal-content-gallery'>
+          <div class='modal-body'>
+            <a data-dismiss='modal' aria-hidden='true' href='#'>
+              <span class='glyphicon glyphicon-remove-circle'>
+              </span>
+            </a>
+         </div>\n
+    <div id='carousel-{$this->gallery_id}' class='carousel slide carousel-gallery' data-ride='carousel'>
+      <ol class='carousel-indicators'> 
+        {$this->image_indicators}
+       </ol>
+      <div class='carousel-inner'> 
+        {$this->carousel_inner_items}
+       </div>
+    <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
+    <a class='right carousel-control' href='#carousel-{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a> 
+          </div>  <!-- .carousel --> 
+
+         </div> <!-- modal body -->
+      </div>
+    </div>\n"  ;
+  }
+}
