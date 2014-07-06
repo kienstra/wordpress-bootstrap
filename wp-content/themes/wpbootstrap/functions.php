@@ -221,3 +221,32 @@ function wpbootstrap_process_update_user() {
     
 
 
+add_filter( 'wp_list_categories' , 'bgm_list_categories_args' ) ;
+function bgm_list_categories_args( $args ) {
+  $parens_replaced_by_badges = replace_parenthesized_number_with_badge_number( $args ) ;
+  return $parens_replaced_by_badges ;
+}
+
+function replace_parenthesized_number_with_badge_number( $paren_number ) {
+  $regex = '/\(([0-9]{1,3})\)/' ;
+  if ( preg_match( $regex , $paren_number , $matches ) ) {
+    $new_count_markup = "<span class='badge pull-right'>{$matches[ 1 ]}</span>" ;
+    $badge_number = str_replace( $matches[ 0 ] , $new_count_markup , $paren_number ) ;
+  }
+  return $badge_number ; 
+}  
+  
+add_filter( 'get_archives_link' , 'bgm_get_archives_link' ) ;
+function bgm_get_archives_link( $link ) {
+  $parens_replaced_by_badges = replace_parenthesized_number_with_badge_number( $link ) ;
+  return $parens_replaced_by_badges ; 
+}
+  
+add_filter( 'get_search_form' , 'bgm_get_search_form' ) ;
+function bgm_get_search_form( $form ) {
+  $form = str_replace( '<input type="text"' , '<input type="text" class="form-control"' , $form ) ;
+  $form = str_replace( '<input type="submit"' , '</br><input type="submit" class="btn btn-primary btn-sm"' , $form ) ;  
+  $form = str_replace( 'label' , 'h5' , $form ) ;    
+  return $form ;
+}
+  
