@@ -221,12 +221,6 @@ function wpbootstrap_process_update_user() {
     
 
 
-add_filter( 'wp_list_categories' , 'bgm_list_categories_args' ) ;
-function bgm_list_categories_args( $args ) {
-  $parens_replaced_by_badges = replace_parenthesized_number_with_badge_number( $args ) ;
-  return $parens_replaced_by_badges ;
-}
-
 function replace_parenthesized_number_with_badge_number( $paren_number ) {
   $regex = '/\(([0-9]{1,3})\)/' ;
   if ( preg_match( $regex , $paren_number , $matches ) ) {
@@ -236,17 +230,148 @@ function replace_parenthesized_number_with_badge_number( $paren_number ) {
   return $badge_number ; 
 }  
   
-add_filter( 'get_archives_link' , 'bgm_get_archives_link' ) ;
+add_filter( 'widget_title' , 'bgm_widget_title' ) ;
+function bgm_widget_title( $args ) {
+  echo "the title args are: " ;
+  var_dump( $args )  ;
+//  $args = str_replace( '<ul' , '<ul class="nav nav-pills nav-stacked"' , $args ) ;
+  return $args ; 
+}
+
+//add_filter( 'widget_categories_args' , 'bgm_widget_categories_args' ) ;
+function bgm_widget_categories_args( $args ) {
+}
+
+//add_filter( 'widget_archives_args' , 'bgm_widget_archives_args' ) ;
+function bgm_widget_archives_args( $args ) {
+ return $args ;
+}
+
+
+
+/******* original
 function bgm_get_archives_link( $link ) {
-  $parens_replaced_by_badges = replace_parenthesized_number_with_badge_number( $link ) ;
-  return $parens_replaced_by_badges ; 
+  $link = replace_parenthesized_number_with_badge_number( $link ) ;
+  $link = remove_li_tags( $link ) ;
+  $link = add_list_group_class_to_anchor_tags( $link ) ;    
+  $link = move_span_inside_anchor_closing_tag( $link ) ;
+  return $link ;
+  }
+*/
+
+
+function bgm_list_categories_args( $markup ) {
+  $container = "" ; 
+  $markup = replace_parenthesized_number_with_badge_number( $args ) ;
+  echo "categories callback returns: ";
+  var_dump( $parens_replaced_by_badges ) ; 
+  return $markup ; 
 }
+
+add_filter( 'wp_list_categories' , array( 'BGM_Get_Categories_Link' , 'get_link' ) ) ; 
+add_filter( 'get_archives_link' , array( 'BGM_Get_Archives_Link' , 'get_link' ) ) ;
+
+
+class BGM_Get_Categories_Link extends BGM_Get_Link {
+  private static $instance_count = 0 ;
+  private static $instance ;
+  public $markup ;
   
-add_filter( 'get_search_form' , 'bgm_get_search_form' ) ;
-function bgm_get_search_form( $form ) {
-  $form = str_replace( '<input type="text"' , '<input type="text" class="form-control"' , $form ) ;
-  $form = str_replace( '<input type="submit"' , '</br><input type="submit" class="btn btn-primary btn-sm"' , $form ) ;  
-  $form = str_replace( 'label' , 'h5' , $form ) ;    
-  return $form ;
+  private function __construct(  ) {
+    $this->markup = "" ;
+  }
 }
+
+class BGM_Get_Archives_Link extends BGM_Get_Link {
+  private static $instance_count = 0 ;
+  private static $instance ;
+  public $markup ;
+  
+  private function __construct(  ) {
+    $this->markup = "" ;
+  }
+}
+
+class BGM_Get_Link {
+  private static $instance_count = 0 ;
+  private static $instance ;
+  public $markup ;
+  
+  private function __construct() {
+    $this->markup = "" ;
+  }
+
+  function get_link( $markup ) {
+    self::$instance = new self() ; 
+    self::$instance->close_ul_and_add_opening_div_if_first_call() ;
+    self::$instance->markup .= $markup ;     
+    self::$instance->replace_parenthesized_number_with_badge_number() ;
+    self::$instance->remove_li_tags() ; 
+    self::$instance->add_list_group_class_to_anchor_tags() ; 
+    self::$instance->move_span_inside_anchor_closing_tag() ;
+    self::$instance_count++ ;      
+    return self::$instance->markup ;
+  }
+
+  function close_ul_and_add_opening_div_if_first_call() {
+    if ( 0 == self::$instance_count ) {
+      $this->markup .= '</ul><div class="list-group">' ;
+    }
+  }
+  
+  function replace_parenthesized_number_with_badge_number() {
+  $regex = '/\(([0-9]{1,3})\)/' ;
+  if ( preg_match( $regex , $this->markup , $matches ) ) {
+    $new_count_markup = "<span class='badge pull-right'>{$matches[ 1 ]}</span>" ;
+    $this->markup = str_replace( $matches[ 0 ] , $new_count_markup , $this->markup ) ;
+    }
+  }
+
+  function remove_li_tags() {
+    $regex = '/<li.*?>/' ;
+    $this->markup =  preg_replace( $regex  , '' , $this->markup ) ;
+  }
+
+  function add_list_group_class_to_anchor_tags() {
+    $this->markup = str_replace( '<a' , '<a class="list-group-item"' , $this->markup ) ;
+  }
+
+  function move_span_inside_anchor_closing_tag() {
+    $regex = "/(<span.+?<\/span>)/" ; 
+    if ( preg_match( $regex, $this->markup , $matches ) ) {
+      $this->markup = str_replace( array( $matches[ 1 ] , '&nbsp;' ) , '' , $this->markup ) ;    
+      $this->markup = str_replace( '</a>' , $matches[ 1 ] . '</a>' , $this->markup ) ;
+    }
+  }
+}
+
+add_filter( 'widget_archives_args' , 'rkbc_archives_filter' ) ;
+function rkbc_archives_filter( $args ) {
+  $args[ 'after_widget' ] = '</div>' ;
+  return $args ;
+}
+
+
+
+function remove_li_tags( $markup ) {
+  $markup = str_replace( '<li>' , '' , $markup ) ;
+  return $markup ;
+}
+
+function add_list_group_class_to_anchor_tags( $markup ) {
+  $markup = str_replace( '<a' , '<a class="list-group-item"' , $markup ) ;
+  return $markup ;
+}
+
+function move_span_inside_anchor_closing_tag( $markup ) {
+  $regex = "/(<span.+?<\/span>)/" ;  //"/(<\/a>).+?(<span)/" ; // [.]?(<span class='badge)/" ;
+  if ( preg_match( $regex, $markup , $matches ) ) {
+    $markup = str_replace( array( $matches[ 1 ] , '&nbsp;' ) , '' , $markup ) ;    
+    $markup = str_replace( '</a>' , $matches[ 1 ] . '</a>' , $markup ) ;
+  }
+  return $markup ;
+}
+    
+
+
   
