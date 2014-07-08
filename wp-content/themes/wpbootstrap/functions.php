@@ -86,7 +86,7 @@ function rk_register_sidebar($name, $id, $description ) {
 	      'name'		=> __( $name ) ,
 	      'id'		=> $id ,
 	      'description'	=> __( $description ) ,
-	      'before_widget'	=> '<div class="widget"> ' ,
+	      'before_widget'	=> '<div id="%1$s" class="widget %2$s">' ,
 	      'after_widget'	=> '</div> ' ,
 	      'before_title'	=> '<h2>' ,
 	      'after_title'	=> '</h2>' ,
@@ -280,6 +280,12 @@ class BGM_Get_Categories_Link extends BGM_Get_Link {
   private function __construct(  ) {
     $this->markup = "" ;
   }
+  
+  function close_ul_and_add_opening_div_if_first_call() {
+    if ( 0 == self::$instance_count ) {
+      $this->markup .= '</ul><div class="list-group">' ;
+    }
+  }  
 }
 
 class BGM_Get_Archives_Link extends BGM_Get_Link {
@@ -289,6 +295,14 @@ class BGM_Get_Archives_Link extends BGM_Get_Link {
   
   private function __construct(  ) {
     $this->markup = "" ;
+  }
+
+  function close_ul_and_add_opening_div_if_first_call() {
+    echo "the instance count is: " ;
+    var_dump( self::$instance_count ) ;
+    if ( 0 == self::$instance_count ) {
+      $this->markup .= '</ul><div class="list-group">' ;
+    }
   }
 }
 
@@ -372,6 +386,54 @@ function move_span_inside_anchor_closing_tag( $markup ) {
   return $markup ;
 }
     
+add_filter( 'widget_posts_args' , 'bgm_widget_posts_args' ) ;
+function bgm_widget_posts_args( $args ) {
+  $args[ 'before_widget' ] = '<li class="list-group">' ;
+  $args[ 'after_widget' ] = '</li>' ; 
+  return $args ;
+}
+
+add_filter( 'widget_display_callback' , 'bgm_widget_display_callback' ) ;  
+function bgm_widget_display_callback( $instance ) {
+  $instance[ 'class' ] = "recent_posts" ; 
+  echo "the instance is: " ;
+  var_dump( $instance ) ;
+  return $instance ;
+}
+  
+
+
+
+/*
+
+( function( $ ) {
+//  $( function() {
+    var allAnchors = [] ; 
+    var recentPostWidget = $( '.widget_recent_entries' ) ; 
+    recentPostWidget.find( 'ul li' ).map( function() {
+      var span = $( this ).find( 'span' ).clone().addClass( 'label label-primary pull-right' ) ; 
+      var anchor = $( this ).find( 'a' ).clone() ;
+      anchor.addClass( 'list-group-item' ) ;
+      $( this ).remove( 'span' ) ;
+      anchor.append( '&nbsp;' ) ;
+      anchor.append( span ) ;
+      allAnchors.push( anchor ) ; 
+    } ) ;
+
+    newListGroupDiv = $( '<div>' ).addClass( 'list-group' ).append( allAnchors )  ; 
+    recentPostWidget.append( newListGroupDiv ) ;
+    recentPostWidget.find( 'ul' ).remove() ;
+    
+//  } ) ;
+} ) ( jQuery) 
+
+
+
+
+
+
+
+*/
 
 
   
