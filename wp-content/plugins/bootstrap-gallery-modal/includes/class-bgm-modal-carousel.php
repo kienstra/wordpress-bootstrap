@@ -1,4 +1,6 @@
 <?php
+
+// Builds and echoes a modal carousel for each gallery 
 class BGM_Modal_Carousel {
 
   private $gallery_id ;
@@ -6,8 +8,7 @@ class BGM_Modal_Carousel {
   private $image_indicators ;
   private $slide_to_index ;
   private $image_src_full_size ;
-  private $image_src_in_gallery ;
-  private static $instance_id = 1 ;                                                                                                                      
+  private static $instance_id = 1 ;                                                                                                                  
   
   function __construct() {
     $this->gallery_id = 'gallery-' . self::$instance_id ;
@@ -17,26 +18,24 @@ class BGM_Modal_Carousel {
     self::$instance_id++;       
   }
     
-  public function add_image( $image_src_full_size, $image_src_in_gallery) {
-    $this->append_image_to_inner_items( $image_src_full_size, $image_src_in_gallery) ;
+  public function add_image( $image_src_full_size ) {
+    $this->append_image_to_inner_items( $image_src_full_size ) ; 
     $this->append_to_carousel_indicators( $image_src_full_size ) ;
   }
   
-  private function append_image_to_inner_items( $image_src_full_size, $image_src_in_gallery) {
+  private function append_image_to_inner_items( $image_src_full_size ) {
     $is_active = (0 == $this->slide_to_index ) ? 'active' : '' ;
 
     $this->carousel_inner_items .= 
     "<div class='item {$is_active}'>
        <div class='container'>
         <div class='carousel-caption'>
-         <img src='{$image_src_full_size}' data-src-in-gallery='{$image_src_in_gallery}'>
+         <img src='{$image_src_full_size}'>
         </div>
       </div>
     </div> \n" ;
   }
 
-  // Requires: images call this function in their order in the gallery
-  // Effects: concatenates "li" node to carousel indicators
   private function append_to_carousel_indicators( $image_src_full_size ){
     $is_active = (0 == $this->slide_to_index ) ? 'active' : '' ;
     

@@ -1,195 +1,105 @@
-body {
-  padding-bottom: 40px;
-  color: #5a5a5a;
+@media ( max-width : 400px ) {
+  .carousel.carousel-gallery .carousel-inner .item {
+     height : 225px ;
+  }
 }
 
+@media (min-widt : 768px) {
+  .carousel-caption p {
+    margin-bottom : 20px ;
+    font-size : 21px ;
+    line-height : 1.4 ;
+  }
 
-/* CUSTOMIZE THE NAVBAR
--------------------------------------------------- */
-
-/* Special class on .container surrounding .navbar, used for positioning it into place. */
-/*
-.navbar-wrapper {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 20;
+  .featurette-heading {
+    font-size : 50px ;
+  }
 }
 
-/* Flip around the padding for proper display in narrow viewports */
-/*
-.navbar-wrapper .container {
-  padding-right: 0;
-  padding-left: 0;
-}
-.navbar-wrapper .navbar {
-  padding-right: 15px;
-  padding-left: 15px;
+.gallery-modal .modal-dialog .modal-content-gallery { 
+  background-color : #111 ; 
 }
 
-*/
-/* CUSTOMIZE THE CAROUSEL
--------------------------------------------------- */
-
-/* Carousel base class */
-.modal-body .glyphicon-remove-circle {
-  color:#4A4A4A ; 
-  font-size:20px ;
-  padding: 5px ; 
-}
-.modal-body .glyphicon-remove-circle:hover {
-  color:#CCCCCC ;
-
+.gallery-modal .modal-dialog .modal-content-gallery .modal-body {
+  padding : 0 ;
+  background-color : #111 ; 
 }
 
-.carousel.carousel-gallery {
-  margin-bottom: 0 px;
-  overflow : visible ;   /* new */
-  max-height : 500px ;   /* new */ 
+.gallery-modal .modal-dialog .modal-content-gallery .modal-body .glyphicon-remove-circle {
+  color : #4A4A4A ; 
+  font-size : 20px ;
+  padding : 5px ; 
 }
 
-.modal-content-gallery .modal-body {
-  padding: 0;
-  background-color: #111;
+.gallery-modal  .modal-dialog .modal-content-gallery .modal-body .glyphicon-remove-circle:hover {
+  color : #CCCCCC ;
 }
 
-.carousel .carousel-control {
-  width: 5% ;
-  opacity: .1 ;
+.gallery-modal .modal-dialog .modal-content-gallery .carousel.carousel-gallery {
+  margin-bottom : 0 px !important ;
+  overflow : visible ;   
+  max-height : 500px ;   
+  position : relative ;
 }
 
-.carousel .carousel-control:hover {
-  opacity: .7
+.gallery-modal .carousel.carousel-gallery .right.carousel-control .glyphicon {
+  right : 10px ;
+  margin-right : 0 ;
+}
+
+.gallery-modal .carousel.carousel-gallery .left.carousel-control .glyphicon {
+   left : 10px ;
+   margin-left : 0 ;
+}
+
+.gallery-modal .carousel.carousel-gallery .carousel-control {
+  width : 5% ;
+  opacity : .1 ;
+}
+
+.gallery-modal .carousel.carousel-gallery .carousel-control:hover {
+  opacity : .7 ;
 }  
 
-.carousel .glyphicon-chevron-left{
-  margin-left: 0px
+.gallery-modal .carousel.carousel-gallery .carousel-indicators {
+  bottom : 7px ;
 }
 
-/* Since positioning the image, we need to help out the caption */
-.carousel-gallery .carousel-caption {
-  z-index: 10;
-  text-align: center;
-  left: 5%;
-  right: 5%;
-
+.gallery-modal .carousel.carousel-gallery .carousel-inner .item {
+  height : 500px ;
+  position : relative ;
+  background-color : #111 ;  
 }
 
-/* Declare heights because of positioning of img element */
-.carousel-gallery .item {
-  height: 500px ;
-  background-color: #111;
+
+.gallery-modal .carousel.carousel-gallery .carousel-inner .item.active .carousel-caption {
+  z-index : 10 ;
+  text-align : center ;
+  left : 5% ;
+  right : 5% ;
+  padding-bottom : 30px !important ;
+  padding-top : 20px ; 
+  position : absolute ;
+  bottom : 20px ;
+  top : inherit ; 
+  box-sizing : border-box ;
+  -webkit-box-sizing : border-box ;
+  -mox-box-sizing : border-box ; 
 }
 
-.carousel-gallery .carousel-caption img {
+.gallery-modal .carousel.carousel-gallery .carousel-inner .item .carousel-caption img {
   margin-left : auto ; 
-  margin-right: auto ;
-} 
-
-@media ( max-width: 400px ) {
-  .carousel .item{
-     height: 300px ;
-  }
-}
-  
-
-.carousel-gallery .carousel-inner > .item img {
-  top: 0;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 85%;
-  border: 0 !important ;
+  margin-right : auto ;
+  max-height : 100% ;
+  position : relative ; 
 }
 
-
-
-/* MARKETING CONTENT
--------------------------------------------------- */
-
-/* Pad the edges of the mobile views a bit */
-/*
-
-.marketing {
-  padding-right: 15px;
-  padding-left: 15px;
+.gallery-modal .carousel.carousel-gallery .carousel-inner > .item img {
+  bottom : 0;
+  width : auto;
+  height : auto;
+  max-width : 100%;
+  max-height : 85%;
+  border : 0 !important ;
 }
 
-/* Center align the text within the three columns below the carousel */
-/*
-.marketing .col-lg-4 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-.marketing h2 {
-  font-weight: normal;
-}
-.marketing .col-lg-4 p {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-*/
-/* Featurettes
-------------------------- */
-
-.featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
-}
-
-/* Thin out the marketing headings */
-.featurette-heading {
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-
-
-/* RESPONSIVE CSS
--------------------------------------------------- */
-
-@media (min-width: 768px) {
-
-  /* Remove the edge padding needed for mobile */
-  .marketing {
-    padding-right: 0;
-    padding-left: 0;
-  }
-
-  /* Navbar positioning foo */
-  .navbar-wrapper {
-    margin-top: 20px;
-  }
-  .navbar-wrapper .container {
-    padding-right: 15px;
-    padding-left:  15px;
-  }
-  .navbar-wrapper .navbar {
-    padding-right: 0;
-    padding-left:  0;
-  }
-
-  /* The navbar becomes detached from the top, so we round the corners */
-  .navbar-wrapper .navbar {
-    border-radius: 4px;
-  }
-*/
-  /* Bump up size of carousel content */
-  .carousel-caption p {
-    margin-bottom: 20px;
-    font-size: 21px;
-    line-height: 1.4;
-  }
-
-  .featurette-heading {
-    font-size: 50px;
-  }
-}
-
-@media (min-width: 992px) {
-  .featurette-heading {
-    margin-top: 120px;
-  }
-}

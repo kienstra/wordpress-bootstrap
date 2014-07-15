@@ -10,7 +10,8 @@ body {
 #footer {
   margin-top: 15px;
   position: absolute ;
-  height: 40px ;
+  bottom : 0 ;
+/*  height: 40px ; */
   width: 100%;
 }
 
