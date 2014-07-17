@@ -51,9 +51,9 @@ function bgm_enqueue_scripts_and_styles_if_page_has_gallery() {
     // the page has a gallery
     wp_enqueue_style( BGM_PLUGIN_SLUG . '-carousel' , plugins_url( '/css/bgm-carousel.css' , __FILE__ ) , BGM_PLUGIN_VERSION );
 
-//    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false ) { 
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false ) { 
       wp_enqueue_script( BGM_PLUGIN_SLUG . '-jquery-mobile-swipe', plugins_url( '/js/jquery.mobile.custom.min.js' , __FILE__ ) , array( 'jquery' ) , BGM_PLUGIN_VERSION , true ) ;
-//    }
+    }
     wp_enqueue_script( BGM_PLUGIN_SLUG . '-modal_setup', plugins_url( '/js/gallery-modal.js' , __FILE__ ) , array( 'jquery' ) , BGM_PLUGIN_VERSION , true ) ;
   }
 }

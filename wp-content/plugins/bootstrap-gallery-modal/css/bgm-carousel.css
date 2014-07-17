@@ -1,10 +1,10 @@
 @media ( max-width : 400px ) {
-  .carousel.carousel-gallery .carousel-inner .item {
-     height : 225px ;
+  .gallery-modal .modal-dialog .modal-content-gallery .carousel.carousel-gallery .carousel-inner .item {
+     height : 275px ;
   }
 }
 
-@media (min-widt : 768px) {
+@media (min-width : 768px) {
   .carousel-caption p {
     margin-bottom : 20px ;
     font-size : 21px ;
@@ -72,7 +72,7 @@
 }
 
 
-.gallery-modal .carousel.carousel-gallery .carousel-inner .item.active .carousel-caption {
+.gallery-modal .carousel.carousel-gallery .carousel-inner .item.active .carousel-caption { 
   z-index : 10 ;
   text-align : center ;
   left : 5% ;
@@ -84,19 +84,15 @@
   top : inherit ; 
   box-sizing : border-box ;
   -webkit-box-sizing : border-box ;
-  -mox-box-sizing : border-box ; 
-}
-
-.gallery-modal .carousel.carousel-gallery .carousel-inner .item .carousel-caption img {
-  margin-left : auto ; 
-  margin-right : auto ;
-  max-height : 100% ;
-  position : relative ; 
+  -moz-box-sizing : border-box ; 
 }
 
 .gallery-modal .carousel.carousel-gallery .carousel-inner > .item img {
   bottom : 0;
   width : auto;
+  margin-left : auto ; 
+  margin-right : auto ;
+  position : relative ;   
   height : auto;
   max-width : 100%;
   max-height : 85%;
