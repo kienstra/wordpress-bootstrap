@@ -28,11 +28,7 @@ class BSG_Modal_Carousel {
 
     $this->carousel_inner_items .= 
     "<div class='item {$is_active}'>
-       <div class='container'>
-        <div class='carousel-caption'>
-         <img src='{$image_src_full_size}'>
-        </div>
-      </div>
+      <img src='{$image_src_full_size}'>
     </div> \n" ;
   }
 
@@ -46,28 +42,28 @@ class BSG_Modal_Carousel {
 
   public function get() {
     return 
-    "<div id='carousel-{$this->gallery_id}' class='modal fade gallery-modal'>
-      <div class='modal-dialog modal-lg'>
-        <div class='modal-content modal-content-gallery'>
-          <div class='modal-body'>
-            <a data-dismiss='modal' aria-hidden='true' href='#'>
-              <span class='glyphicon glyphicon-remove-circle'>
-              </span>
-            </a>
-         </div>\n
-    <div id='carousel-{$this->gallery_id}' class='carousel slide carousel-gallery' data-ride='carousel'>
-      <ol class='carousel-indicators'> 
-        {$this->image_indicators}
-       </ol>
-      <div class='carousel-inner'> 
-        {$this->carousel_inner_items}
-       </div>
-    <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
-    <a class='right carousel-control' href='#carousel-{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a> 
-          </div>  <!-- .carousel --> 
-
-         </div> <!-- modal body -->
-      </div>
-    </div>\n"  ;
+    "<div id='carousel-{$this->gallery_id}' class='gallery-modal modal fade'>
+       <div class='modal-dialog modal-lg'>
+	 <div class='modal-content modal-content-gallery'>
+	   <div class='modal-header'>  <!--modal-body -->
+	     <a data-dismiss='modal' aria-hidden='true' href='#'>
+	       <span class='glyphicon glyphicon-remove-circle'></span>
+	     </a>
+	   </div>\n
+	   <div class='modal-body'>
+	     <div id='carousel-{$this->gallery_id}' class='carousel slide carousel-gallery'>   
+	       <div class='carousel-inner'> 
+		 {$this->carousel_inner_items}
+	       </div>
+	       <ol class='carousel-indicators'>  <!-- used to be above .carousel-inner -->
+		 {$this->image_indicators}
+	       </ol>	       
+	       <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
+	       <a class='right carousel-control' href='#carousel-{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a> 
+	     </div>  <!-- .carousel --> 
+           </div> <!-- .modal-body -->
+         </div> <!-- .modal-content -->
+       </div> <!-- .modal-dialog -->
+     </div> <!-- .gallery-modal --> \n"  ;
   }
 }

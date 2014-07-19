@@ -16,12 +16,11 @@ Swipe through your gallery. Fast page load for mobile devices.
 * Click on a gallery image and swipe through the pop-up.
 * Images re-size for mobile devices.
 * Light: Only sends 3 small files to the browser. Does nothing if there's no gallery.
-* Works with themes "Bootstrap Ultimate," "DevDmBootstrap3," "evolve," "Unite," and "Ward."
+* Works with themes "Bootstrap Ultimate," "DevDmBootstrap3," "evolve," "Unite." 
 * Doesn't work with "Customizr," "Inkzine," and "Radiant."
-* Plugin doesn't change the gallery on your page. Only creates a pop-up when you click. 
-** Don't download if: **
-* You need to be sure this works. This uses your Glyphicons to keep the page load fast. You'll see if it works when you activate it and click on a gallery image, though.
-* You want an image to cover a full desktop screen.
+* Doesn't change the gallery on your page. Only creates a pop-up when you click. 
+* Don't download if: You need to be sure this works. This plugin keeps your page load fast by using your Glyphicons. You'll see if it works when you activate it and click on a gallery image, though.
+
 
 == Installation ==
 

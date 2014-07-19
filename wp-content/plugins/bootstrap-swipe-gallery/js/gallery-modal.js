@@ -33,5 +33,15 @@
 	  $( this ).carousel( 'next' );  
       } ) ;
     }
+
+    size_containing_div_of_active_image() ;
+    $( window ).resize( size_containing_div_of_active_image ) ;
+      
+    function size_containing_div_of_active_image() {
+      jQuery( '.gallery-modal .carousel.carousel-gallery .carousel-inner .item' ).css('height' , function() {
+        return ( .8 * $( window ).height() ) ;
+      } )  
+    } ;
+    
   } ) ;
 } )( jQuery ) 
