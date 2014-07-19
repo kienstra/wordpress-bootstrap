@@ -45,7 +45,7 @@ class BSG_Modal_Carousel {
     "<div id='carousel-{$this->gallery_id}' class='gallery-modal modal fade'>
        <div class='modal-dialog modal-lg'>
 	 <div class='modal-content modal-content-gallery'>
-	   <div class='modal-header'>  <!--modal-body -->
+	   <div class='modal-header'>  
 	     <a data-dismiss='modal' aria-hidden='true' href='#'>
 	       <span class='glyphicon glyphicon-remove-circle'></span>
 	     </a>
@@ -55,7 +55,7 @@ class BSG_Modal_Carousel {
 	       <div class='carousel-inner'> 
 		 {$this->carousel_inner_items}
 	       </div>
-	       <ol class='carousel-indicators'>  <!-- used to be above .carousel-inner -->
+	       <ol class='carousel-indicators'> 
 		 {$this->image_indicators}
 	       </ol>	       
 	       <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>

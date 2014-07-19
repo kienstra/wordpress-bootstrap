@@ -24,20 +24,17 @@
     } ) ;
 
     // Swipe support
-    if ( $( '.gallery-modal' ).hasOwnProperty( 'swiperight' ) ) {
-      // The jquery.mobile script was enqueued, so add swipe handlers
-      $( '.gallery-modal' ).swiperight( function() {  
-	$( this ).carousel( 'prev' );  
-      } ) ;  
-      $( '.gallery-modal' ).swipeleft(function() {  
-	  $( this ).carousel( 'next' );  
-      } ) ;
-    }
+    $( '.gallery-modal' ).swiperight( function() {  
+      $( this ).carousel( 'prev' );  
+    } ) ;  
+    $( '.gallery-modal' ).swipeleft(function() {  
+	$( this ).carousel( 'next' );  
+    } ) ;
 
-    size_containing_div_of_active_image() ;
-    $( window ).resize( size_containing_div_of_active_image ) ;
+    size_containing_div_of_image() ;
+    $( window ).resize( size_containing_div_of_image ) ;
       
-    function size_containing_div_of_active_image() {
+    function size_containing_div_of_image() {
       jQuery( '.gallery-modal .carousel.carousel-gallery .carousel-inner .item' ).css('height' , function() {
         return ( .8 * $( window ).height() ) ;
       } )  

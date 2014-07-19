@@ -42,8 +42,10 @@ function bsg_enqueue_scripts_and_styles_if_page_has_gallery() {
   if ( strpos( $post_content , "[gallery" ) !== false ) {
     // the page has a gallery
     wp_enqueue_style( BSG_PLUGIN_SLUG . '-carousel' , plugins_url( '/css/bsg-carousel.css' , __FILE__ ) , BSG_PLUGIN_VERSION );
+
+    // MIT license: https://jquery.org/license/
     wp_enqueue_script( BSG_PLUGIN_SLUG . '-jquery-mobile-swipe', plugins_url( '/js/jquery.mobile.custom.min.js' , __FILE__ ) , array( 'jquery' ) , BSG_PLUGIN_VERSION , true ) ;
-    wp_enqueue_script( BSG_PLUGIN_SLUG . '-modal_setup', plugins_url( '/js/gallery-modal.js' , __FILE__ ) , array( 'jquery' ) , BSG_PLUGIN_VERSION , true ) ;
+    wp_enqueue_script( BSG_PLUGIN_SLUG . '-modal_setup', plugins_url( '/js/gallery-modal.js' , __FILE__ ) , array( 'jquery' , BSG_PLUGIN_SLUG . '-jquery-mobile-swipe' ) , BSG_PLUGIN_VERSION , true ) ;
   }
 }
 
