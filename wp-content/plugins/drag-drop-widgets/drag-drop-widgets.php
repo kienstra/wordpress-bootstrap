@@ -38,6 +38,6 @@ function ddw_enqueue_scripts_and_styles() {
 
     // MIT license: https://jquery.org/license/
     wp_enqueue_script( DDW_PLUGIN_SLUG . '-jquery-mobile-sortable', plugins_url( '/js/jquery-ui.js' , __FILE__ ) , array( 'jquery' ) , DDW_PLUGIN_VERSION , true ) ;
-    // wp_enqueue_script( DDW_PLUGIN_SLUG . '-modal_setup', plugins_url( '/js/gallery-modal.js' , __FILE__ ) , array( 'jquery' , DDW_PLUGIN_SLUG . '-jquery-mobile-swipe' ) , DDW_PLUGIN_VERSION , true ) ;
+    wp_enqueue_script( DDW_PLUGIN_SLUG . '-customizer-widget', plugins_url( '/js/ddw-customizer-widget.js' , __FILE__ ) , array( 'jquery' , DDW_PLUGIN_SLUG . '-jquery-mobile-sortable' ) , DDW_PLUGIN_VERSION , true ) ;
 }
 
