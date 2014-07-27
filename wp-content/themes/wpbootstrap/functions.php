@@ -67,7 +67,7 @@ function wpbootstrap_paginate_links() {
   ) ;
 
   ?>
-  <ul class="pagination">
+  <ul class="pagination pagination-sm">
   <?php
   if ( $pagination ) {
     foreach ( $pagination as $page ) {

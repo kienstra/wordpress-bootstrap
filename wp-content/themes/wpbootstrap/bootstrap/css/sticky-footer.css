@@ -4,14 +4,19 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  padding-bottom: 130px ;    
 }
+
+@media ( max-width : 770px ) {
+  body {
+    padding-bottom : 315px ; 
+  }
+}
+
 #footer {
   margin-top: 15px;
   position: absolute ;
   bottom : 0 ;
-/*  height: 40px ; */
   width: 100%;
 }
 

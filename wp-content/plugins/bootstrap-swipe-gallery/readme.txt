@@ -5,7 +5,7 @@ Tags: Bootstrap, gallery, mobile, swipe, responsive
 Requires at least: 3.9
 Tested up to: 3.9.1
 Stable tag: 1.0.0
-License: GPLv2 or latper
+License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Swipe through your gallery. Fast page load for mobile devices.
@@ -20,7 +20,7 @@ Swipe through your gallery. Fast page load for mobile devices.
 * Works with themes "Bootstrap Ultimate," "DevDmBootstrap3," "evolve," "Unite." 
 * Doesn't work with "Customizr," "Inkzine," and "Radiant."
 * Doesn't change the gallery on your page. Only creates a pop-up when you click. 
-* Don't download if you need to be sure this works. This plugin keeps your page load fast by using your Glyphicons. You'll see if it works when you activate it and click on a gallery image, though.
+* Don't download if you need to be sure this works. This plugin is fast beacuse it uses your Glyphicons. You'll see if it works when you activate it and click on a gallery image, though.
 
 == Installation ==
 
@@ -33,9 +33,15 @@ Swipe through your gallery. Fast page load for mobile devices.
 
 Twitter Bootstrap 3 with Glyphicons, and WordPress 3.9.
 
+= How do I create a pop-up? =
+
+Create a gallery in a post or page. Click "New Post," "Add Media," and "Create Gallery."
+
 == Screenshots ==
-1. Fits mobile screens.
-2. Fills most of a desktop screen.
+1. Mobile screen, with swipe support.
+2. Tablet screen. Images keep their dimensions.
+3. Fills most of a desktop screen.
+4. Pop-up stays the same size, no matter what image is showing. Click in the same place to go to the next image.
 
 == Changelog ==
 

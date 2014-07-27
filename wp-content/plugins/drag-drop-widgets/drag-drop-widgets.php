@@ -27,17 +27,23 @@ function ddw_deactivate_if_early_wordpress_version() {
   }
 }
 
-//add_action( 'plugins_loaded' , 'ddw_get_required_files' ) ;
+add_action( 'plugins_loaded' , 'ddw_get_required_files' ) ;
 function ddw_get_required_files() {
-  require_once( plugin_dir_path( __FILE__ ) . 'includes/' ) ; 
-  require_once( plugin_dir_path( __FILE__ ) . 'includes/' ) ; 
+  require_once( plugin_dir_path( __FILE__ ) . 'includes/bootstrap-widgetized-rows.php' ) ; 
+  require_once( plugin_dir_path( __FILE__ ) . 'includes/bwr-build-sidebar.php' ) ; 
 }
 
-add_action( 'wp_enqueue_scripts' , 'ddw_enqueue_scripts_and_styles' ) ; 
+add_action( 'customize_register' , 'ddw_enqueue_scripts_and_styles' ) ; // customize_controls_enqueue_scripts
 function ddw_enqueue_scripts_and_styles() {
-
-    // MIT license: https://jquery.org/license/
+    // MIT license: https://jquery.org/license/  this could just enqueue jquery's sortable
     wp_enqueue_script( DDW_PLUGIN_SLUG . '-jquery-mobile-sortable', plugins_url( '/js/jquery-ui.js' , __FILE__ ) , array( 'jquery' ) , DDW_PLUGIN_VERSION , true ) ;
     wp_enqueue_script( DDW_PLUGIN_SLUG . '-customizer-widget', plugins_url( '/js/ddw-customizer-widget.js' , __FILE__ ) , array( 'jquery' , DDW_PLUGIN_SLUG . '-jquery-mobile-sortable' ) , DDW_PLUGIN_VERSION , true ) ;
+
 }
 
+add_action( 'customize_controls_enqueue_scripts' , 'ddw_enqueue_customize_control_scripts' ) ;
+function ddw_enqueue_customize_control_scripts() {
+  wp_enqueue_script( DDW_PLUGIN_SLUG . '-customize-controls-widgets', plugins_url( '/js/ddw-customize-controls-widgets.js' , __FILE__ ) , array( 'jquery' ) , DDW_PLUGIN_VERSION , true ) ;
+} 
+
+//add_action( 'dynamic_sidebar_before' , 'ddw_before_dynamic_sidebar' ) ;

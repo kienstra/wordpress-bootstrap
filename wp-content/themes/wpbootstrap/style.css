@@ -15,6 +15,10 @@ License URI: http://creativecommons.org/licenses/by-sa/3.0/
 @import url( 'bootstrap/css/sticky-footer.css' ) ;
 @import url( 'bootstrap/css/gravity-fix.css' ) ;
 
+body {
+  padding-top : 0px ;
+  margin-bottom : 0 ;
+}
 
 @media ( max-width : 300px ) { 
   body .jumbotron {
@@ -30,11 +34,6 @@ License URI: http://creativecommons.org/licenses/by-sa/3.0/
   .gallery-item img {
     max-height: 120px ; 
   }
-}
-
-body {
-  padding-top: 0px;
-  padding-bottom: 40px;
 }
 
 .container .navbar-collapse {
