@@ -9,10 +9,8 @@ get_header();
 ?>
 <div class="row">
   <div class="col-md-8"> 
-
-    <?php  echo do_shortcode( "[gallery ids='211,209,210,194,197,201']" ) ; ?>
-    <?php echo do_shortcode( "[gallery_modal]" ) ; ?>
-  <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+    <?php echo do_shortcode( "[gallery ids='211,209,210,194,197,201']" ) ; ?>
+    <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
   <h1><?php the_title(); ?></h1>
   <?php the_content(); ?>

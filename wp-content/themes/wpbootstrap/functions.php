@@ -31,8 +31,11 @@ function simple_copyright() {
 add_action( 'wp_enqueue_scripts', 'theme_styles' ) ; 
 function theme_styles() { 
   wp_enqueue_style( 'bootstrap_css' , get_template_directory_uri() . '/bootstrap/css/bootstrap-flatly.min.css' ) ;
+  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/sticky-footer.css' ) ;
+  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ;  
   wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
   wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/old-carousel.css' ) ;
+
 }
 
 function theme_js() { 
@@ -108,12 +111,11 @@ function wpbootstrap_widgets_init() {
  * Replaces wp-admin menu item names
  * @author Daan Kortenbach
  */
+//add_filter('gettext', 'rename_admin_menu_items');
 function rename_admin_menu_items( $menu ) {
 	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
 	 return $menu;
 }
-
-//add_filter('gettext', 'rename_admin_menu_items');
 
 //add_action( 'init', 'remove_page_editor' ) ;
 function remove_page_editor() { 

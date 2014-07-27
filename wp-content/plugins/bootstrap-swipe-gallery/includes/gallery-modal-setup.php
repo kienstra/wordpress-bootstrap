@@ -1,6 +1,7 @@
 <?php
 
 // Set up a modal carousel for every gallery
+// This doesn't work with do_shortcode( 'gallery' ) 
 add_action( 'loop_end' , 'bsg_echo_modal_carousel_for_each_gallery_in_post' ) ; 
 function bsg_echo_modal_carousel_for_each_gallery_in_post() { 
   global $post ; 
