@@ -220,6 +220,6 @@ function wpbootstrap_process_update_user() {
     exit() ; 
   }
 }
-    
 
 
+?>

@@ -21,3 +21,5 @@ get_header(); ?>
 	<?php tribe_events_after_html(); ?>
 </div> <!-- #tribe-events-pg-template -->
 <?php get_footer(); ?>
+
+

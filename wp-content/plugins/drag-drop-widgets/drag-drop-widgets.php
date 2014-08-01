@@ -38,12 +38,21 @@ function ddw_enqueue_scripts_and_styles() {
     // MIT license: https://jquery.org/license/  this could just enqueue jquery's sortable
     wp_enqueue_script( DDW_PLUGIN_SLUG . '-jquery-mobile-sortable', plugins_url( '/js/jquery-ui.js' , __FILE__ ) , array( 'jquery' ) , DDW_PLUGIN_VERSION , true ) ;
     wp_enqueue_script( DDW_PLUGIN_SLUG . '-customizer-widget', plugins_url( '/js/ddw-customizer-widget.js' , __FILE__ ) , array( 'jquery' , DDW_PLUGIN_SLUG . '-jquery-mobile-sortable' ) , DDW_PLUGIN_VERSION , true ) ;
+    wp_enqueue_style( DDW_PLUGIN_SLUG . '-sortable-style', plugins_url( '/css/ddw-style.css' , __FILE__ ) , DDW_PLUGIN_VERSION , true ) ;    
 
 }
 
 add_action( 'customize_controls_enqueue_scripts' , 'ddw_enqueue_customize_control_scripts' ) ;
 function ddw_enqueue_customize_control_scripts() {
   wp_enqueue_script( DDW_PLUGIN_SLUG . '-customize-controls-widgets', plugins_url( '/js/ddw-customize-controls-widgets.js' , __FILE__ ) , array( 'jquery' ) , DDW_PLUGIN_VERSION , true ) ;
-} 
+}
 
-//add_action( 'dynamic_sidebar_before' , 'ddw_before_dynamic_sidebar' ) ;
+
+// didn't work: wp_comment_reply , the_widget , wp_register_sidebar_widget
+// interesting: dynamic_sidebar
+//add_action( 'init' , 'ddw_widget_callback' ) ;
+function ddw_widget_callback( $args ) {
+  $active_sidebars =  $GLOBALS[ 'wp_registered_sidebars' ] ;
+  echo "the active sidebars are: " ;
+  var_dump( $active_sidebars ) ;
+}
