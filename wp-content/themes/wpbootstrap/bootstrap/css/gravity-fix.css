@@ -16,8 +16,13 @@
   margin-bottom: 15px; }
  
 .gform_wrapper form {
-  margin-bottom: 0; }
- 
+  margin-bottom: 0;
+}
+
+.widget .gform_wrapper form {
+    margin-left: 0 ;
+}
+
 .gform_wrapper .gfield_required {
   padding-left: 1px;
   color: #b94a48; }
@@ -44,16 +49,20 @@
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
  
 .ginput_container input:-moz-placeholder, .ginput_container select:-moz-placeholder, .ginput_container textarea:-moz-placeholder {
-  color: #999; }
+  color: #999 ;
+}
  
 .ginput_container input::-moz-placeholder, .ginput_container select::-moz-placeholder, .ginput_container textarea::-moz-placeholder {
-  color: #999; }
+  color: #999 ;
+}
  
 .ginput_container input:-ms-input-placeholder, .ginput_container select:-ms-input-placeholder, .ginput_container textarea:-ms-input-placeholder {
-  color: #999; }
+  color: #999 ;
+}
  
 .ginput_container input::-webkit-input-placeholder, .ginput_container select::-webkit-input-placeholder, .ginput_container textarea::-webkit-input-placeholder {
-  color: #999; }
+  color: #999 ;
+}
  
 .ginput_container input:focus, .ginput_container select:focus, .ginput_container textarea:focus {
   border-color: #66afe9;
