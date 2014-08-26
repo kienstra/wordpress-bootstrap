@@ -1,66 +1,91 @@
-<?php
-/**
- * The template for displaying Comments
- *
- * The area of the page that contains comments and the comment form.
- *
- * @package WordPress
- * @subpackage Twenty_Fourteen
- * @since Twenty Fourteen 1.0
- */
 
-/*
- * If the current post is protected by a password and the visitor has not yet
- * entered the password we will return early without loading the comments.
- */
-if ( post_password_required() ) {
-	return;
-}
-?>
+<?php if ( have_comments() ) : ?>
+<h3 id="comments">
+  <span class="glyphicon glyphicon-comment"></span> &nbsp;
+  <?php comments_number( 'No comment' , 'A comment' , '% comments' ) ; ?>
+  <a class="btn btn-sm btn-primary pull-right" href="#respond-post">
+    <span class="glyphicon glyphicon-plus"></span> &nbsp;
+    Comment
+  </a>
+</h3>
 
-<div id="comments" class="comments-area">
+<ol class="comment-area media-list">
+  <?php wp_list_comments( 'callback=bwp_comment_list' ) ; ?>
+</ol>
 
-	<?php if ( have_comments() ) : ?>
+<ul class="pager">
+  <li>
+    <?php previous_comments_link( '<span class="glyphicon glyphicon-chevron-left"></span> &nbsp; Previous comments' ) ; ?>
+  </li>
+  <li>
+    <?php next_comments_link( '<span class="glyphicon glyphicon-chevron-right"></span> &nbsp; Next comments' ) ; ?>
+  </li>
+</ul>
 
-	<h3 class="comments-title">
-		<?php
-			printf( _n( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'bootstrap-to-wp' ),
-				number_format_i18n( get_comments_number() ), get_the_title() );
-		?>
-	</h3>
+<?php endif ; ?>
 
-	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
-	<nav id="comment-nav-above" class="navigation comment-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Comment navigation', 'bootstrap-to-wp' ); ?></h1>
-		<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'bootstrap-to-wp' ) ); ?></div>
-		<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'bootstrap-to-wp' ) ); ?></div>
-	</nav><!-- #comment-nav-above -->
-	<?php endif; // Check for comment navigation. ?>
+<?php if ( comments_open() ) : ?>
 
-	<ol class="comment-list">
-		<?php
-			wp_list_comments( array(
-				'style'      => 'ol',
-				'short_ping' => true,
-				'avatar_size'=> 34,
-			) );
-		?>
-	</ol><!-- .comment-list -->
+<div id="respond-post">
+  <h4><?php comment_form_title( 'Leave a comment' , 'Leave a comment for %' ) ; ?></h4>
+  <div class="cancel-reply-comment">
+    <?php cancel_comment_reply_link() ; ?>
+  </div>
 
-	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
-	<nav id="comment-nav-below" class="navigation comment-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Comment navigation', 'bootstrap-to-wp' ); ?></h1>
-		<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'bootstrap-to-wp' ) ); ?></div>
-		<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'bootstrap-to-wp' ) ); ?></div>
-	</nav><!-- #comment-nav-below -->
-	<?php endif; // Check for comment navigation. ?>
+  <?php if ( ( ! is_user_logged_in() ) && ( get_option( 'comment_registration' ) ) ) : ?>
+    <p>Please <a href="<?php echo wp_login_url( get_permalink() ) ; ?>">log in</a> to make a comment.</p>
+  <?php else : ?>
+    <form class="form-horizontal" role="form" action="<?php echo site_url( 'wp-comments-post.php' ) ; ?>" method="post" id="comment-form">
+    <?php if ( is_user_logged_in() ) : ?>
+      <p>
+        Welcome,&nbsp;<a href="<?php echo site_url( 'wp-admin/profile.php' ) ; ?>"><?php echo $user_identity ; ?></a>.
+        <a href="<?php wp_logout_url( get_permalink() ) ; ?>" title="Log out">Log out</a>
+      </p>
+    <?php else : ?>
+      <div class="form-group">
+        <label for="author" class="sr-only">Name</label>
+	<div class="col-md-5">
+	  <input type="text" id="author" class="form-control" name="author" value="<?php echo esc_attr( $comment_author ) ; ?>" tabindex="1" placeholder="Name" <?php if ( $req ) echo "aria-required='true'" ; ?> />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="sr-only">Email</label>
+	<div class="col-md-5">
+	  <input type="text" id="email" name="email" class="form-control" value="<?php echo esc_attr( $comment_author_email ) ; ?>" tabindex="2" placeholder="Email" <?php if ( $req ) echo "aria-required='true'" ; ?> />
+	</div>
+      </div>
+      <div class="form-group">
+        <label for="url" class="sr-only">Url</label>
+	<div class="col-md-5">
+	  <input type="text" id="url" name="url" class="form-control" value="<?php echo esc_attr( $comment_author_url ) ; ?>" tabindex="3" placeholder="Url" />
+	</div>
+      </div>
+    <?php endif ; ?>
+    <div class="form-group">
+      <label class="sr-only" for="comment">Comment</label>
+      <div class="col-md-10">
+        <textarea class="input-lg form-control" id="comment" name="comment" tabindex="4" placeholder="Comment"></textarea>
+      </div>
+    </div> 
+    <div class="form-group">
+      <div class="col-md-10">
+        <input type="submit" class="btn btn-primary btn-sm" tabindex="5" value="Post comment"/>
+	<?php comment_id_fields() ; ?>
+      </div> 
+    </div>
 
-	<?php if ( ! comments_open() ) : ?>
-	<p class="no-comments"><?php _e( 'Comments are closed.', 'bootstrap-to-wp' ); ?></p>
-	<?php endif; ?>
+    <?php do_action( 'comment_form' , $post->ID ) ; ?>
+  </form> <!-- form -->
+  <?php endif ; ?>        
+  </div><!-- #respond-post -->
+<?php endif ; ?>        
 
-	<?php endif; // have_comments() ?>
 
-	<?php comment_form(); ?>
 
-</div><!-- #comments -->
+
+
+
+
+
+
+

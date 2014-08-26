@@ -64,8 +64,8 @@ function wpbootstrap_paginate_links() {
     'current' => max( 1, get_query_var( 'paged' ) ),
     'total'  => $wp_query->max_num_pages,
     'prev_next' => True,
-    'prev_text' => __( '&larr;Newer posts' ),
-    'next_text' => __( 'Older posts &rarr;' ),
+    'prev_text' => __( '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Newer' ),
+    'next_text' => __( 'Older&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>' ) ,
     )
   ) ;
 
@@ -220,6 +220,76 @@ function wpbootstrap_process_update_user() {
     exit() ; 
   }
 }
+
+
+
+
+add_filter( 'comment_reply_link' , 'bwp_reply_link' ) ;
+function bwp_reply_link( $link_class ) {
+  $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link btn btn-default btn-xs" , $link_class ) ;
+  return $link_class ;
+}
+
+function bwp_comment_list( $comment , $arguments , $depth ) {
+  $_GLOBALS[ 'comment' ] = $comment ;
+
+  ?>
+  <li <?php echo comment_class( 'media' ) ; ?> id="comment-<?php echo comment_ID() ?>">
+        <article>
+	  <div class="meta-comment pull-left"> 
+  	    <?php echo get_avatar( $comment , 96 ) ; ?>
+            <p class="text-center author-comment">
+  	      <?php echo comment_author_link() ; ?>
+	    </p>
+	  </div> 
+	  <div class="content-comment media-body">
+	    <p class="date-comment pull-right text-right text-muted">
+	      <?php echo human_time_diff( get_comment_time( 'U' ) , current_time( 'timestamp' ) ) ; ?> ago &nbsp;
+	      <a class="permalink-comment" href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ; ?>" title="Comment link">
+	        <span class="glyphicon glyphicon-link"></span>
+	      </a>
+	    </p>
+	    <?php if ( '0' == $comment->comment_approved ) : ?>	    
+              <em>
+	      <?php _e( 'The comment is in the queue for moderation' ) ;
+	    endif ;
+	    comment_text() ;
+	    ?>
+	    <div class="reply-comment pull-right">
+	      <?php comment_reply_link( array_merge( $arguments , array(
+	         'reply_text' => '<span class="glyphicon glyphicon-pencil"></span> &nbsp; Reply' ,
+		 'depth'     =>  $depth ,
+		 'max_depth' =>  $arguments[ 'max_depth' ] ,
+	      ) ) ) ;
+	      ?>
+	    </div>
+	  </div> <!-- content-comment -->
+	</article>
+<?php
+}
+
+add_filter( 'get_avatar' , 'bwp_class_avatar' ) ;
+function bwp_class_avatar( $avatar_class ) {
+  $avatar_class = str_replace( "class='avatar" , "class='avatar img-circle media-object" , $avatar_class ) ;
+  return $avatar_class ;
+}
+  
+add_filter( 'comment_text' , 'bwp_comment_text' ) ;
+function bwp_comment_text( $text ) {
+  echo "the text is: " ;
+  var_dump( $text ) ;
+  return $text ;
+}
+
+function bwp_echo_list_group_of_pages( $posts ) {
+  echo '<div class="list-group">' ;	   
+  foreach( $posts as $post ) {             
+    echo '<a class="list-group-item" href="' . get_permalink( $post->ID ) . '">' . $post->post_title . '</a>' ;
+  }
+  echo '</div>' ;
+}
+
+
 
 
 ?>
