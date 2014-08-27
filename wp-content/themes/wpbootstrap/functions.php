@@ -30,23 +30,25 @@ function simple_copyright() {
 
 add_action( 'wp_enqueue_scripts', 'theme_styles' ) ; 
 function theme_styles() { 
-  wp_enqueue_style( 'bootstrap_css' , get_template_directory_uri() . '/bootstrap/css/bootstrap-flatly.min.css' ) ;
-  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/sticky-footer.css' ) ;
-  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ;  
+  wp_enqueue_style( 'bootstrap_css' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ; // bootstrap-flatly.min.css
+  wp_enqueue_style( 'sticky-footer', get_template_directory_uri() . '/bootstrap/css/sticky-footer.css' ) ;
+//  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ;  
   wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
-  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/old-carousel.css' ) ;
+//  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/old-carousel.css' ) ;
 
 }
 
-function theme_js() { 
+add_action( 'wp_enqueue_scripts', 'bwp_theme_js' ) ;
+function bwp_theme_js() { 
   global $wp_scripts ;
   wp_register_script( 'html5_shiv' , 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' , '' , '' , false ) ;
   wp_register_script( 'respond_js' , 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' , '' , '' , false ) ;
-  wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
+//  wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
+  wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/new-bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
   $wp_scripts->add_data( 'html5_shiv' , 'conditional' , 'lt IE 9' ) ;
   $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;
 }
-add_action( 'wp_enqueue_scripts', 'theme_js' ) ;
+
 
 add_filter( 'login_errors', 'plain_error_message' ) ;
 remove_action( 'wp_head', 'rsd_link' ) ;
@@ -89,7 +91,7 @@ function rk_register_sidebar($name, $id, $description ) {
 	      'name'		=> __( $name ) ,
 	      'id'		=> $id ,
 	      'description'	=> __( $description ) ,
-	      'before_widget'	=> '<div id="%2$s" class="widget %2$s">' ,
+	      'before_widget'	=> '<div id="%1$s" class="widget %2$s">' ,
 	      'after_widget'	=> '</div> ' ,
 	      'before_title'	=> '<h2>' ,
 	      'after_title'	=> '</h2>' ,
@@ -105,20 +107,8 @@ function wpbootstrap_widgets_init() {
 }
 
 
-			    
-
-/**
- * Replaces wp-admin menu item names
- * @author Daan Kortenbach
- */
-//add_filter('gettext', 'rename_admin_menu_items');
-function rename_admin_menu_items( $menu ) {
-	 $menu = str_ireplace( 'Customize', 'Front Page Content', $menu );
-	 return $menu;
-}
-
-//add_action( 'init', 'remove_page_editor' ) ;
-function remove_page_editor() { 
+//add_action( 'init', 'bwp_remove_page_editor' ) ;
+function bwp_remove_page_editor() { 
   remove_post_type_support( 'page', 'editor' ) ;
 }
 
@@ -128,6 +118,7 @@ function cc_mime_types( $mimes ){
 	 return $mimes;
 }
 
+// no need , use white label cms
 add_action( 'login_enqueue_scripts' , 'wpbootstrap_login_logo' ) ; 
 function wpbootstrap_login_logo() {
 ?>
@@ -221,9 +212,6 @@ function wpbootstrap_process_update_user() {
   }
 }
 
-
-
-
 add_filter( 'comment_reply_link' , 'bwp_reply_link' ) ;
 function bwp_reply_link( $link_class ) {
   $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link btn btn-default btn-xs" , $link_class ) ;
@@ -289,6 +277,23 @@ function bwp_echo_list_group_of_pages( $posts ) {
   echo '</div>' ;
 }
 
+add_filter( 'get_image_tag_class' , 'bwp_image_tag_class_filter' ) ;
+function bwp_image_tag_class_filter( $classes ) {
+  return $classes . ' img-responsive' ;
+}
+
+
+// need to use your functions from bootstrap-responsive-video plugin to determine 16by9 or 4by3
+
+add_filter( 'oembed_dataparse' , 'bwr_result_filter' ) ; //oembed_result
+function bwr_result_filter( $markup ) {
+  $bootstrap_markup =
+    '<div class="embed-responsive embed-responsive-16by9">'
+      . $markup 
+  . '</div>' ;
+
+  return $bootstrap_markup ; 
+}
 
 
 

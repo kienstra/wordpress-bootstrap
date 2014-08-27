@@ -1,7 +1,7 @@
 /*
 Theme Name: Kienstra Bootstrap
-Theme URI: http://teamtreehouse.com/wordpress-bootstrap-theme-tutorial
-Description: Mobile, live-editor framework
+Theme URI: http://ryankienstra.com/bwp
+Description: Mobile-first theme
 Author: Ryan Kienstra
 Author URI: http://ryankienstra.com
 Version: 1.0
@@ -36,6 +36,43 @@ body {
 .container .navbar-collapse {
   overflow: hidden;
 }
+
+article.post {
+  position : relative ;
+}
+
+
+article.post .home-wp-post-image {
+  max-height : 170px ;
+  height : auto ;
+  width : auto ;
+  margin-left : 10px ;
+}
+
+
+article.post .mobile-post-permalink {  
+  display : none ;
+}
+
+@media ( max-width : 500px ) {
+  .home-wp-post-image {
+     display : none ;
+  }
+  article.post .mobile-post-permalink {
+    display : block ;
+    font-size : 70px ;
+    position : absolute ;
+    top : 50% ; 
+    right : 0 ;
+    transform : translateY(-50%) ;
+    opacity : .2 ; 
+  }
+
+  article.post .mobile-post-permalink:hover {
+    opacity : 1 ;
+  }
+}
+
 
 ul.pagination li.active a:hover { 
   cursor: pointer ;
