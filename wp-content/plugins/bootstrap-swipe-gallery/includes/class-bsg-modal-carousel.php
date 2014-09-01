@@ -51,7 +51,9 @@ class BSG_Modal_Carousel {
 	     </a>
 	   </div>\n
 	   <div class='modal-body'>
-	     <div id='carousel-{$this->gallery_id}' class='carousel slide carousel-gallery'>   
+
+	     <!-- carousel -->
+	     <div id='carousel-{$this->gallery_id}' class='carousel carousel-gallery'>   
 	       <div class='carousel-inner'> 
 		 {$this->carousel_inner_items}
 	       </div>

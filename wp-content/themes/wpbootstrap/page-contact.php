@@ -12,7 +12,10 @@
           <h4 class="modal-title">Get Free Updates</h4>
 	</div>
       </div>
--->
+
+enqueue on 'the_post'
+ hook 
+      -->
 
       <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

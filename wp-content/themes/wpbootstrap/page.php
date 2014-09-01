@@ -1,5 +1,4 @@
-<?php get_header(); ?>
-
+<?php get_header() ; ?>
 <div class="row">
   <div class="col-md-8">
     <h1><?php wp_title('') ; ?></h1>  
@@ -8,7 +7,7 @@
 	<?php the_content() ; ?>
       <hr>
       </article>
-  <?php  endwhile; else: ?>
+  <?php endwhile; else: ?>
     <p><?php _e('Sorry, there is no text' ); ?></p>
     <?php 
     endif; ?>

@@ -1,9 +1,10 @@
+<?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
 
 <?php if ( have_comments() ) : ?>
 <h3 id="comments">
   <span class="glyphicon glyphicon-comment"></span> &nbsp;
   <?php comments_number( 'No comment' , 'A comment' , '% comments' ) ; ?>
-  <a class="btn btn-sm btn-primary pull-right" href="#respond-post">
+  <a class="add-comment btn btn-med btn-primary pull-right" href="#respond">
     <span class="glyphicon glyphicon-plus"></span> &nbsp;
     Comment
   </a>
@@ -26,7 +27,7 @@
 
 <?php if ( comments_open() ) : ?>
 
-<div id="respond-post">
+<div id="respond">
   <h4><?php comment_form_title( 'Leave a comment' , 'Leave a comment for %' ) ; ?></h4>
   <div class="cancel-reply-comment">
     <?php cancel_comment_reply_link() ; ?>
@@ -77,7 +78,7 @@
     <?php do_action( 'comment_form' , $post->ID ) ; ?>
   </form> <!-- form -->
   <?php endif ; ?>        
-  </div><!-- #respond-post -->
+  </div> <!-- #respond -->
 <?php endif ; ?>        
 
 

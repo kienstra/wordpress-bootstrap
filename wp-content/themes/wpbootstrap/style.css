@@ -33,32 +33,38 @@ body {
   }
 }
 
+.top-navbar {
+  margin-bottom : 0 ;
+}
+
 .container .navbar-collapse {
   overflow: hidden;
 }
 
-article.post {
+article.post-preview {
   position : relative ;
 }
 
 
-article.post .home-wp-post-image {
-  max-height : 170px ;
+article.post-preview .home-featured-image ,
+img.search-thumbnail {
+  max-height : 140px ;
+  max-width  : 300px ;  
   height : auto ;
   width : auto ;
   margin-left : 10px ;
 }
 
 
-article.post .mobile-post-permalink {  
+article.post-preview .mobile-post-permalink {  
   display : none ;
 }
 
-@media ( max-width : 500px ) {
-  .home-wp-post-image {
+@media ( max-width : 600px ) {
+  .home-featured-image {
      display : none ;
   }
-  article.post .mobile-post-permalink {
+  article.post-preview .mobile-post-permalink {
     display : block ;
     font-size : 70px ;
     position : absolute ;
@@ -68,9 +74,47 @@ article.post .mobile-post-permalink {
     opacity : .2 ; 
   }
 
-  article.post .mobile-post-permalink:hover {
+  article.post-preview .mobile-post-permalink:hover {
     opacity : 1 ;
   }
+ 
+  .meta-comment {
+    display : none ;
+  }
+  
+  .meta-comment .avatar {
+    max-width : 60px ; 
+  }
+
+  #comments .add-comment {
+
+  }
+}
+
+@media ( max-width : 350px ) {
+  .add-comment {
+    display : none ;
+  }
+}
+
+ol.comment-area * {
+  list-style : none ;
+  list-style-image : none ;
+  list-style-type : none ;    
+}
+
+.children .comment ,
+.comment:not(:first-child) {
+  border-top : 1px ;
+  border-top-color : #DCD3D3 ;
+  border-top-style : solid ;
+  margin-top : 20px ;
+  padding-top : 6px ;
+
+}
+
+.meta-comment {
+  padding-right : 10px ;
 }
 
 
@@ -141,7 +185,7 @@ p.copyright-text {
   vertical-align : bottom;
 }
 
-.navbar .mc4wp-form h3 {
+.navbar .mc4wp-fordm h3 {
   color : white ;
 }
 
@@ -163,4 +207,17 @@ p.copyright-text {
 html body #wpadminbar {
   z-index: 5000 !important  ;
 }
-  
+
+.widget .responsive-video-container {
+  max-width : 600px ;
+}
+
+.post-responsive-video {
+  max-width : 600px ;
+  width : auto ;
+  height : auto ; 
+}
+
+.tagcloud a {
+  text-decoration : none ;
+}

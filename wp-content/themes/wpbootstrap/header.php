@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
+
   <!DOCTYPE html>
   <html>
   <head>
@@ -8,30 +10,7 @@
     <?php wp_enqueue_script("jquery"); ?>
     <?php wp_head(); ?>
   </head>
-  <body>
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="<?php echo site_url();?>"><?php bloginfo('name'); ?></a> 
-        </div>
-        <div class="navbar-collapse collapse">
-	  <ul class="nav navbar-nav">
-	    <?php  wp_nav_menu( array( 
-		    'menu' => 'main_menu' ,
-	            'depth' => 2 ,
-                    'container' => false ,
-                    'menu_class' => 'nav navbar-nav' ,
-                    'walker' => new wp_bootstrap_navwalker()
-                   ) );                                   
-            ?>
-	  </ul>
-	  </div><!--/.navbar-collapse -->
-      </div>
-    </div>
+  <body <?php echo body_class() ; ?>>
+    <?php get_template_part( 'navbar' ) ; ?>
+    <?php get_template_part( 'top-banner' ) ; ?>
     <div class="container">

@@ -38,9 +38,8 @@ function bsg_get_required_files() {
 add_action( 'wp_enqueue_scripts' , 'bsg_enqueue_scripts_and_styles_if_page_has_gallery' ) ;
 function bsg_enqueue_scripts_and_styles_if_page_has_gallery() {
   global $post ;
-  if ( isset( $post ) ) {  
-    $post_content =  $post->post_content ;
-    if ( strpos( $post_content , "[gallery" ) !== false ) {
+  if ( isset( $post ) ) {
+    if ( ( is_single() ) || bsg_post_has_a_gallery( $post ) ) {
       // the page has a gallery
       wp_enqueue_style( BSG_PLUGIN_SLUG . '-carousel' , plugins_url( '/css/bsg-carousel.css' , __FILE__ ) , BSG_PLUGIN_VERSION );
 
@@ -51,3 +50,6 @@ function bsg_enqueue_scripts_and_styles_if_page_has_gallery() {
   }
 }
 
+function bsg_post_has_a_gallery( $post ) {
+  return ( strpos( $post->content , "[gallery" ) !== false ) ;
+}

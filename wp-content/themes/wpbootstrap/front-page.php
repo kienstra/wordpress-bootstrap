@@ -1,33 +1,16 @@
+<?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
+
 <?php get_header(); ?>
 
-<?php do_shortcode( '[widget-row]' ) ; ?>
-<?php do_shortcode( '[widget-row]' ) ; ?>
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
       <?php the_content(); ?>
 <?php endwhile; else: ?>
       <p><?php _e('Sorry, no posts matched your criteria' ); ?></p>
 <?php endif; ?>
 
-
-
-<!-- <div class="jumbotron">
-  <div class="container">
-    </div>
-</div> 
-
-<div class="container">
-     <div class="row">
-</div>
-
-  <div class="col-md-6"> </div> 
-    <?php do_shortcode( '[panel_to_customize name="left_panel"]' ) ; ?>
-
-  <div class="col-md-6"> </div> 
-    <?php do_shortcode( '[panel_to_customize name="right_panel"]' ) ; ?>
--->
-
-
 <div class="row">
+
+<!-- 
   <div class="col-md-6">
     <hr>
     <h4><em>Featured Post</em></h4>
@@ -50,7 +33,8 @@
     </div>
   </div>    
 
-  <div class="col-md-6">
+<div class="col-md-6">
+-->
 
   </div>
 </div>  

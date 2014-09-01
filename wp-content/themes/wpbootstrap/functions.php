@@ -24,7 +24,7 @@ if ( ! function_exists( 'wpbootstrap_menu_setup' ) ) {
 add_action( 'after_setup_theme', 'wpbootstrap_menu_setup' ) ;
   
 
-function simple_copyright() {
+function bwp_simple_copyright() {
   echo "&copy" . " " . get_bloginfo( 'admin' ) . " " . date( 'Y' ) ;
 }
 
@@ -32,23 +32,25 @@ add_action( 'wp_enqueue_scripts', 'theme_styles' ) ;
 function theme_styles() { 
   wp_enqueue_style( 'bootstrap_css' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ; // bootstrap-flatly.min.css
   wp_enqueue_style( 'sticky-footer', get_template_directory_uri() . '/bootstrap/css/sticky-footer.css' ) ;
-//  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/gravity-fix.css' ) ;  
   wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
-//  wp_enqueue_style( 'old-carousel', get_template_directory_uri() . '/bootstrap/css/old-carousel.css' ) ;
-
 }
 
 add_action( 'wp_enqueue_scripts', 'bwp_theme_js' ) ;
 function bwp_theme_js() { 
   global $wp_scripts ;
   wp_register_script( 'html5_shiv' , 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' , '' , '' , false ) ;
+  $wp_scripts->add_data( 'html5_shiv' , 'conditional' , 'lt IE 9' ) ;  
   wp_register_script( 'respond_js' , 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' , '' , '' , false ) ;
-//  wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
+  $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;  
   wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/new-bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
-  $wp_scripts->add_data( 'html5_shiv' , 'conditional' , 'lt IE 9' ) ;
-  $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;
 }
 
+add_action( 'comment_form' , 'bwp_maybe_enqueue_comment_reply' ) ;  // comment_form_before
+function bwp_maybe_enqueue_comment_reply() {
+  if ( get_option( 'thread_comments' ) ) {
+    wp_enqueue_script( 'comment-reply' ) ;
+  }
+}
 
 add_filter( 'login_errors', 'plain_error_message' ) ;
 remove_action( 'wp_head', 'rsd_link' ) ;
@@ -72,7 +74,7 @@ function wpbootstrap_paginate_links() {
   ) ;
 
   ?>
-  <ul class="pagination pagination-sm">
+  <ul class="pagination pagination-med">
   <?php
   if ( $pagination ) {
     foreach ( $pagination as $page ) {
@@ -101,15 +103,6 @@ function rk_register_sidebar($name, $id, $description ) {
 add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
 function wpbootstrap_widgets_init() { 
   rk_register_sidebar( 'Main Sidebar' , 'main_sidebar', 'Diplays on News and Blog page' ) ;
-  rk_register_sidebar( 'Sidebar Test' , 'sidebar_test' , 'Bootstrap row' ) ;
-  rk_register_sidebar( 'Second Sidebar Test' , 'second_sidebar_test' , 'Bootstrap row' ) ;
-  rk_register_sidebar( 'Third Sidebar Test' , 'third_sidebar_test' , 'Bootstrap row' ) ;   
-}
-
-
-//add_action( 'init', 'bwp_remove_page_editor' ) ;
-function bwp_remove_page_editor() { 
-  remove_post_type_support( 'page', 'editor' ) ;
 }
 
 add_filter( 'upload_mimes', 'cc_mime_types' );
@@ -144,7 +137,7 @@ function wpbootstrap_login_logo_url() {
 
 add_filter( 'login_headertitle' , 'wpbootstrap_login_logo_url_title' ) ;
 function wpbootstrap_login_logo_url_title() { 
-  return "Bootstrap Media" ; 
+  return "Kienstra Digital" ; 
 } 
 
 add_action( 'template_redirect' , 'wpbootstrap_process_simple_registration' ) ;
@@ -214,7 +207,7 @@ function wpbootstrap_process_update_user() {
 
 add_filter( 'comment_reply_link' , 'bwp_reply_link' ) ;
 function bwp_reply_link( $link_class ) {
-  $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link btn btn-default btn-xs" , $link_class ) ;
+  $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link btn btn-default btn-med" , $link_class ) ;
   return $link_class ;
 }
 
@@ -226,9 +219,6 @@ function bwp_comment_list( $comment , $arguments , $depth ) {
         <article>
 	  <div class="meta-comment pull-left"> 
   	    <?php echo get_avatar( $comment , 96 ) ; ?>
-            <p class="text-center author-comment">
-  	      <?php echo comment_author_link() ; ?>
-	    </p>
 	  </div> 
 	  <div class="content-comment media-body">
 	    <p class="date-comment pull-right text-right text-muted">
@@ -239,10 +229,11 @@ function bwp_comment_list( $comment , $arguments , $depth ) {
 	    </p>
 	    <?php if ( '0' == $comment->comment_approved ) : ?>	    
               <em>
-	      <?php _e( 'The comment is in the queue for moderation' ) ;
-	    endif ;
-	    comment_text() ;
-	    ?>
+	        <?php _e( 'The comment is in the queue for moderation' ) ; ?>
+	      </em>
+	    <?php endif ; ?>
+	    <p><?php echo comment_author_link() ; ?></p>
+	    <?php comment_text() ; ?>             
 	    <div class="reply-comment pull-right">
 	      <?php comment_reply_link( array_merge( $arguments , array(
 	         'reply_text' => '<span class="glyphicon glyphicon-pencil"></span> &nbsp; Reply' ,
@@ -253,22 +244,16 @@ function bwp_comment_list( $comment , $arguments , $depth ) {
 	    </div>
 	  </div> <!-- content-comment -->
 	</article>
+
 <?php
 }
 
 add_filter( 'get_avatar' , 'bwp_class_avatar' ) ;
 function bwp_class_avatar( $avatar_class ) {
-  $avatar_class = str_replace( "class='avatar" , "class='avatar img-circle media-object" , $avatar_class ) ;
+  $avatar_class = str_replace( "class='avatar" , "class='avatar img-circle img-responsive media-object" , $avatar_class ) ;
   return $avatar_class ;
 }
   
-add_filter( 'comment_text' , 'bwp_comment_text' ) ;
-function bwp_comment_text( $text ) {
-  echo "the text is: " ;
-  var_dump( $text ) ;
-  return $text ;
-}
-
 function bwp_echo_list_group_of_pages( $posts ) {
   echo '<div class="list-group">' ;	   
   foreach( $posts as $post ) {             
@@ -283,18 +268,46 @@ function bwp_image_tag_class_filter( $classes ) {
 }
 
 
-// need to use your functions from bootstrap-responsive-video plugin to determine 16by9 or 4by3
+add_filter( 'single_cat_title' , 'bwp_filter_single_category_title' ) ;
+function bwp_filter_single_category_title( $title ) {
+  return "Category: " . ucwords( $title ) ; 
+}
 
-add_filter( 'oembed_dataparse' , 'bwr_result_filter' ) ; //oembed_result
-function bwr_result_filter( $markup ) {
-  $bootstrap_markup =
-    '<div class="embed-responsive embed-responsive-16by9">'
-      . $markup 
-  . '</div>' ;
+//add_filter( 'post_type_archive_title' , 'bwp_filter_archive_title' ) ;
+function bwp_filter_archive_title( $title ) {
+  echo "the title is: " ;
+  var_dump( $title ) ;
+}
 
-  return $bootstrap_markup ; 
+add_filter( 'wp_title' , 'bwp_test_title' ) ;
+function bwp_test_title( $title ) {
+  if ( is_archive() && ! is_category() ) {
+    return "Archives: " . get_the_date( 'F Y' ) ; 
+  }
+  return $title ;
 }
 
 
+// use to output body of pop-up
+//add_filter( 'the_content' , 'bwp_content_filter' ) ;
+function bwp_content_filter( $content ) {
+  if ( is_page( 'home' ) ) {
+    return "here is some more content" ;
+  }
+}
+
+add_filter( 'widget_archives_args' , 'bwp_limit_archives_count' ) ; 
+function bwp_limit_archives_count( $args ) {
+  $args[ 'limit' ] = '7' ;
+  return $args ; 
+}
+
+add_filter( 'wp_tag_cloud' , 'bwp_filter_tag_cloud' ) ; 
+function bwp_filter_tag_cloud( $markup ) {
+  $regex = '/(<a[^>]+?>)([^<]+?)(<\/a>)/' ;
+  $replace_with = "$1<span class='label label-primary'>$2</span>$3" ;
+  $markup = preg_replace( $regex , $replace_with , $markup ) ; 
+  return $markup ;
+}
 
 ?>

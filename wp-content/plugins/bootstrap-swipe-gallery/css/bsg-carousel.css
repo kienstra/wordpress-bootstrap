@@ -7,14 +7,17 @@
   border : 0 ;
 }  
 
+
+/* new */
 .gallery-modal .modal-dialog .modal-content-gallery .modal-header .glyphicon-remove-circle {
-  color : #4A4A4A ; 
+  color : #FFF ;
+  opacity : .8 ; 
   font-size : 20px ;
-  padding : 5px ; 
+  padding : 5px ;   
 }
 
-.gallery-modal  .modal-dialog .modal-content-gallery .modal-header .glyphicon-remove-circle:hover {
-  color : #CCCCCC ;
+.gallery-modal .modal-dialog .modal-content-gallery .modal-header .glyphicon-remove-circle:hover {
+  opacity : 1 ;
 }
 
 .gallery-modal .modal-dialog .modal-content-gallery .modal-body {
@@ -30,6 +33,7 @@
 }
 
 .gallery-modal .carousel.carousel-gallery .right.carousel-control .glyphicon {
+  color : #fff ; 
   right : 10px ;
   margin-right : 0 ;
 }
@@ -39,14 +43,15 @@
    margin-left : 0 ;
 }
 
+/* new */
 .gallery-modal .carousel.carousel-gallery .carousel-control {
-  width : 5% ;
-  opacity : .1 ;
+  width : 10% ;
+  opacity : .8 ;
 }
 
 .gallery-modal .carousel.carousel-gallery .carousel-control:hover {
-  opacity : .7 ;
-}  
+  opacity : 1 ;
+}
 
 .gallery-modal .carousel.carousel-gallery .carousel-indicators {
   bottom : 5px ;

@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
+
 <?php get_header(); ?>
 
 <div class="row">
@@ -7,9 +9,11 @@
   <?php if ( have_posts() ) :  while ( have_posts() ) : the_post() ; ?>
 <!--        <div class="row">   -->
    <!--  <div class="col-md-8">   -->
-          <article class="post">
-    	    <?php the_post_thumbnail(
-	      '' , array( 'class' => 'pull-right img-responsive home-wp-post-image' ) ) ; ?>	  
+          <article <?php post_class( 'post-preview' ) ; ?>>
+	    <a href="<?php the_permalink() ; ?>">
+      	      <?php the_post_thumbnail(
+	      '' , array( 'class' => 'pull-right img-responsive img-rounded home-wp-post-image home-featured-image' ) ) ; ?>
+	    </a>
 	    <h2><a href="<?php the_permalink() ; ?>"><?php the_title() ; ?></a></h2>
 	    <p><em>
 	      By: <?php the_author() ; ?>
@@ -25,12 +29,8 @@
 	    </em></p>
 	    <?php the_excerpt() ; ?>
 
-      <!-- </div>  .col-md-8 -->
-
-
          <hr>
         </article>	  
-<!--	</div>  .row -->
    
   <?php  endwhile; else: ?>
     <p><?php _e('Sorry, there are no posts' ); ?></p>
