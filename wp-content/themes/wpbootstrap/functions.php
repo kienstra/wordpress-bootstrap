@@ -2,8 +2,12 @@
 // wp_bootstrap functions and definitionns
 // @package wpbootstrap
 
-require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
+add_action('after_setup_theme', 'bwp_text_domain');
+function bwp_text_domain() { 
+  load_theme_textdomain( 'wpbootstrap' , get_template_directory() . '/languages' ) ;
+}
 
+add_action( 'after_setup_theme', 'wpbootstrap_support_setup' ) ;
 if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
   function wpbootstrap_support_setup() {
     add_theme_support( 'automatic-feed-links' ) ;
@@ -14,35 +18,40 @@ if( ! function_exists( 'wpbootstrap_support_setup' ) ) {
     add_theme_support( 'custom-background' ) ;
   }
 }
-add_action( 'after_setup_theme', 'wpbootstrap_support_setup' ) ;
 
+require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
+
+add_action( 'after_setup_theme', 'wpbootstrap_menu_setup' ) ;
 if ( ! function_exists( 'wpbootstrap_menu_setup' ) ) {
   function wpbootstrap_menu_setup() {
     register_nav_menu( 'main', __( 'Main Menu', 'wpbootstrap' ) ) ;
   }
 }
-add_action( 'after_setup_theme', 'wpbootstrap_menu_setup' ) ;
-  
 
 function bwp_simple_copyright() {
-  echo "&copy" . " " . get_bloginfo( 'admin' ) . " " . date( 'Y' ) ;
+  $name = apply_filters( 'bwp_name_next_to_copyright_in_footer' , sprintf( __( '%s' , 'wpbootstrap' ) , get_bloginfo( 'admin' ) ) ) ; 
+  echo "&copy" . " " . $name . " " . date( 'Y' ) ;
 }
 
-add_action( 'wp_enqueue_scripts', 'theme_styles' ) ; 
-function theme_styles() { 
-  wp_enqueue_style( 'bootstrap_css' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ; // bootstrap-flatly.min.css
-  wp_enqueue_style( 'sticky-footer', get_template_directory_uri() . '/bootstrap/css/sticky-footer.css' ) ;
+add_action( 'wp_enqueue_scripts', 'bwp_enqueue_styles' ) ;
+function bwp_enqueue_styles() {
+  $main_bootstrap_css_path = apply_filters( 'filter_bwp_bootstrap_css_path' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ;
+  wp_enqueue_style( 'bootstrap_css' , $main_bootstrap_css_path ) ;
   wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
 }
 
-add_action( 'wp_enqueue_scripts', 'bwp_theme_js' ) ;
-function bwp_theme_js() { 
+add_action( 'wp_enqueue_scripts', 'bwp_enqueue_js' ) ;
+function bwp_enqueue_js() { 
   global $wp_scripts ;
   wp_register_script( 'html5_shiv' , 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' , '' , '' , false ) ;
   $wp_scripts->add_data( 'html5_shiv' , 'conditional' , 'lt IE 9' ) ;  
   wp_register_script( 'respond_js' , 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' , '' , '' , false ) ;
   $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;  
   wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/new-bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
+}
+
+if ( ! isset( $content_width ) ) {
+   $content_width = 600 ;
 }
 
 add_action( 'comment_form' , 'bwp_maybe_enqueue_comment_reply' ) ;  // comment_form_before
@@ -58,11 +67,11 @@ remove_action( 'wp_head', 'wp_generator' ) ;
 remove_action( 'wp_head', 'wlwmanifest_link' ) ;
 
 function wpbootstrap_paginate_links() {
-  global $wp_query ; 
-  $big = 999999999 ;  
-
-  $pagination = paginate_links( array( 
-    'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+  global $wp_query ;
+  $bwp_big = 999999999 ;
+  
+  $pagination_args = array( 
+    'base' => str_replace( $bwp_big, '%#%', esc_url( get_pagenum_link( $bwp_big ) ) ),
     'format' => '/page/%#%',
     'type' => 'array' ,
     'current' => max( 1, get_query_var( 'paged' ) ),
@@ -70,16 +79,15 @@ function wpbootstrap_paginate_links() {
     'prev_next' => True,
     'prev_text' => __( '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Newer' ),
     'next_text' => __( 'Older&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>' ) ,
-    )
-  ) ;
-
+  ) ; 
+  
+  $pagination = paginate_links( $pagination_args ) ;  
   ?>
   <ul class="pagination pagination-med">
   <?php
   if ( $pagination ) {
     foreach ( $pagination as $page ) {
-    $class = strpos( $page , 'href' ) ?
-             'active' : 'disabled' ;
+    $class = strpos( $page , 'href' ) ? 'active' : 'disabled' ;
       echo " <li class='$class'>$page</li> " ;
     }
   }
@@ -89,15 +97,15 @@ function wpbootstrap_paginate_links() {
 }
 
 function rk_register_sidebar($name, $id, $description ) {
-       register_sidebar(array(
-	      'name'		=> __( $name ) ,
-	      'id'		=> $id ,
-	      'description'	=> __( $description ) ,
-	      'before_widget'	=> '<div id="%1$s" class="widget %2$s">' ,
-	      'after_widget'	=> '</div> ' ,
-	      'before_title'	=> '<h2>' ,
-	      'after_title'	=> '</h2>' ,
-      ) ) ;
+  register_sidebar(array(
+	 'name'		=> __( $name ) ,
+	 'id'		=> $id ,
+	 'description'	=> __( $description ) ,
+	 'before_widget'	=> '<div id="%1$s" class="widget %2$s">' ,
+	 'after_widget'	=> '</div> ' ,
+	 'before_title'	=> '<h2>' ,
+	 'after_title'	=> '</h2>' ,
+  ) ) ;
 }
   
 add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
@@ -111,9 +119,10 @@ function cc_mime_types( $mimes ){
 	 return $mimes;
 }
 
-// no need , use white label cms
-add_action( 'login_enqueue_scripts' , 'wpbootstrap_login_logo' ) ; 
-function wpbootstrap_login_logo() {
+
+/*
+add_action( 'login_enqueue_scripts' , 'bwp_login_logo' ) ; 
+function bwp_login_logo() {
 ?>
   <style type="text/css">
     .login #login {
@@ -130,15 +139,18 @@ function wpbootstrap_login_logo() {
 <?php 
 }
 
-add_filter( 'login_header_url' , 'wpbootstrap_login_logo_url' ) ; 
-function wpbootstrap_login_logo_url() { 
+*/
+
+add_filter( 'login_header_url' , 'bwp_login_logo_url' ) ; 
+function bwp_login_logo_url() { 
   return get_bloginfo( 'url ' ) ; 
 }
 
-add_filter( 'login_headertitle' , 'wpbootstrap_login_logo_url_title' ) ;
-function wpbootstrap_login_logo_url_title() { 
-  return "Kienstra Digital" ; 
-} 
+add_filter( 'login_headertitle' , 'bwp_login_logo_url_title' ) ;
+function bwp_login_logo_url_title() { 
+  return sprintf( __( '%s' , 'wpbootstrap' ) , bloginfo( 'name' ) ) ; 
+}
+
 
 add_action( 'template_redirect' , 'wpbootstrap_process_simple_registration' ) ;
 function wpbootstrap_process_simple_registration() {
@@ -270,19 +282,13 @@ function bwp_image_tag_class_filter( $classes ) {
 
 add_filter( 'single_cat_title' , 'bwp_filter_single_category_title' ) ;
 function bwp_filter_single_category_title( $title ) {
-  return "Category: " . ucwords( $title ) ; 
-}
-
-//add_filter( 'post_type_archive_title' , 'bwp_filter_archive_title' ) ;
-function bwp_filter_archive_title( $title ) {
-  echo "the title is: " ;
-  var_dump( $title ) ;
+  return sprintf( __( 'Category: %s ' , 'wpbootstrap' ) , ucwords( $title ) ) ; 
 }
 
 add_filter( 'wp_title' , 'bwp_test_title' ) ;
 function bwp_test_title( $title ) {
   if ( is_archive() && ! is_category() ) {
-    return "Archives: " . get_the_date( 'F Y' ) ; 
+    return sprintf( __( 'Archives: %s' , 'wpbootstrap' ) , get_the_date( 'F Y' ) ) ;  
   }
   return $title ;
 }

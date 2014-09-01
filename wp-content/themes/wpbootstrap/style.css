@@ -7,14 +7,26 @@ Author URI: http://ryankienstra.com
 Version: 1.0
 Tags: Mobile, Live Editor 
 
-License: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
-License URI: http://creativecommons.org/licenses/by-sa/3.0/
+License: GPL v2
+License URI: 
 
 */
 
+html {
+  position : relative; 
+  min-height : 100%;
+}
+
 body {
   padding-top : 0px ;
+  padding-bottom: 130px ;      
   margin-bottom : 0 ;
+}
+
+@media ( max-width : 770px ) {
+  body {
+    padding-bottom : 315px ; 
+  }
 }
 
 @media ( max-width : 300px ) { 
@@ -44,7 +56,6 @@ body {
 article.post-preview {
   position : relative ;
 }
-
 
 article.post-preview .home-featured-image ,
 img.search-thumbnail {
@@ -119,10 +130,10 @@ ol.comment-area * {
 
 
 ul.pagination li.active a:hover { 
-  cursor: pointer ;
-  border: 3px ;
-  border-color: white ;
-  transition: .2s ;
+  cursor : pointer ;
+  border : 3px ;
+  border-color : white ;
+  transition : .2s ;
 }
 
 ul.pager {
@@ -130,8 +141,8 @@ ul.pager {
 }
 
 .col-md-6 {
-  padding-top: 10px ;
-  padding-bottom: 10px ;
+  padding-top : 10px ;
+  padding-bottom : 10px ;
 }
 
 .modal-dialog {
@@ -144,11 +155,15 @@ ul.pager {
 }
 
 .widget {
-  margin-bottom: 30px;
+  margin-bottom : 30px;
 }
 
+.widget .tagcloud a:hover {
+  text-decoration : none ;
+}
+    
 .comment-form-comment label[for=comment] {
-  display: block ;
+  display : block ;
 }
 
 p.copyright-text {
@@ -212,12 +227,60 @@ html body #wpadminbar {
   max-width : 600px ;
 }
 
-.post-responsive-video {
-  max-width : 600px ;
-  width : auto ;
-  height : auto ; 
+.post ,
+.size-auto , 
+.size-full ,
+.size-large ,
+.size-medium ,
+.size-thumbnail {
+  max-width : 100% ;
+  height : auto ;
 }
 
-.tagcloud a {
-  text-decoration : none ;
+.aligncenter ,
+.alignleft ,
+.alignright {
+  display : block ;
 }
+
+.aligncenter {
+  margin-left : auto ;
+  margin-right : auto ;  
+}
+
+.alignleft {
+  float : left ;
+}
+
+.alignright {
+  float : right ;  
+}
+
+/* Caption Related Classes: */
+.wp-caption-text ,
+.wp-caption k ,
+.gallery-caption {
+  text-align : center ; 
+}
+
+/* Post Classes: */
+.sticky .entry-date {
+  display: none;
+}
+
+/* Comment Classes: */
+.bypostauthor {
+
+}
+
+#footer {
+  margin-top: 15px;
+  position: absolute ;
+  bottom : 0 ;
+  width: 100%;
+}
+
+#footer .navbar {
+  margin-bottom: 0px;
+}
+
