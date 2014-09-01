@@ -1,29 +1,26 @@
-html , body {
-  position: relative ; 
-  height: 100%;
+html {
+  position : relative ;
+  min-height : 100% ;
 }
-
 
 body {
-  padding-bottom: 130px ;    
+  padding-bottom: 130px ;
 }
-
 
 @media ( max-width : 770px ) {
   body {
-    padding-bottom : 315px ; 
+    padding-bottom : 315px ;
   }
 }
 
-
 #footer {
-  margin-top: 15px;
+  margin-top: 15px ;
   position: absolute ;
   bottom : 0 ;
-  width: 100%;
+  width: 100% ;
 }
 
 #footer .navbar {
-  margin-bottom: 0px;
+  margin-bottom: 0px ;
 }
 
