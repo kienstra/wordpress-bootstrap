@@ -9,6 +9,8 @@
 	<p><em><?php the_time('l, F jS, Y'); ?></em></p>
 
 	<?php the_content(); ?>
+	<div class="clearfix">
+	</div>
       </article>
       <hr>
       <?php comments_template(); ?>

@@ -33,9 +33,6 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
     }
   }
 }
-  
-
-
 
 if ( class_exists( 'WP_Customize_Control' ) ) {
   class PTD_Textarea_Control extends WP_Customize_Control {
@@ -88,8 +85,8 @@ class RK_Customize_Section {
      ) ) ;     
     }
 
-    public function image_with_slider( $name ) { 
-
+    public function image_with_slider( $name ) {
+    
 	$this->wp_customize->add_setting( "image_$name", array(
           'default'    =>  '',
           'capability' => 'manage_options',
