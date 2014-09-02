@@ -6,7 +6,7 @@
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
       <article  <?php post_class() ; ?>>
 	<h1><?php the_title(); ?></h1>
-	<p><em><?php the_time('l, F jS, Y'); ?></em></p>
+	<p><em><?php the_time( get_option( 'date_format' ) ) ; ?></em></p>
 
 	<?php the_content(); ?>
 	<div class="clearfix">
@@ -15,9 +15,11 @@
       <hr>
       <?php comments_template(); ?>
       <ul class="pager">
+      
+        <?php /******* bwp_custom_wp_link_pages instead? */ ?>
+	
         <?php echo previous_post_link( '<li>%link</li>' , '<span class="glyphicon glyphicon-chevron-left"></span> %title' ) ; ?>
         <?php echo next_post_link( '<li>%link</li>' , '%title <span class="glyphicon glyphicon-chevron-right"></span>' ) ; ?>     	      
-
       </ul>
     <?php endwhile; else: ?>
       <p><?php _e('Sorry, this page does not exist' ); ?></p>

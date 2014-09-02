@@ -78,8 +78,8 @@ function wpbootstrap_paginate_links() {
     'current' => max( 1, get_query_var( 'paged' ) ),
     'total'  => $wp_query->max_num_pages,
     'prev_next' => True,
-    'prev_text' => __( '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Newer' ),
-    'next_text' => __( 'Older&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>' ) ,
+    'prev_text' => sprintf( __( '%sNewer' , 'wpbootstrap' ) , '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;' ) ,
+    'next_text' => sprintf( __( 'Older%s' , 'wpbootstrap' ) , '&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>' ) ,
   ) ; 
   
   $pagination = paginate_links( $pagination_args ) ;  
@@ -95,6 +95,14 @@ function wpbootstrap_paginate_links() {
   ?>
   </ul>
 <?php
+}
+
+add_filter( 'wp_link_pages_link' , 'bwp_pages_link_filter' ) ;
+function bwp_pages_link_filter( $link_markup ) {
+  $regex = '/(<a[^>]*?>).*?(<li[^>]??>)(.*)/' ;
+  $replace_with = '$2$1$3' ; 
+  $filtered_markup = preg_replace( $regex , $replace_with , $link_markup ) ;
+  return $filtered_markup ;
 }
 
 function rk_register_sidebar($name, $id, $description ) {

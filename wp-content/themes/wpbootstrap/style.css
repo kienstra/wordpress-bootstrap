@@ -1,14 +1,14 @@
 /*
 Theme Name: Kienstra Bootstrap
 Theme URI: http://ryankienstra.com/bootstrap-theme
-Description: Mobile-first theme
 Author: ryankienstra
 Author URI: http://ryankienstra.com
-Version: 1.0
-Tags: Mobile, Live Editor 
-
+Description: Mobile-first theme
+Version: 1.0.0
 License: GPL2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html 
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: Mobile, Live Editor
+Text Domain : wpbootstrap
 
 */
 
@@ -225,6 +225,10 @@ html body #wpadminbar {
 
 .widget .responsive-video-container {
   max-width : 600px ;
+}
+
+.post-edit-link {
+  font-size : .5em ;
 }
 
 .post ,

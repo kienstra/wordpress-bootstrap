@@ -1,3 +1,5 @@
-<?php if ( function_exists('dynamic_sidebar') && dynamic_sidebar() ) : ?>
+<?php
 
-<?php endif; ?>
+if ( function_exists('dynamic_sidebar') && dynamic_sidebar() ) : 
+endif ;
+
