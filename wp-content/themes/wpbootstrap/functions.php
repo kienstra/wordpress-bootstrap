@@ -48,7 +48,7 @@ require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
 
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_styles' ) ;
 function bwp_enqueue_styles() {
-  $main_bootstrap_css_path = apply_filters( 'filter_bwp_bootstrap_css_path' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ;
+  $main_bootstrap_css_path = apply_filters( 'bwp_css_for_bootstrap' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ;
   wp_enqueue_style( 'bootstrap_css' , $main_bootstrap_css_path ) ;
   wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
 }
@@ -60,9 +60,10 @@ function bwp_enqueue_js() {
   $wp_scripts->add_data( 'html5_shiv' , 'conditional' , 'lt IE 9' ) ;  
   wp_register_script( 'respond_js' , 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' , '' , '' , false ) ;
   $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;
+  wp_enqueue_script( 'jquery' ) ;
   
-  wp_enqueue_script( 'jquery' ) ;  
-  wp_enqueue_script( 'bootstrap_js' , get_template_directory_uri() . '/bootstrap/js/new-bootstrap.min.js' , array( 'jquery' ) , '' , true ) ;
+  $main_bootstrap_js_path = apply_filters( 'bwp_js_for_bootstrap' , get_template_directory_uri() . '/bootstrap/js/new-bootstrap.min.js' ) ;
+  wp_enqueue_script( 'bootstrap_js' , $main_bootstrap_js_path , array( 'jquery' ) , '' , true ) ;
 }
 
 if ( ! isset( $content_width ) ) {
