@@ -4,26 +4,19 @@
 <div class="row">
   <div class="col-md-8"> <!--span8 -->
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-      <article  <?php post_class() ; ?>>
-	<h1><?php the_title(); ?></h1>
-	<p><em><?php the_time( get_option( 'date_format' ) ) ; ?></em></p>
-
-	<?php the_content(); ?>
-	<div class="clearfix">
-	</div>
-      </article>
+      <?php get_template_part( 'content' , get_post_format() ) ; ?>
+      <?php bwp_custom_wp_link_pages() ; ?>      
       <hr>
       <?php comments_template(); ?>
       <ul class="pager">
-      
-        <?php /******* bwp_custom_wp_link_pages instead? */ ?>
-	
-        <?php echo previous_post_link( '<li>%link</li>' , '<span class="glyphicon glyphicon-chevron-left"></span> %title' ) ; ?>
-        <?php echo next_post_link( '<li>%link</li>' , '%title <span class="glyphicon glyphicon-chevron-right"></span>' ) ; ?>     	      
+	<?php echo previous_post_link( '<li>%link</li>' , '<span class="glyphicon glyphicon-chevron-left"></span> %title' ) ; ?>
+	<?php echo next_post_link( '<li>%link</li>' , '%title <span class="glyphicon glyphicon-chevron-right"></span>' ) ; ?>     	      
       </ul>
-    <?php endwhile; else: ?>
-      <p><?php _e('Sorry, this page does not exist' ); ?></p>
-    <?php endif; ?>
+    <?php endwhile; else:
+      get_template_part( 'no-post-found' ) ;
+      get_template_part( 'bwp-posts-and-pages' ) ;     
+    endif ;
+    ?>
 
   </div>
   <div class="col-md-4"> <!--span4 -->

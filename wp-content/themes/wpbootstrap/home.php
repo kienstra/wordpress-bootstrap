@@ -14,19 +14,15 @@
       	      <?php the_post_thumbnail(
 	      '' , array( 'class' => 'pull-right img-responsive img-rounded home-wp-post-image home-featured-image' ) ) ; ?>
 	    </a>
-	    <h2><a href="<?php the_permalink() ; ?>"><?php the_title() ; ?></a></h2>
-	    <p><em>
-	      By: <?php the_author() ; ?>
-	      on: <?php the_time( 'l, F jS, Y' ) ; ?>
-	      in: <?php the_category( ', ' ) ; ?>,
-	      <?php if ( have_comments() ) : ?>
-		<a href="<?php comments_link() ; ?>"><?php comments_number() ; ?></a>
-	      <?php endif ; ?>
-	      <a href=<?php the_permalink() ; ?>" class="mobile-post-permalink">
-	      <span class="glyphicon glyphicon-chevron-right">
-	      </a>
-	    
-	    </em></p>
+	    <h2>
+	      <a href="<?php the_permalink() ; ?>"><?php the_title() ; ?></a>
+      	    </h2>
+	    <p>
+	        <?php bwp_author_date_category_tag() ; ?>
+		<a href=<?php the_permalink() ; ?>" class="mobile-post-permalink">
+		  <span class="glyphicon glyphicon-chevron-right">
+		</a>
+	    </p>
 	    <?php the_excerpt() ; ?>
 
          <hr>

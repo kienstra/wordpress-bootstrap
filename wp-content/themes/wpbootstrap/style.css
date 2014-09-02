@@ -114,14 +114,21 @@ ol.comment-area * {
   list-style-type : none ;    
 }
 
+.comment {
+/*  padding-bottom : 10px ; */
+}
+
+.comment article {
+  padding : 10px 10px 15px 10px ;  
+}
+
 .children .comment ,
 .comment:not(:first-child) {
   border-top : 1px ;
   border-top-color : #DCD3D3 ;
   border-top-style : solid ;
-  margin-top : 20px ;
-  padding-top : 6px ;
-
+  margin-top : 0 ;
+/*  padding-top : 20px ; */
 }
 
 .meta-comment {
@@ -164,6 +171,10 @@ ul.pager {
     
 .comment-form-comment label[for=comment] {
   display : block ;
+}
+
+.post .comment-link {
+  text-decoration : none ;
 }
 
 p.copyright-text {
@@ -274,7 +285,7 @@ html body #wpadminbar {
 
 /* Comment Classes: */
 .bypostauthor {
-
+  background-color : #F0F0F0 ; 
 }
 
 #footer {

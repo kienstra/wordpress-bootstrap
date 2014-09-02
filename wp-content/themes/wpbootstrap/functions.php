@@ -97,12 +97,42 @@ function wpbootstrap_paginate_links() {
 <?php
 }
 
+function bwp_custom_wp_link_pages() {
+  $bwp_link_pages_args = array(
+    'before' => '<ul class="pagination">' ,
+    'after'  => '</ul>' ,
+    'link_before' => '<li>' ,
+    'link_after' => '</li>' ,
+    'previouspagelink' => sprintf( __( '%sBack' , 'wpbootstrap' ) , '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;' ) ,
+    'nextpagelink' => sprintf( __( 'Next%s' , 'wpbootstrap' ) , '&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>' ) ,
+    'next_or_number' => 'next' ,
+  ) ; 
+  wp_link_pages( $bwp_link_pages_args ) ;
+}
+
 add_filter( 'wp_link_pages_link' , 'bwp_pages_link_filter' ) ;
 function bwp_pages_link_filter( $link_markup ) {
   $regex = '/(<a[^>]*?>).*?(<li[^>]??>)(.*)/' ;
   $replace_with = '$2$1$3' ; 
   $filtered_markup = preg_replace( $regex , $replace_with , $link_markup ) ;
   return $filtered_markup ;
+}
+
+function bwp_author_date_category_tag() {
+  ?>
+  <em>
+    By:
+    <?php the_author() ; ?>
+    on:
+    <?php the_time( get_option( 'date_format' ) ) ; ?>  
+    in:
+    <?php the_category( ', ' ) ; 
+    if ( has_category() && has_tag() ) {
+      echo ', ' ; 
+    }
+    the_tags( '' , ', ' , '' ) ; ?>
+  </em>
+  <?php
 }
 
 function rk_register_sidebar($name, $id, $description ) {
