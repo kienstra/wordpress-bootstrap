@@ -24,6 +24,26 @@ if ( ! function_exists( 'wpbootstrap_menu_setup' ) ) {
   }
 }
 
+function bwp_maybe_get_top_nav() {
+  if ( should_page_have_top_and_bottom_navs() ) { 
+    get_template_part( 'navbar-top' ) ; 
+    get_template_part( 'top-banner' ) ;
+  }
+}
+
+function bwp_maybe_get_bottom_nav() {
+  if ( should_page_have_top_and_bottom_navs() ) {
+    get_template_part( 'navbar-bottom' ) ;
+  }
+}
+
+function should_page_have_top_and_bottom_navs() {
+  if ( is_page() && ( strpos( get_page_template() , 'no-nav' ) ) ) {
+    return false ;    
+  }
+  return true ;
+}
+
 require_once( get_template_directory() . '/inc/wp_bootstrap_navwalker.php' ) ;
 
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_styles' ) ;
@@ -341,12 +361,6 @@ function bwp_content_filter( $content ) {
   }
 }
 
-add_filter( 'widget_archives_args' , 'bwp_limit_archives_count' ) ; 
-function bwp_limit_archives_count( $args ) {
-  $args[ 'limit' ] = '7' ;
-  return $args ; 
-}
-
 add_filter( 'wp_tag_cloud' , 'bwp_filter_tag_cloud' ) ; 
 function bwp_filter_tag_cloud( $markup ) {
   $regex = '/(<a[^>]+?>)([^<]+?)(<\/a>)/' ;
@@ -355,4 +369,16 @@ function bwp_filter_tag_cloud( $markup ) {
   return $markup ;
 }
 
-?>
+add_filter( 'widget_archives_args' , 'bwp_limit_archives_count' ) ; 
+function bwp_limit_archives_count( $args ) {
+  $args[ 'limit' ] = '6' ;
+  return $args ; 
+}
+
+add_filter( 'widget_categories_args' , 'bwp_widget_categories_filter' ) ;
+function bwp_widget_categories_filter( $args ) {
+  $args[ 'number' ] = 6 ;
+  $args[ 'orderby' ] = 'count' ;      
+  $args[ 'order' ] = 'DESC' ;
+  return $args ; 
+}

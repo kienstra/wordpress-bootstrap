@@ -1,3 +1,8 @@
+<?php 
+/*
+Template Name: Front Page
+*/
+
 <?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
 
 <?php get_header(); ?>

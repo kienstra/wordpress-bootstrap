@@ -12,7 +12,6 @@
 </head>
 
 <body <?php echo body_class() ; ?>>
-  <?php get_template_part( 'navbar' ) ; ?>
-  <?php get_template_part( 'top-banner' ) ; ?>
+  <?php bwp_maybe_get_top_nav() ; ?>
   <div class="container">
 
