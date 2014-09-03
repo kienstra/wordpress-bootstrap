@@ -322,4 +322,8 @@ function bwp_query_for_post_previews() {
     get_template_part( 'bwp-posts-and-pages' ) ;
     wp_reset_query() ; 
   endif ; 
-}    
+}
+
+// this is dirty, it should be a theme option  <button class="btn btn-primary btn-med">Read more</button>
+
+$bwp_should_comments_appear_on_pages = apply_filters( 'bwp_comments_on_pages' , '1' ) ; 
