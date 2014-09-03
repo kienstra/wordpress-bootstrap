@@ -1,5 +1,5 @@
 <?php
-// wp_bootstrap functions and definitionns
+// bwp functions
 // @package wpbootstrap
 
 add_action('after_setup_theme', 'bwp_text_domain');
@@ -308,7 +308,7 @@ function bwp_comment_list( $comment , $arguments , $depth ) {
 	    <?php comment_text() ; ?>             
 	    <div class="reply-comment pull-right">
 	      <?php comment_reply_link( array_merge( $arguments , array(
-	         'reply_text' => '<span class="glyphicon glyphicon-pencil"></span> &nbsp; Reply' ,
+	         'reply_text' => '<span class="glyphicon glyphicon-edit"></span> &nbsp; Reply' ,
 		 'depth'     =>  $depth ,
 		 'max_depth' =>  $arguments[ 'max_depth' ] ,
 	      ) ) ) ;

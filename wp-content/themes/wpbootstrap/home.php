@@ -1,18 +1,16 @@
 <?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
 
 <?php get_header(); ?>
-
 <div class="row">
   <div class="col-md-8">
     <h1><?php wp_title('') ; ?></h1>
-  
   <?php if ( have_posts() ) :  while ( have_posts() ) : the_post() ; ?>
 <!--        <div class="row">   -->
    <!--  <div class="col-md-8">   -->
           <article <?php post_class( 'post-preview' ) ; ?>>
 	    <a href="<?php the_permalink() ; ?>">
-      	      <?php the_post_thumbnail(
-	      '' , array( 'class' => 'pull-right img-responsive img-rounded home-wp-post-image home-featured-image' ) ) ; ?>
+      	      <?php  the_post_thumbnail(
+	      '' , array( 'class' => 'pull-right img-responsive img-rounded home-wp-post-image home-featured-image' ) ) ;  ?>
 	    </a>
 	    <h2>
 	      <a href="<?php the_permalink() ; ?>"><?php the_title() ; ?></a>
