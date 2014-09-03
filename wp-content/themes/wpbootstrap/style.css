@@ -56,7 +56,6 @@ html body #wpadminbar {
   }
 }
 
-
 /* if admin bar, lower navbar */
 .admin-bar .navbar-fixed-top {
   margin-top : 30px ;
@@ -240,10 +239,10 @@ ul.pager {
 }
 
 #footer {
-  margin-top: 15px;
-  position: absolute ;
+  margin-top : 15px ;
+  position : absolute ;
   bottom : 0 ;
-  width: 100%;
+  width : 100% ;
 }
 
 #footer .navbar {
