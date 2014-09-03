@@ -19,7 +19,7 @@ html {
 
 body {
   padding-top : 0px ;
-  padding-bottom: 130px ;      
+  padding-bottom: 170px ;      
   margin-bottom : 0 ;
 }
 
@@ -77,17 +77,10 @@ html body #wpadminbar {
   z-index : 100 ;
 }
 
-.navbar-opt-in .container {
-  padding-left : 0 ;
-}
-
 .navbar-opt-in .navbar-form {
   border : 0 ;
 }
 
-.navbar-opt-in .navbar-form.opt-in-fields {
-  margin-top : 15px ;
-}
 
 /* Post styles */
 article.post-preview {
@@ -122,23 +115,25 @@ article.post-preview .mobile-post-permalink {
   height : auto ;
 }
 
-.aligncenter ,
-.alignleft ,
-.alignright {
+.post .aligncenter ,
+.post .alignleft ,
+.post .alignright {
   display : block ;
 }
 
-.aligncenter {
+.post .aligncenter {
   margin-left : auto ;
   margin-right : auto ;  
 }
 
-.alignleft {
+.post .alignleft {
   float : left ;
+  margin-right : 20px ; 
 }
 
-.alignright {
-  float : right ;  
+.post .alignright {
+  float : right ;
+  margin-left : 20px ; 
 }
 
 @media ( max-width : 600px ) {

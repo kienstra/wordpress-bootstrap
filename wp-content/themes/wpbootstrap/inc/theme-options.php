@@ -33,10 +33,10 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
     }
   }
 }
-  
+
 if ( class_exists( 'WP_Customize_Control' ) ) {
   class PTD_Textarea_Control extends WP_Customize_Control {
-  
+
     public function render_content() { 
       ?>
       <label>
@@ -69,27 +69,25 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 class RK_Customize_Section {
 
     public $wp_customize ;
-    public static $section_counter = 0 ;
-    
+
     public function __construct( $section_name , $customize ) { 
       $this->wp_customize =  $customize ;
       $this->add_section( $section_name ) ; 
       $this->image_with_slider( $section_name ) ;
       $this->heading_and_copy( $section_name ) ;
-      $this->section_counter++ ;
     }
 
     public function add_section( $name ) {
-      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;     
+      $capitalized_with_space = ucwords( str_replace( '_' , ' ', $name ) ) ;
       $this->wp_customize->add_section( $name , array(
         'title'    => __( $capitalized_with_space , 'wpbootstrap' ) ,
-        'priority' => self::$section_counter ,
+        'priority' => 0 ,
      ) ) ;     
     }
 
-    public function image_with_slider( $name ) { 
-
-	$this->wp_customize->add_setting( "image_{$name}", array(
+    public function image_with_slider( $name ) {
+    
+	$this->wp_customize->add_setting( "image_$name", array(
           'default'    =>  '',
           'capability' => 'manage_options',
           'transport'  => 'postMessage',
@@ -147,38 +145,35 @@ class RK_Customize_Section {
 
 add_action( 'customize_register', 'wpbootstrap_customize_register' ) ;
 function wpbootstrap_customize_register( $wp_customize ) {
-  new RK_Customize_Section( 'top_jumbotron' , $wp_customize ) ;
+  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;  
   new RK_Customize_Section( 'left_panel' , $wp_customize ) ;
-  new RK_Customize_Section( 'right_panel' , $wp_customize ) ;
+  new RK_Customize_Section( 'top_jumbotron' , $wp_customize ) ;
 }
 
 add_shortcode( 'panel_to_customize', 'rk_make_panel' ) ;
 function rk_make_panel( $atts ) { 
     $name = $atts[ 'name' ] ; 
   ?>
-    <div class="customized-col" id="<?php echo $name; ?>">
-      <img class="img-customize img-rounded image_<?php echo $name ; ?> img-responsive" src='<?php echo get_theme_mod( "image_$name" ) ; ?>' style='width: auto ; max-height:<?php echo ( get_theme_mod( "image_slider_$name" ) * 300 / 100 ) . "px" ; ?>' alt='<?php echo get_theme_mod( "image_$name" ) ; ?>' >
-
-        <h2 class="heading_<?php echo $name ; ?>">
-	  <?php echo get_theme_mod( "heading_$name" ) ; ?>
-	</h2>
-
-      <div class="copy">
-	<span class="copy_<?php echo $name ; ?>">
-	  <?php echo nl2br( get_theme_mod( "copy_$name" ) ) ; ?>         
-	</span>
+    <div class="image-container" style="text-align: center">
+	<img class="image_<?php echo $name ; ?> img-responsive" src='<?php echo get_theme_mod( "image_$name" ) ; ?>' width='<?php echo get_theme_mod( "image_slider_$name" ) . '%' ; ?>' >
       </div>
-    </div>
+      <h2 class="heading_<?php echo $name ; ?>">
+	<?php echo get_theme_mod( "heading_$name" ) ; ?>
+      </h2>
+      <span class="copy_<?php echo $name ; ?>">
+ 	<?php echo nl2br( get_theme_mod( "copy_$name" ) ) ; ?>         
+      </span>
   <?php
 }
     
 function wpbootstrap_customizer_script() {
   wp_enqueue_script( 
     'wpbootstrap-customizer-script', 
-     get_template_directory_uri() . '/javascript/theme-options.js', 
+    get_template_directory_uri() . '/javascript/refac-theme-options.js', 
     array( 'jquery', 'customize-preview' ), 
     '1', 
-    true 
+    true
   ) ;
 }
+
 add_action( 'customize_preview_init', 'wpbootstrap_customizer_script' ) ;
