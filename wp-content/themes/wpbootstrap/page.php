@@ -3,14 +3,7 @@
 <?php get_header() ; ?>
   <div class="row">
     <div class="col-md-8">
-      <?php if ( have_posts() ) :  while ( have_posts() ) : the_post() ; ?>
-        <?php get_template_part( 'content' , 'page' ) ; ?>
-      <?php endwhile; else: 
-        get_template_part( 'no-post-found' ) ; 
-        get_template_part( 'bwp-posts-and-pages' ) ; 
-      endif; 
-      wp_reset_query() ;
-      ?> 
+      <?php bwp_query_for_page_content() ; ?>
     </div> <!-- col-md-8 -->
     <div class="col-md-4"> 
       <?php if ( dynamic_sidebar( 'main_sidebar' ) ) ; ?>

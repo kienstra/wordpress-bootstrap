@@ -97,7 +97,7 @@ function bwp_simple_copyright() {
   echo "&copy;" . " " . $name . " " . date( 'Y' ) ;
 }
 
-function wpbootstrap_paginate_links() {
+function bwp_paginate_links() {
   global $wp_query ;
   $bwp_big = 999999999 ;
   
@@ -177,9 +177,9 @@ function bwp_register_sidebar($name, $id, $description ) {
   ) ) ;
 }
   
-add_action( 'widgets_init', 'wpbootstrap_widgets_init' ) ; 
-function wpbootstrap_widgets_init() { 
-  bwp_register_sidebar( 'Main Sidebar' , 'main_sidebar', 'Diplays on News and Blog page' ) ;
+add_action( 'widgets_init', 'bwp_widgets_init' ) ; 
+function bwp_widgets_init() { 
+  bwp_register_sidebar( 'Main Sidebar' , 'main_sidebar', 'Diplays on selected pages' ) ;
 }
 
 add_filter( 'upload_mimes', 'bwp_mime_types' );
@@ -216,72 +216,6 @@ function bwp_login_logo_url_title() {
   return sprintf( __( '%s' , 'wpbootstrap' ) , bloginfo( 'name' ) ) ; 
 }
 
-
-add_action( 'template_redirect' , 'wpbootstrap_process_simple_registration' ) ;
-function wpbootstrap_process_simple_registration() {
-  // Check that this is a post request
-  if ( ( 'POST' === $_SERVER[ 'REQUEST_METHOD' ] ) && isset( $_POST ) && isset( $_POST[ 'simple_registration' ] ) ) {
-    $email = $_POST[ 'email_address' ] ;
-    if ( email_exists( $email ) || username_exists( $email ) ) { 
-      wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=1' ) ;
-      exit() ;
-    } else { 
-	$password = wp_generate_password( 8 ) ;
-	$user = wp_create_user( $email, $password, $email ) ;
-	if ( is_wp_error( $user ) ) { 
-	  wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=1' ) ;
-	  exit() ; 
-	} else { 
-	  wp_new_user_notification( $user, $password ) ;
-	}
-     }
-  }  
-}
-  
-add_action( 'template_redirect' , 'wpbootstrap_process_full_registration' ) ; 
-  function wpbootstrap_process_full_registration () { 
-    if ( ( 'POST' === $_SERVER[ 'REQUEST_METHOD' ] ) && isset( $_POST ) && isset( $_POST[ 'full_registration' ] ) ) {
-      unset( $_POST[ 'full_registration' ] ) ;
-      $userdata = array()  ;
-      foreach( $_POST as $key => $value ) { 
-        $userdata[ $key ] = $value ;
-      }
-      if ( email_exists( $userdata[ 'user_email' ] ) ) {
-        wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=1' ) ;
-	exit() ; 
-      } elseif ( username_exists( $userdata[ 'user_login' ] ) ) { 
-          wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=2' ) ; 
-          exit() ; 
-      } else {
-          $user = wp_insert_user( $userdata ) ; 
-	  if ( is_wp_error( $user ) ) { 
-	    wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?error=3' ) ;
-	    exit() ; 
-	  } else {
-	      wp_new_user_notification( $user ) ;
-	      wp_signon() ; 
-	      wp_redirect( home_url() ) ;
-	      exit ; 
-	  }
-      }
-    }
-}
-
-add_action( 'template_redirect' , 'wpbootstrap_process_update_user' ) ; 
-function wpbootstrap_process_update_user() { 
-  if ( ( 'POST' === $_SERVER[ 'REQUEST_METHOD' ] ) && isset( $_POST ) && isset( $_POST[ 'update_user_profile' ] ) ) {
-   unset( $_POST[ 'update_user_profile' ] ) ; 
-   $user_id = get_current_user_id() ; 
-    $userdata = array( 'user_id' => $user_id ) ;
-    foreach( $_POST as $key => $value ) { 
-      $userdata[ $key ] = $value ; 
-    }
-    wp_update_user( $userdata ) ; 
-    wp_redirect( $_SERVER[ 'REQUEST_URI' ] . '?update=1' ) ;
-    exit() ; 
-  }
-}
-
 add_filter( 'comment_reply_link' , 'bwp_reply_link' ) ;
 function bwp_reply_link( $link_class ) {
   $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link btn btn-default btn-med" , $link_class ) ;
@@ -290,7 +224,6 @@ function bwp_reply_link( $link_class ) {
 
 function bwp_comment_list( $comment , $arguments , $depth ) {
   $_GLOBALS[ 'comment' ] = $comment ;
-
   ?>
   <li <?php echo comment_class( 'media' ) ; ?> id="comment-<?php echo comment_ID() ?>">
         <article>
@@ -321,7 +254,6 @@ function bwp_comment_list( $comment , $arguments , $depth ) {
 	    </div>
 	  </div> <!-- content-comment -->
 	</article>
-
 <?php
 }
 
@@ -358,15 +290,6 @@ function bwp_filter_title( $title ) {
   return $title ;
 }
 
-
-// use to output body of pop-up
-//add_filter( 'the_content' , 'bwp_content_filter' ) ;
-function bwp_content_filter( $content ) {
-  if ( is_page( 'home' ) ) {
-    return "here is some more content" ;
-  }
-}
-
 add_filter( 'wp_tag_cloud' , 'bwp_filter_tag_cloud' ) ; 
 function bwp_filter_tag_cloud( $markup ) {
   $regex = '/(<a[^>]+?>)([^<]+?)(<\/a>)/' ;
@@ -387,4 +310,14 @@ function bwp_widget_categories_filter( $args ) {
   $args[ 'orderby' ] = 'count' ;      
   $args[ 'order' ] = 'DESC' ;
   return $args ; 
+}
+
+function bwp_query_for_page_content() {
+  if ( have_posts() ) :  while ( have_posts() ) : the_post() ; 
+     get_template_part( 'content' , 'page' ) ;
+   endwhile ; else : 
+    get_template_part( 'no-post-found' ) ; 
+    get_template_part( 'bwp-posts-and-pages' ) ; 
+  endif; 
+  wp_reset_query() ;
 }
