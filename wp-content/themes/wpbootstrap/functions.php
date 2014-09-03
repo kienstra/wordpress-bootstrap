@@ -154,10 +154,12 @@ function bwp_author_date_category_tag() {
     By:
     <?php the_author() ; ?>
     on:
-    <?php the_time( get_option( 'date_format' ) ) ; ?>  
-    in:
-    <?php the_category( ', ' ) ; 
-    if ( has_category() && has_tag() ) {
+    <?php the_time( get_option( 'date_format' ) ) ;
+    if ( has_category() ) {
+      echo "in: " ;
+      the_category( ', ' ) ;
+    }
+    if ( has_tag() )  {
       echo ', ' ; 
     }
     the_tags( '' , ', ' , '' ) ; ?>

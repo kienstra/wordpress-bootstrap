@@ -5,9 +5,9 @@ Author: ryankienstra
 Author URI: http://ryankienstra.com
 Description: Mobile-first theme
 Version: 1.0.0
-License: GPL2
+License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: Mobile, Live Editor
+Tags: right-sidebar , responsive-layout , two-columns , full-width-template , translation-ready
 Text Domain : wpbootstrap
 
 */
@@ -147,7 +147,7 @@ article.post-preview .mobile-post-permalink {
     top : 50% ; 
     right : 0 ;
     transform : translateY(-50%) ;
-    opacity : .2 ; 
+    opacity : 0.2 ; 
   }
 
   article.post-preview .mobile-post-permalink:hover {

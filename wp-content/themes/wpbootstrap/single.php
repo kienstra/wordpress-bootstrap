@@ -6,7 +6,7 @@
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
       <?php get_template_part( 'content' , get_post_format() ) ; ?>
       <?php bwp_custom_wp_link_pages() ; ?>      
-      <hr>
+      <hr>      
       <?php comments_template(); ?>
       <ul class="pager">
 	<?php echo previous_post_link( '<li>%link</li>' , '<span class="glyphicon glyphicon-chevron-left"></span> %title' ) ; ?>

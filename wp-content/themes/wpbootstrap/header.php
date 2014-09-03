@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) or die( "No direct access!" ) ; ?>
 
 <!DOCTYPE html> 
-<html>
+<html <?php language_attributes( 'html' ) ?>>
   <head>
     <meta charset="<?php bloginfo( 'charset' ) ; ?>" >
     <title>
