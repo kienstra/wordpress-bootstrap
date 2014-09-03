@@ -45,14 +45,6 @@ body {
   }
 }
 
-.top-navbar {
-  margin-bottom : 0 ;
-}
-
-.container .navbar-collapse {
-  overflow: hidden;
-}
-
 article.post-preview {
   position : relative ;
 }
@@ -234,6 +226,14 @@ html body #wpadminbar {
  z-index: 5000 !important  ;
 }
 
+.top-navbar {
+  margin-bottom : 0 ;
+}
+
+.container .navbar-collapse {
+  overflow: hidden;
+}
+
 .top-navber.navbar-static-top {
   z-index : 2000 ;
 }
@@ -246,7 +246,11 @@ html body #wpadminbar {
   padding-left : 0 ;
 }
 
-.navbar-opt-in .navbar-form.navbar-right {
+.navbar-opt-in .navbar-form {
+  border : 0 ;
+}
+
+.navbar-opt-in .navbar-form.opt-in-fields {
   margin-top : 15px ;
 }
 
