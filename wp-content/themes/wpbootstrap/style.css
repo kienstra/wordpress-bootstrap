@@ -234,6 +234,22 @@ html body #wpadminbar {
  z-index: 5000 !important  ;
 }
 
+.top-navber.navbar-static-top {
+  z-index : 2000 ;
+}
+
+.navbar-opt-in.navbar-static-top {
+  z-index : 100 ;
+}
+
+.navbar-opt-in .container {
+  padding-left : 0 ;
+}
+
+.navbar-opt-in .navbar-form.navbar-right {
+  margin-top : 15px ;
+}
+
 .widget .responsive-video-container {
   margin-left : auto ;
   margin-right : auto ;  
