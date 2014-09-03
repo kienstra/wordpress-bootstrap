@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
+<?php defined( 'ABSPATH' ) or die( "No direct access!" ) ; ?>
 
     </div> <!-- .container -->
     <footer> 

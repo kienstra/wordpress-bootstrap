@@ -1,4 +1,9 @@
-<?php defined('ABSPATH') or die( "No direct access!" ) ; 
+<?php
+/*
+Template Name: No Sidebar
+*/
+
+defined('ABSPATH') or die( "No direct access!" ) ; 
 
 get_header() ;
   ?>
@@ -6,5 +11,5 @@ get_header() ;
     <div class="col-md-12">
       <?php bwp_query_for_page_content() ; ?>
     </div>
-  </div>
+  </div> 
 <?php get_footer(); ?>

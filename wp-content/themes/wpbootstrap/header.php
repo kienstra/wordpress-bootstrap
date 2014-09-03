@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') or die( "No direct access!" ) ; ?>
+<?php defined( 'ABSPATH' ) or die( "No direct access!" ) ; ?>
 
 <!DOCTYPE html> 
 <html>
@@ -7,7 +7,6 @@
     <title>
       <?php
         if ( ! has_filter( 'wp_title' ) ) {
-	  echo "does not have a filter" ; 
           wp_title( '|' , true , 'right' ) ; bloginfo( 'name' ) ;
         } else {
           wp_title( '' ) ;

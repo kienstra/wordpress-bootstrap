@@ -276,20 +276,6 @@ function bwp_image_tag_class_filter( $classes ) {
   return $classes . ' img-responsive' ;
 }
 
-
-//add_filter( 'single_cat_title' , 'bwp_filter_single_category_title' ) ;
-function bwp_filter_single_category_title( $title ) {
-  return sprintf( __( 'Category: %s ' , 'wpbootstrap' ) , ucwords( $title ) ) ; 
-}
-
-//add_filter( 'wp_title' , 'bwp_filter_title' ) ;
-function bwp_filter_title( $title ) {
-  if ( is_archive() && ! is_category() ) {
-    return sprintf( __( 'Archives: %s' , 'wpbootstrap' ) , get_the_date( 'F Y' ) ) ;  
-  }
-  return $title ;
-}
-
 add_filter( 'wp_tag_cloud' , 'bwp_filter_tag_cloud' ) ; 
 function bwp_filter_tag_cloud( $markup ) {
   $regex = '/(<a[^>]+?>)([^<]+?)(<\/a>)/' ;
