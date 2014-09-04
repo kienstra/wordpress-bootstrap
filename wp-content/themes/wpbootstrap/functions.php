@@ -12,9 +12,13 @@ function bwp_support_setup() {
   add_theme_support( 'automatic-feed-links' ) ;
   add_theme_support( 'menus' ) ;
   add_theme_support( 'post-thumbnails' ) ;
+  add_theme_support( 'custom-header' ) ;  
   add_theme_support( 'post-formats', array( 'aside', 'image',
 					    'video', 'quote', 'link' ) ) ;
-  add_theme_support( 'custom-background' ) ;
+  $custom_header_defaults = array(
+    'height' => '250px ' ,
+  ) ;
+  add_theme_support( 'custom-header' , $custom_header_defaults ) ;  
 }
 
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_styles' ) ;
@@ -324,6 +328,59 @@ function bwp_query_for_post_previews() {
   endif ; 
 }
 
-// this is dirty, it should be a theme option  <button class="btn btn-primary btn-med">Read more</button>
+function bwp_maybe_echo_comments_template() {
+  $bwp_do_display_comments = apply_filters( 'bwp_do_show_comments_on_pages' , '1' ) ;
+  if ( comments_open() && $bwp_do_display_comments ) {
+    echo "<hr>" ;
+    comments_template() ;
+   }
+}
 
-$bwp_should_comments_appear_on_pages = apply_filters( 'bwp_comments_on_pages' , '1' ) ; 
+
+add_action( 'customize_register' , 'bwp_change_customizer_sections' ) ;
+function bwp_change_customizer_sections( $wp_customize ) {
+
+  $wp_customize->remove_section( 'colors' ) ;
+
+  $wp_customize->add_section( 'top_banner' , array(
+    'title' => __( 'Top Banner' , 'wpbootstrap' ) ,
+    'priority' => '3'
+  ) ) ;
+
+  $wp_customize->add_setting( 'bwp_banner_background_color' , array(
+    'default'    =>  'F8F8F8' ,
+    'capability' => 'manage_options' ,
+    'transport'  => 'postMessage' ,
+  ) ) ;
+
+  $wp_customize->add_control( new WP_Customize_Color_Control(
+    $wp_customize ,
+    'banner_background_color' ,
+    array(
+      'label' => __( 'Header Backround Color' , 'wpbootstrap' ) ,
+      'section' => 'header_image' ,
+      'settings' => 'bwp_banner_background_color' ,
+    )
+  ) ) ;
+
+  $wp_customize->add_setting( 'bwp_banner_image' , array(
+    'default'    =>  '' ,
+    'capability' => 'manage_options' ,
+    'transport'  => 'postMessage' ,
+  ) ) ;
+  
+  $wp_customize->add_control( new WP_Customize_Header_Image_Control(
+    $wp_customize ,
+    'header_image' , 
+    array(
+      'label' => __( 'Banner Image' , 'wpbootstrap' ) ,
+      'section' => 'top_banner' ,
+      'settings' => 'bwp_banner_image' ,
+  ) ) ) ;
+}
+
+add_action( 'customize_register' , 'bwp_enqueue_customizer_script' ) ;
+function bwp_enqueue_customizer_script() { 
+  wp_enqueue_script( 'bwp-customize' , get_template_directory_uri() . '/js/bwp-customize.js' , array( 'jquery' , 'customize-preview' ) , '' , true ) ;
+}
+

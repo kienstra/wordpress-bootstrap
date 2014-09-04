@@ -1,5 +1,14 @@
 <?php 
 
+
+/*
+$bwp_banner_image = $get_attachment_image_src() ;
+
+$url_bwp_banner_image = $bwp_banner_image[ 'url' ] ;
+$height_bwp_banner_image = $bwp_banner_image[ 'height' ] ;
+
+*/
+
 // wp_bootstrap functions and definitionn
 // @package prowordpress
 

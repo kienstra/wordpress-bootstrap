@@ -205,6 +205,11 @@ p.copyright-text {
   .home-featured-image {
      display : none ;
   }
+
+  .post .read-more-button {
+    display : none ;
+  }
+  
   article.post-preview .mobile-post-permalink {
     display : block ;
     font-size : 70px ;
@@ -215,7 +220,7 @@ p.copyright-text {
     opacity : 0.2 ; 
   }
 
-  article.post-preview .mobile-post-permalink:hover {
+  .post-preview .mobile-post-permalink:hover {
     opacity : 1 ;
   }
  
