@@ -71,6 +71,10 @@ article.post-preview .mobile-post-permalink {
   display : none ;
 }
 
+article.post-preview .read-more-button {
+  margin-top : 5px ;
+}
+
 .post-edit-link {
   font-size : .5em ;
 }

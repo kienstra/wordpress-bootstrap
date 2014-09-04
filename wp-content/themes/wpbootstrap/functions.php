@@ -59,11 +59,10 @@ function bwp_maybe_get_top_nav() {
 }
 
 function bwp_maybe_get_top_banner_parts() {
-  $options = get_option( 'bwp_options' ) ;
-//  if ( '1' == $options[ 'display_top_banner' ] ) {
+  $do_get_top_banner = apply_filters( 'bwp_do_get_top_banner' , '1' ) ;
+  if ( $do_get_top_banner ) { 
     get_template_part( 'top-banner' ) ;
-//  }
-  // get banner that was entered by user theme options 
+  }
 }
 
 function bwp_maybe_get_bottom_nav() {
