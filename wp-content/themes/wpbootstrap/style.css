@@ -246,3 +246,26 @@ p.copyright-text {
     display : none ;
   }
 }
+
+
+/*  comment this out */
+
+.bootstrap-post-widget .carousel-control {
+  background-image : none ; 
+}
+
+.bootstrap-post-widget .carousel-control .glyphicon { 
+  text-shadow : none ;
+  color : gray ;
+  opacity : .6 ; 
+}
+
+.bootstrap-post-widget .carousel-indicators li {
+  background-color : gray ;
+  opacity : .6 ; 
+}
+
+.bootstrap-post-widget .carousel-control .glyphicon:hover ,
+.bootstrap-post-widget .carousel-indicators li:hover {
+  opacity : 1 ;
+}
