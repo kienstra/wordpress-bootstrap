@@ -7,7 +7,7 @@ Description: Mobile-first theme
 Version: 1.0.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: right-sidebar , responsive-layout , two-columns , full-width-template , translation-ready
+Tags: right-sidebar , responsive-layout , two-columns , full-width-template , translation-ready , theme-options , featured-image-header
 Text Domain : wpbootstrap
 
 */
@@ -34,6 +34,10 @@ html body #wpadminbar {
 
 .top-navbar {
   margin-bottom : 0 ;
+}
+
+.top-navbar .dropdown:hover .dropdown-menu {
+  display : block ;
 }
 
 .container .navbar-collapse {

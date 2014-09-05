@@ -79,8 +79,8 @@
   </form> <!-- form -->
   <?php endif ; ?>        
   </div> <!-- #respond -->
-<?php endif ; ?>        
-
+<?php endif ;
+do_action( 'bwp_after_comments' ) ; 
 
 
 
