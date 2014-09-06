@@ -21,6 +21,12 @@ function bwp_support_setup() {
   add_theme_support( 'custom-header' , $custom_header_defaults ) ;  
 }
 
+add_filter( 'bwp_css_for_bootstrap' , 'bwp_css_filter' ) ;
+function bwp_css_filter() {
+  return '/wp-content/themes/wpbootstrap/bootstrap/css/bootstrap-flatly.min.css' ;
+}
+
+
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_styles' ) ;
 function bwp_enqueue_styles() {
   $main_bootstrap_css_path = apply_filters( 'bwp_css_for_bootstrap' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ;
@@ -37,11 +43,17 @@ function bwp_enqueue_js() {
   
   wp_register_script( 'respond_js' , 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' , '' , '' , false ) ;
   $wp_scripts->add_data( 'respond_js' , 'conditional' , 'lt IE 9' ) ;
-  
   wp_enqueue_script( 'jquery' ) ;
   $main_bootstrap_js_path = apply_filters( 'bwp_js_for_bootstrap' , get_template_directory_uri() . '/bootstrap/js/new-bootstrap.min.js' ) ;
   wp_enqueue_script( 'bootstrap_js' , $main_bootstrap_js_path , array( 'jquery' ) , '' , true ) ;
 }
+
+function bwp_maybe_register_new_jquery() {
+  if ( ! is_admin() ) {
+    wp_deregister_script( 'jquery' ) ;
+    wp_register_script( 'jquery' , ('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js') , true ) ;
+  }
+} 
 
 add_action( 'after_setup_theme', 'bwp_menu_setup' ) ;
 function bwp_menu_setup() {
@@ -77,6 +89,18 @@ function should_page_have_top_and_bottom_navs() {
   }
   return true ;
 }
+
+function bwp_the_top_nav_menu() {
+  wp_nav_menu( array( 
+    'menu' => 'main_menu' ,
+    'depth' => 2 ,
+    'container' => false ,
+    'menu_class' => 'nav navbar-nav' ,
+    'walker' => new wp_bootstrap_navwalker()
+  ) ) ;
+}
+  
+
 
 if ( ! isset( $content_width ) ) {
    $content_width = 600 ;
@@ -383,3 +407,34 @@ function bwp_enqueue_customizer_script() {
   wp_enqueue_script( 'bwp-customize' , get_template_directory_uri() . '/js/bwp-customize.js' , array( 'jquery' , 'customize-preview' ) , '' , true ) ;
 }
 
+add_action( 'admin_menu' , 'bwp_add_options_page' ) ;
+function bwp_add_options_page() {
+  add_theme_page( __( 'Header & Footer' , 'wpbootstrap' ) , __( 'Header & Footer' , 'wpbootstrap' ) , 'unfiltered_html' , 'bwp_options' , 'bwp_output_callback' ) ;  
+}
+
+function bwp_output_callback() {
+  if ( ! current_user_can( 'unfiltered_html' ) ) {
+    die( 'Page not allowed, see administrator' ) ;
+  }
+
+  ?>
+    '<h1>
+       <?php _e( 'Header and Footer' , 'wpbootstrap' ) ; ?>
+     </h1>
+     <h3>
+       <?php _e( 'Header Extra Markup, ie. email opt-in form' , 'wpbootstrap' ) ; ?>
+     </h3>
+     <form name="header-footer" method="post" action="">
+       <textarea id="top-banner-markup" rows="10" cols="55">
+       </textarea> 
+       <br>
+       <h3>
+         <?php _e( 'Footer Extra Markup' , 'wpbootstrap' ) ; ?>       
+       </h3>
+       <textarea id="footer-markup" rows="10" cols="55">
+       </textarea>
+       <br>
+       <input type="submit" name="Submit" class="button-primary" value="<?php _e( 'Save' , 'wpbootstrap' ) ; ?>">
+     </form>
+<?php
+} 

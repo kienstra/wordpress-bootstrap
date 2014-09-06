@@ -31,27 +31,9 @@
     <div class="row">
       <div class="col-md-8">
 	<?php if ( have_posts() ) : ?>
-	  <h1><?php _e( 'Results' , 'wpbootstrap' ) ; ?></h1>
+	  <h1><?php _e( 'Search Results' , 'wpbootstrap' ) ; ?></h1>
 	  <?php while ( have_posts() ) : the_post() ; ?>
-	    <article <?php post_class() ; ?>>
-	      <a href="<?php the_permalink() ; ?>">
-		<?php the_post_thumbnail(
-	      '' , array( 'class' => 'pull-right img-responsive img-rounded search-thumbnail' ) ) ; ?>
-	      </a>
-	      <h2 id="post-<?php the_ID() ; ?>">
-		<a href="<?php the_permalink() ; ?>">
-		  <?php the_title() ; ?>
-		</a>    
-	      </h2>
-	      <div class="search-entry">
-		<p>
-		  <?php the_excerpt() ; ?>
-		</p>
-	      </div>
-	      <div class="clearfix">
-	      </div>
-	    </article>
-	    <hr/>
+	    <?php get_template_part( 'content' , 'post-preview' ) ; ?>
 	  <?php endwhile ; ?>
 	  <ul class="pager">
 	    <li>
