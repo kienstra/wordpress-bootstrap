@@ -2,13 +2,16 @@
 // bwp functions
 // @package wpbootstrap
 
+define( 'BWP_THEME_SLUG' , 'wpbootstrap' ) ;
+define( 'BWP_THEME_VERSION' , '1.0.0' ) ; 
+
 add_action('after_setup_theme', 'bwp_text_domain');
 function bwp_text_domain() { 
   load_theme_textdomain( 'wpbootstrap' , get_template_directory() . '/languages' ) ;
 }
 
-add_action( 'after_setup_theme', 'bwp_support_setup' ) ;
-function bwp_support_setup() {
+add_action( 'after_setup_theme', 'bwp_theme_support_setup' ) ;
+function bwp_theme_support_setup() {
   add_theme_support( 'automatic-feed-links' ) ;
   add_theme_support( 'menus' ) ;
   add_theme_support( 'post-thumbnails' ) ;
@@ -21,16 +24,26 @@ function bwp_support_setup() {
   add_theme_support( 'custom-header' , $custom_header_defaults ) ;  
 }
 
-add_filter( 'bwp_css_for_bootstrap' , 'bwp_css_filter' ) ;
-function bwp_css_filter() {
-  return '/wp-content/themes/wpbootstrap/bootstrap/css/bootstrap-readable.min.css' ;
-}
-
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_styles' ) ;
 function bwp_enqueue_styles() {
-  $main_bootstrap_css_path = apply_filters( 'bwp_css_for_bootstrap' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ;
-  wp_enqueue_style( 'bootstrap_css' , $main_bootstrap_css_path ) ;
-  wp_enqueue_style( 'main_css' , get_template_directory_uri() . '/style.css' ) ;
+  $primary_bootstrap_css_path = apply_filters( 'bwp_primary_bootstrap_css_path' , get_template_directory_uri() . '/bootstrap/css/bootstrap-basic.min.css' ) ;
+  $second_bootstrap_css_path = apply_filters( 'bwp_second_bootstrap_css_path' , '' ) ;  
+
+  wp_enqueue_style( BWP_THEME_SLUG . '-primary-bootstrap-css' , $primary_bootstrap_css_path , '' , BWP_THEME_VERSION ) ;
+  if ( $second_bootstrap_css_path ) {
+    bwp_enqueue_file_followed_by_style_css( $second_bootstrap_css_path ) ;
+  } else {
+    bwp_only_enqueue_style_css() ;
+  }
+}
+
+function bwp_enqueue_file_followed_by_style_css( $second_bootstrap_css_path ) {
+    wp_enqueue_style( BWP_THEME_SLUG . '-second-bootstrap-css' , $second_bootstrap_css_path , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
+    wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_template_directory_uri() . '/style.css' , array( BWP_THEME_SLUG . '-second-bootstrap-css' ) , BWP_THEME_VERSION ) ;        
+}
+
+function bwp_only_enqueue_style_css() {
+    wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_template_directory_uri() . '/style.css' , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
 }
 
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_js' ) ;
@@ -54,6 +67,13 @@ function bwp_maybe_register_new_jquery() {
     wp_register_script( 'jquery' , ('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js') , '' , '' , true ) ;
   }
 } 
+
+function bwp_the_navbar_type() {
+  // 'navbar-fixed-top' fixes navbar 
+  $type = apply_filters( 'bwp_navbar_top' , 'navbar-static-top' ) ;
+  echo $type ;
+}
+
 
 add_action( 'after_setup_theme', 'bwp_menu_setup' ) ;
 function bwp_menu_setup() {
@@ -85,6 +105,11 @@ function bwp_maybe_get_top_banner_parts() {
   if ( $do_get_top_banner ) { 
     get_template_part( 'top-banner' ) ;
   }
+}
+
+function bwp_the_top_banner_backround_alignment() {
+  $alignment = apply_filters( 'bwp_top_banner_backround_alignment' , 'center' ) ;
+  echo $alignment ;
 }
 
 function bwp_maybe_get_bottom_nav() {
@@ -262,7 +287,8 @@ function bwp_login_logo_url_title() {
 
 add_filter( 'comment_reply_link' , 'bwp_reply_link' ) ;
 function bwp_reply_link( $link_class ) {
-  $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link btn btn-default btn-med" , $link_class ) ;
+  $comment_reply_class = apply_filters( 'bwp_comment_reply_class' , 'btn btn-primary btn-med' ) ; 
+  $link_class = str_replace( "class='comment-reply-link" , "class='comment-reply-link <?php echo $comment_reply_class ; ?>" , $link_class ) ;
   return $link_class ;
 }
 
@@ -499,8 +525,22 @@ if ( ! function_exists( 'bwp_options_output_callback' ) ) {
 	 <br>	 
 	 <input type="submit" name="Submit" class="button-primary" value="<?php _e( 'Save changes' , 'wpbootstrap' ) ; ?>">
        </form>
-     </div>
+     </div> <!-- .wrap -->
   <?php
   }
 }
+
+
+
+/* cruft: */
+
+add_filter( 'bwp_css_for_bootstrap' , 'bwp_css_filter' ) ;
+function bwp_css_filter() {
+  return '//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/yeti/bootstrap.min.css' ;  
+  //  '/wp-content/themes/wpbootstrap/bootstrap/css/bootstrap-.min.css' ;  // yeti , lumen , 
+  // if can lighten blue: cosmo , readable , paper
+  // too red: journal , simplex , ugly green : sandstone ,
+  // bad background : spacelab
+}
+
 
