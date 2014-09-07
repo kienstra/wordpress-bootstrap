@@ -398,7 +398,15 @@ function comments_allowed_by_user_and_filters() {
 
 add_action( 'customize_register' , 'bwp_change_customizer_sections' ) ;
 function bwp_change_customizer_sections( $wp_customize ) {
+  $wp_customize->get_section( 'header_image' )->title = __( 'Top Banner' , 'wpbootstrap' ) ; 
   $wp_customize->remove_section( 'colors' ) ;
+  $wp_customize->remove_section( 'background_image' ) ;
+  $wp_customize->remove_section( 'nav' ) ;
+  $wp_customize->remove_section( 'static_front_page' ) ;
+}
+
+add_action( 'customize_register' , 'bwp_add_customizer_sections' ) ;
+function bwp_add_customizer_sections( $wp_customize ) {
 
   $wp_customize->add_section( 'top_banner' , array(
     'title' => __( 'Top Banner' , 'wpbootstrap' ) ,
@@ -460,14 +468,15 @@ if ( ! function_exists( 'bwp_options_output_callback' ) ) {
     $value_header_extra_markup =  get_option( $name_header_extra_markup ) ;
     $value_footer_extra_markup =  get_option( $name_footer_extra_markup ) ;
 
-    if ( isset( $_POST[ $name_hidden_input ] ) &&  ( 'Y' == $_POST[ $name_hidden_input ] ) ) {
+    if ( isset( $_POST[ $name_hidden_input ] ) &&  ( 'Y' == $_POST[ $name_hidden_input ] ) ) : 
       $value_header_extra_markup =   stripslashes( $_POST[ $name_header_extra_markup ] ) ;
       update_option( $name_header_extra_markup , $value_header_extra_markup ) ; 
       $value_footer_extra_markup =  stripslashes( $_POST[ $name_footer_extra_markup ] ) ;
       update_option( $name_footer_extra_markup , $value_footer_extra_markup ) ;
-    }
-
     ?>
+      <div class="updated"><p><strong><?php _e( 'Markup saved' , 'wpbootstrap' ) ; ?></strong></p></div>
+    <?php endif ; ?>
+    
      <div class="wrap">
        <h1>
 	 <?php _e( 'Header and Footer' , 'wpbootstrap' ) ; ?>
