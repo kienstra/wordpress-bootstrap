@@ -8,7 +8,7 @@
       <?php bwp_custom_wp_link_pages() ; ?>      
       <hr>
       <?php do_action( 'bwp_after_full_post_content' ) ; 
-            comments_template() ; 
+            bwp_maybe_echo_comments_template() ;
       ?>
       <ul class="pager">
 	<?php echo previous_post_link( '<li>%link</li>' , '<span class="glyphicon glyphicon-chevron-left"></span> %title' ) ; ?>

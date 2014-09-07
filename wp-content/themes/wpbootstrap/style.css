@@ -114,7 +114,11 @@ article.post-preview .read-more-button {
   margin-left : 20px ; 
 }
 
-ol.comment-area * {
+.comment-area {
+  padding-top : 15px ;
+}
+
+.comment-area * {
   list-style : none ;
   list-style-image : none ;
   list-style-type : none ;    
@@ -178,8 +182,12 @@ ul.pager {
   display: none;
 }
 
-.bypostauthor {
+.bypostauthor>article {
   background-color : #F0F0F0 ; 
+}
+
+.comment {
+  width : 100% ;
 }
 
 #footer {
@@ -248,24 +256,5 @@ p.copyright-text {
 }
 
 
-/*  comment this out */
 
-.bootstrap-post-widget .carousel-control {
-  background-image : none ; 
-}
 
-.bootstrap-post-widget .carousel-control .glyphicon { 
-  text-shadow : none ;
-  color : gray ;
-  opacity : .6 ; 
-}
-
-.bootstrap-post-widget .carousel-indicators li {
-  background-color : gray ;
-  opacity : .6 ; 
-}
-
-.bootstrap-post-widget .carousel-control .glyphicon:hover ,
-.bootstrap-post-widget .carousel-indicators li:hover {
-  opacity : 1 ;
-}
