@@ -11,7 +11,8 @@ get_header() ;
     <div class="col-md-8">
       <?php bwp_query_for_page_content() ; ?>
     </div> <!-- col-md-8 -->
-    <div class="col-md-4"> 
+    <div class="col-md-4 main-sidebar">
+      <?php wp_meta() ; ?>    
       <?php if ( dynamic_sidebar( 'main_sidebar' ) ) ; ?>
     </div>
   </div> <!-- .row -->

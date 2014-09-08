@@ -21,10 +21,10 @@
     ?>
 
   </div>
-  <div class="col-md-4"> <!--span4 -->
-       <?php if ( dynamic_sidebar( 'main_sidebar' ) ) : endif ; ?>
-
+  <div class="col-md-4 main-sidebar"> <!--span4 -->
+    <?php wp_meta() ; ?>  
+    <?php if ( dynamic_sidebar( 'main_sidebar' ) ) : endif ; ?>
   </div>
 </div>
 
-<?php get_footer(); ?>
+<?php get_footer() ; ?>
