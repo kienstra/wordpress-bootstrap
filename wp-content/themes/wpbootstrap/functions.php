@@ -86,10 +86,15 @@ function bwp_maybe_register_new_jquery() {
   }
 } 
 
-function bwp_the_navbar_type() {
+function bwp_the_classes_of_first_top_navbar() {
   // 'navbar-fixed-top' fixes navbar 
-  $type = apply_filters( 'bwp_navbar_top' , 'navbar-static-top' ) ;
-  echo $type ;
+  $type = apply_filters( 'bwp_classes_of_first_top_navbar' , 'navbar navbar-default top-navbar navbar-static-top' ) ;
+  echo esc_attr( $type ) ;
+}
+
+function bwp_the_classes_of_second_top_navbar() {
+  $type = apply_filters( 'bwp_classes_of_second_top_navbar' ,   'navbar navbar-default navbar-static-top' ) ;
+  echo esc_attr( $type ) ;
 }
 
 add_action( 'after_setup_theme', 'bwp_menu_setup' ) ;

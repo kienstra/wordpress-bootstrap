@@ -8,10 +8,11 @@ class BSG_Modal_Carousel {
   private $image_indicators ;
   private $slide_to_index ;
   private $image_src_full_size ;
-  private static $instance_id = 1 ;                                                                                                                  
+  private $number_of_images = 0 ;
+  private static $instance_id = 1 ;  
   
-  function __construct() {
-    $this->gallery_id = 'gallery-' . self::$instance_id ;
+  function __construct( $id = '' ) {
+    $this->gallery_id = $id ? $id : 'gallery-' . self::$instance_id ;
     $this->carousel_inner_items  = '' ;
     $this->image_indicators = '' ;
     $this->slide_to_index = 0 ;
@@ -21,6 +22,7 @@ class BSG_Modal_Carousel {
   public function add_image( $image_src_full_size ) {
     $this->append_image_to_inner_items( $image_src_full_size ) ; 
     $this->append_to_carousel_indicators( $image_src_full_size ) ;
+    $this->number_of_images++ ; // $this->number_of_images ; 
   }
   
   private function append_image_to_inner_items( $image_src_full_size ) {
@@ -40,7 +42,20 @@ class BSG_Modal_Carousel {
     $this->slide_to_index++ ;
   }
 
+  private function maybe_get_indicators_and_controls() {
+    if ( $this->number_of_images > 1 ) {
+      return
+        "<ol class='carousel-indicators'> 
+          {$this->image_indicators}
+         </ol>	       
+         <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
+	 <a class='right carousel-control' href='#carousel-{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a>\n" ;
+    }
+  } 
+  
   public function get() {
+    $maybe_indicators_and_controls = $this->maybe_get_indicators_and_controls() ;
+    
     return 
     "<div id='carousel-{$this->gallery_id}' class='gallery-modal modal fade'>
        <div class='modal-dialog modal-lg'>
@@ -57,11 +72,8 @@ class BSG_Modal_Carousel {
 	       <div class='carousel-inner'> 
 		 {$this->carousel_inner_items}
 	       </div>
-	       <ol class='carousel-indicators'> 
-		 {$this->image_indicators}
-	       </ol>	       
-	       <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
-	       <a class='right carousel-control' href='#carousel-{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a> 
+               {$maybe_indicators_and_controls}
+	       
 	     </div>  <!-- .carousel --> 
            </div> <!-- .modal-body -->
          </div> <!-- .modal-content -->

@@ -12,7 +12,7 @@
 .gallery-modal .modal-dialog .modal-content-gallery .modal-header .glyphicon-remove-circle {
   color : #FFF ;
   opacity : .8 ; 
-  font-size : 20px ;
+  font-size : 1.8em ; 
   padding : 5px ;   
 }
 
@@ -35,12 +35,14 @@
 .gallery-modal .carousel.carousel-gallery .right.carousel-control .glyphicon {
   color : #fff ; 
   right : 10px ;
-  margin-right : 0 ;
+  margin-right : 10px ;
+  font-size : 1.8em ;
 }
 
 .gallery-modal .carousel.carousel-gallery .left.carousel-control .glyphicon {
    left : 10px ;
    margin-left : 0 ;
+   font-size : 1.8em ;   
 }
 
 /* new */
