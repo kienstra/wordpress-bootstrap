@@ -1,9 +1,9 @@
 <?php defined( 'ABSPATH' ) or die( "No direct access!" ) ; ?>
 
 <!DOCTYPE html> 
-<html <?php language_attributes( 'html' ) ?>>
+<html <?php esc_attr( language_attributes( 'html' ) ) ; ?>>
   <head>
-    <meta charset="<?php bloginfo( 'charset' ) ; ?>" >
+    <meta charset="<?php esc_attr( bloginfo( 'charset' ) ) ; ?>" >
     <title>
       <?php
         if ( ! has_filter( 'wp_title' ) ) {
@@ -14,10 +14,10 @@
       ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="pingback" href="<?php bloginfo( 'pingback_url' ) ; ?>" >
+    <link rel="pingback" href="<?php esc_url( bloginfo( 'pingback_url' ) ) ; ?>" >
     <?php wp_head(); ?>
   </head>
-  <body <?php echo body_class() ; ?>>
+  <body <?php echo esc_attr( body_class() ) ; ?>>
     <?php bwp_maybe_get_top_nav() ; ?>
     <div class="container">
 

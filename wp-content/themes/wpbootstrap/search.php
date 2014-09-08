@@ -4,7 +4,7 @@
   <?php $number_of_results = $wp_query->found_posts ; ?>
   <div class="jumbotron">
     <div class="container">
-      <h3>Search for:&nbsp;<span class="search-keyword">&ldquo;<?php the_search_query() ; ?>&rdquo; </span></h3>
+      <h3><?php _e( 'Search for:' , 'wpbootstrap' ) ; ?>&nbsp;<span class="search-keyword">&ldquo;<?php the_search_query() ; ?>&rdquo;</span></h3>
       <?php if ( '' == $number_of_results || 0 == $number_of_results ) : ?> 
 	<p>
 	  <span class="label label-danger">
@@ -37,11 +37,11 @@
 	  <?php endwhile ; ?>
 	  <ul class="pager">
 	    <li>
-	      <?php next_posts_link( '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Previous results' ) ; ?>
+              <?php previous_posts_link( '<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;' . __( 'Previous results' , 'wpbootstrap' ) ) ; ?>
 	    </li>
 	    <li>
-	      <?php previous_posts_link( 'Next results&nbsp;<span class="glyphicon glyphicon-chevron-right"</span>' ) ; ?>
-	    </li>
+	      <?php next_posts_link( 'Next results&nbsp;<span class="glyphicon glyphicon-chevron-right"</span>' ) ; ?>	      
+      	    </li>
 	  </ul>
 	 <?php else : /* No search results */ ?>
 	   <?php get_template_part( 'bwp-posts-and-pages' ) ; ?>

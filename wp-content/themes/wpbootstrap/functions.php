@@ -126,7 +126,7 @@ function bwp_maybe_get_top_banner_parts() {
 
 function bwp_the_top_banner_backround_alignment() {
   $alignment = apply_filters( 'bwp_top_banner_backround_alignment' , 'center' ) ;
-  echo $alignment ;
+  echo esc_attr( $alignment ) ;
 }
 
 function bwp_maybe_get_bottom_nav() {
