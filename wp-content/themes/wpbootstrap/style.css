@@ -27,7 +27,7 @@ html body #wpadminbar {
  z-index: 5000 !important  ;
 }
 
-/* if admin bar, lower navbar */
+/* if wp admin bar, lower navbar */
 .admin-bar .navbar-fixed-top {
   margin-top : 30px ;
 }
@@ -114,6 +114,10 @@ article.post-preview .read-more-button {
   margin-left : 20px ; 
 }
 
+.comment {
+  width : 100% ;
+}
+
 .comment-area {
   padding-top : 15px ;
 }
@@ -140,36 +144,12 @@ article.post-preview .read-more-button {
   padding-right : 10px ;
 }
 
-.widget {
-  margin-bottom : 30px;
-}
-
-.widget .tagcloud a:hover {
-  text-decoration : none ;
-}
-    
 .comment-form-comment label[for=comment] {
   display : block ;
 }
 
 .post .comment-link {
   text-decoration : none ;
-}
-
-ul.pagination li.active a:hover { 
-  cursor : pointer ;
-  border : 3px ;
-  border-color : white ;
-  transition : .2s ;
-}
-
-ul.pager {
-  text-align: left ; 
-}
-
-.widget .responsive-video-container {
-  margin-left : auto ;
-  margin-right : auto ;  
 }
 
 .wp-caption-text ,
@@ -186,8 +166,28 @@ ul.pager {
   background-color : #F0F0F0 ; 
 }
 
-.comment {
-  width : 100% ;
+.widget {
+  margin-bottom : 30px;
+}
+
+.widget .tagcloud a:hover {
+  text-decoration : none ;
+}
+
+.widget .responsive-video-container {
+  margin-left : auto ;
+  margin-right : auto ;  
+}
+
+ul.pagination li.active a:hover { 
+  cursor : pointer ;
+  border : 3px ;
+  border-color : white ;
+  transition : .2s ;
+}
+
+ul.pager {
+  text-align: left ; 
 }
 
 #footer {

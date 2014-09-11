@@ -77,12 +77,3 @@
   </div> <!-- #respond -->
 <?php endif ;
 do_action( 'bwp_after_comments' ) ; 
-
-
-
-
-
-
-
-
-

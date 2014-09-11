@@ -21,7 +21,4 @@
   <body <?php echo esc_attr( body_class() ) ; ?>>
     <?php bwp_maybe_get_top_nav() ; ?>
     <div class="container">
-
-
-
-
+?>

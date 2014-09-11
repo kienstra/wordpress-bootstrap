@@ -2,7 +2,7 @@
 
 /* cruft: */
 
-add_filter( 'bwp_primary_bootstrap_css_path' , 'bwp_css_filter' ) ;
+//add_filter( 'bwp_primary_bootstrap_css_path' , 'bwp_css_filter' ) ;
 function bwp_css_filter() {
   return '//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/yeti/bootstrap.min.css' ;  
   //  '/wp-content/themes/wpbootstrap/bootstrap/css/bootstrap-.min.css' ;  // yeti , lumen , 
@@ -51,12 +51,11 @@ function bwp_enqueue_styles() {
 
 function bwp_enqueue_file_followed_by_style_css( $second_bootstrap_css_path ) {
     wp_enqueue_style( BWP_THEME_SLUG . '-second-bootstrap-css' , $second_bootstrap_css_path , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
-    wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_stylesheet_uri() , array( BWP_THEME_SLUG . '-second-bootstrap-css' ) , BWP_THEME_VERSION ) ;        
+    wp_enqueue_style( BWP_THEME_SLUG . '-main-css' , get_stylesheet_uri() , array( BWP_THEME_SLUG . '-second-bootstrap-css' ) , BWP_THEME_VERSION ) ;        
 }
 
-// should this use get_stylesheet_uri ?  even if child theme, this will have to load
 function bwp_only_enqueue_style_css() {
-  wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_stylesheet_uri() , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
+  wp_enqueue_style( BWP_THEME_SLUG . '-main-css' , get_stylesheet_uri() , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
 }
 
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_js' ) ;
@@ -74,8 +73,6 @@ function bwp_enqueue_js() {
   wp_enqueue_script( 'bootstrap_js' , $main_bootstrap_js_path , array( 'jquery' ) , BWP_THEME_VERSION , true ) ;
 }
 
-
-//add_action( 'wp_enqueue_scripts' , 'bwp_maybe_register_new_jquery' ) ; 
 function bwp_maybe_register_new_jquery() {
   if ( ! is_admin() ) {
     wp_deregister_script( 'jquery' ) ;
@@ -120,23 +117,29 @@ if ( ! function_exists( 'should_page_have_top_and_bottom_navs' ) ) {
   }
 }
 
-function bwp_maybe_get_top_banner_parts() {
-  $do_get_top_banner = apply_filters( 'bwp_do_get_top_banner' , true ) ;
-  if ( $do_get_top_banner ) { 
-    get_template_part( 'top-banner' ) ;
+if ( ! function_exists( 'bwp_maybe_get_top_banner_parts' ) ) { 
+  function bwp_maybe_get_top_banner_parts() {
+    $do_get_top_banner = apply_filters( 'bwp_do_get_top_banner' , true ) ;
+    if ( $do_get_top_banner ) { 
+      get_template_part( 'top-banner' ) ;
+    }
   }
 }
 
-function bwp_the_top_banner_backround_alignment() {
-  $alignment = apply_filters( 'bwp_top_banner_backround_alignment' , 'center' ) ;
-  echo esc_attr( $alignment ) ;
+if ( ! function_exists( 'bwp_the_top_banner_backround_alignment' ) ) { 
+  function bwp_the_top_banner_backround_alignment() {
+    $alignment = apply_filters( 'bwp_top_banner_backround_alignment' , 'center' ) ;
+    echo esc_attr( $alignment ) ;
+  }
 }
 
-function bwp_maybe_get_bottom_nav() {
-  $top_and_bottom_navs_allowed = should_page_have_top_and_bottom_navs() ;
-  $do_get_bottom_nav = apply_filters( 'bwp_do_get_bottom_nav' , $top_and_bottom_navs_allowed ) ;
-  if ( $do_get_bottom_nav ) {
-    get_template_part( 'navbar-bottom' ) ;
+if( ! function_exists( 'bwp_maybe_get_bottom_nav' ) ) {
+  function bwp_maybe_get_bottom_nav() {
+    $top_and_bottom_navs_allowed = should_page_have_top_and_bottom_navs() ;
+    $do_get_bottom_nav = apply_filters( 'bwp_do_get_bottom_nav' , $top_and_bottom_navs_allowed ) ;
+    if ( $do_get_bottom_nav ) {
+      get_template_part( 'navbar-bottom' ) ;
+    }
   }
 }
 
@@ -152,15 +155,13 @@ if ( ! function_exists( 'bwp_the_top_nav_menu' ) ) {
   }
 }
   
-
-
 if ( ! isset( $content_width ) ) {
    $content_width = 600 ;
 }
 
 add_action( 'comment_form' , 'bwp_maybe_enqueue_comment_reply' ) ;  
 function bwp_maybe_enqueue_comment_reply() {
-  if ( comments_allowed_by_user_and_filters() && get_option( 'thread_comments' ) ) {
+  if ( bwp_comments_allowed_by_user_and_filters() && get_option( 'thread_comments' ) ) {
     wp_enqueue_script( 'comment-reply' ) ;
   }
 }
@@ -423,12 +424,12 @@ function bwp_only_allow_comments_on_single_post_page() {
 }
 
 function bwp_maybe_echo_comments_template() {
-  if ( comments_allowed_by_user_and_filters() ) {
+  if ( bwp_comments_allowed_by_user_and_filters() ) {
     comments_template() ; 
   }
 }
 
-function comments_allowed_by_user_and_filters() {
+function bwp_comments_allowed_by_user_and_filters() {
   $allow_comments = apply_filters( 'bwp_do_show_comments' , true ) ; 
   if ( $allow_comments && comments_open() ) {
     return true ;
@@ -481,7 +482,8 @@ function bwp_add_customizer_sections( $wp_customize ) {
       'label' => __( 'Banner Image' , 'wpbootstrap' ) ,
       'section' => 'top_banner' ,
       'settings' => 'bwp_banner_image' ,
-  ) ) ) ;
+    )
+  ) ) ;
 }
 
 add_action( 'customize_register' , 'bwp_enqueue_customizer_script' ) ;
@@ -497,7 +499,7 @@ function bwp_add_options_page() {
 if ( ! function_exists( 'bwp_options_output_callback' ) ) {
   function bwp_options_output_callback() { 
     if ( ! current_user_can( 'unfiltered_html' ) ) {
-      die( 'Page not allowed, see administrator' ) ;
+      die( __( 'Page not allowed, see administrator' , 'wpbootstrap' ) ) ;
     }
 
     $name_header_extra_markup = 'bwp_header_extra_markup' ;
@@ -542,7 +544,3 @@ if ( ! function_exists( 'bwp_options_output_callback' ) ) {
   <?php
   }
 }
-
-
-
-
