@@ -38,7 +38,7 @@ class BSG_Modal_Carousel {
     $is_active = (0 == $this->slide_to_index ) ? 'active' : '' ;
     
     $this->image_indicators .= 
-    "<li class='{$is_active}' data-target='#carousel-{$this->gallery_id}' data-slide-to='{$this->slide_to_index}' data-src='{$image_src_full_size}'></li>" ;
+    "<li class='{$is_active}' data-target='#{$this->gallery_id}' data-slide-to='{$this->slide_to_index}' data-src='{$image_src_full_size}'></li>" ;
     $this->slide_to_index++ ;
   }
 
@@ -48,8 +48,8 @@ class BSG_Modal_Carousel {
         "<ol class='carousel-indicators'> 
           {$this->image_indicators}
          </ol>	       
-         <a class='left carousel-control' href='#carousel-{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
-	 <a class='right carousel-control' href='#carousel-{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a>\n" ;
+         <a class='left carousel-control' href='#{$this->gallery_id}' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a>
+	 <a class='right carousel-control' href='#{$this->gallery_id}' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a>\n" ;
     }
   } 
   
@@ -57,7 +57,7 @@ class BSG_Modal_Carousel {
     $maybe_indicators_and_controls = $this->maybe_get_indicators_and_controls() ;
     
     return 
-    "<div id='carousel-{$this->gallery_id}' class='gallery-modal modal fade'>
+    "<div id='{$this->gallery_id}' class='gallery-modal bsg modal fade'>
        <div class='modal-dialog modal-lg'>
 	 <div class='modal-content modal-content-gallery'>
 	   <div class='modal-header'>  
@@ -68,7 +68,7 @@ class BSG_Modal_Carousel {
 	   <div class='modal-body'>
 
 	     <!-- carousel -->
-	     <div id='carousel-{$this->gallery_id}' class='carousel carousel-gallery'>   
+	     <div id='carousel-{$this->gallery_id}' class='carousel bsg carousel-gallery'>   
 	       <div class='carousel-inner'> 
 		 {$this->carousel_inner_items}
 	       </div>

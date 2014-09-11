@@ -1,50 +1,40 @@
 ( function( $ ) {
   $( function() {
-
     // When a gallery image is clicked, open the modal carousel that was built by gallery-modal-setup.php
     $( '.gallery-item' ).on('click' , function() {
-      var gallery_id = $(this).parents( '.gallery' ).attr( 'id' ) ;
-      var image_index = $( this ).parents( '#' + gallery_id ).find( '.gallery-item' ).index( this ) ;
-//      var parent_carousel = $( this ).parents( '.carousel' ) ;
-      var carousel_gallery_id = 'carousel-' + gallery_id ;
-      var $modal_carousel = $( '#' + carousel_gallery_id ) ;
-      open_modal_carousel_with_image( $modal_carousel , image_index ) ;
+      var $parent_gallery = $( this ).parents( '.gallery' ) ;
+      var gallery_ordinal = $parent_gallery.parents( '.post' ).find( '.gallery' ).index( $parent_gallery ) ;
+      var image_index = $( this ).parents( '.gallery' ).find( '.gallery-item' ).index( this ) ;
+      var $bsg_modal_carousel = $( '.bsg.gallery-modal' ).eq( gallery_ordinal ) ;
+      open_modal_carousel_with_image( $bsg_modal_carousel , image_index ) ;
       return false ;
     } ) ;
 
-      /* new */
-    var image_selector = 'img:not(.thumbnail)' ;
-
-    $( '.type-post ' + image_selector ).on( 'click' , function() {
-	if ( $( this ).parents( '.gallery-item' ).length > 0 ) {
-	  return $( this ) ;
-	}
-	// this needs to have a selector like #post-image-carousel
-	var $modal_carousel = $( '#carousel-non-gallery' ) ;
-	var post_image_index = $( this ).parents().find( image_selector ).index( this ) ;
-	console.log( 'the $modal_carousel id is: ' + $modal_carousel.attr( 'id' ) + ' and the index is: ' + post_image_index ) ; 
-        open_modal_carousel_with_image( $modal_carousel , post_image_index ) ;	
-/*
-	var $carousel = $modal_carousel.find( '.carousel ' ) ;
-	reset_carousel( $carousel ) ;
-	$carousel.find( '.carousel-inner img' ).eq( post_image_index ).parents( '.item' ).addClass( 'active' ) ; // .carousel is too general
-	$carousel.find( '.carousel-indicators li' ).eq( post_image_index ).addClass( 'active' ) ;
-	$carousel.carousel( { interval : false , wrap : true ,} ) ;
-	$modal_carousel.modal() ;
-*/
-	return false ;
-    } ) ;
+    if ( bsg_do_allow && bsg_do_allow.post_image_carousels ) { // inserted through wp_localize_script
+      var post_selector = '.type-post' ;
+      var post_carousel_selector = '#non-gallery' ;
+      var image_selector = 'img:not(.attachment-post-thumbnail):not(.thumbnail)' ;
+      $( post_selector ).find( image_selector ).on( 'click' , function() {
+	  if ( $( this ).parents( '.gallery-item' ).length > 0 ) {
+	    return $( this ) ;
+	  }
+	  var $modal_carousel = $( post_carousel_selector ) ;
+	  var post_image_index = $( this ).parents( post_selector ).find( image_selector ).index( this ) ;
+	  open_modal_carousel_with_image( $modal_carousel , post_image_index ) ;
+	  return false ;
+      } ) ;
+    }
 
     function open_modal_carousel_with_image( $modal_carousel , image_index ) {
-      var $carousel = $modal_carousel.find( '.carousel' ) ;
+      var $carousel = $modal_carousel.find( '.carousel-gallery' ) ;
       reset_carousel( $carousel ) ;
+
       // Set the image in the modal carousel to "active" so it appears when it opens
-      $carousel.find( '.carousel-inner img' ).eq( image_index ).parents( '.item' ).addClass( 'active' ) ;
+      $carousel.find( '.carousel-inner .item' ).eq( image_index ).addClass( 'active' ) ;
       $carousel.find( '.carousel-indicators li' ).eq( image_index ).addClass( 'active' ) ;
       $carousel.carousel( { interval : false } ) ;
       $modal_carousel.modal() ;
-    }      
-    // work-around the data-slide-to and ol.carousel-indicators not working
+    }
 
     $( '.carousel .left' ).on( 'click' , function() {
       $( this ).parents( '.carousel' ).carousel( 'prev' ) ;
@@ -64,10 +54,11 @@
 
     function reset_carousel( $carousel ) {
       $carousel.carousel( 'pause' ) ;
-      $carousel.find( '.carousel-inner .active' ).removeClass( 'active' ) ;
       $carousel.find( '.carousel-indicators .active' ).removeClass( 'active' ) ;
-      $carousel.find( '.carousel-inner .item.next' ).removeClass( 'next' ) ;
-      $carousel.find( '.carousel-inner .item.left' ).removeClass( 'left' ) ;
+      var $carousel_inner = $carousel.find( '.carousel-inner' ) ;
+      $carousel_inner.find( '.item.active' ).removeClass( 'active' ) ;
+      $carousel_inner.find( '.item.next' ).removeClass( 'next' ) ;
+      $carousel_inner.find( '.item.left' ).removeClass( 'left' ) ;
     }
 
     // Swipe support
@@ -82,7 +73,7 @@
     $( window ).resize( size_containing_div_of_image ) ;
 
     function size_containing_div_of_image() {
-      jQuery( '.gallery-modal .carousel.carousel-gallery .carousel-inner .item' ).css( 'height' , function() {
+      $( '.gallery-modal .carousel.carousel-gallery .carousel-inner .item' ).css( 'height' , function() {
 	return ( 0.8 * $( window ).height() ) ;
       } ) ;
     }

@@ -15,6 +15,7 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="pingback" href="<?php esc_url( bloginfo( 'pingback_url' ) ) ; ?>" >
+    <!-- style.css enqueued in functions.php using get_stylesheet_uri() -->
     <?php wp_head(); ?>
   </head>
   <body <?php echo esc_attr( body_class() ) ; ?>>

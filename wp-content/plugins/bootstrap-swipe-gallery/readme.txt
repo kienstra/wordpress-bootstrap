@@ -3,8 +3,8 @@ Contributors: ryankienstra
 Donate link: http://jdrf.org/get-involved/ways-to-donate/
 Tags: Bootstrap, gallery, mobile, swipe, responsive
 Requires at least: 3.9
-Tested up to: 3.9.1
-Stable tag: 1.0.0
+Tested up to: 4.0 
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,6 +16,7 @@ Swipe through your gallery. Fast page load for mobile devices.
 * Click on a gallery image and swipe through the pop-up.
 * Demo: www.ryankienstra.com/swipe-gallery
 * Images re-size for mobile devices.
+* Option to create pop-ups of all post images.
 * Light: Only sends 3 small files to the browser. Does nothing if there's no gallery.
 * Works with themes "Bootstrap Ultimate," "DevDmBootstrap3," "evolve," "Unite." 
 * Doesn't work with "Customizr," "Inkzine," and "Radiant."
@@ -46,11 +47,16 @@ Create a gallery in a post or page. Click "New Post," "Add Media," and "Create G
 == Changelog ==
 
 = 1.0.0 =
-
 * First version
+
+= 1.0.1 =
+* Fixed a bug where only one image would show.
+* Added an option to make a pop-up of all images in post, not just in galleries.
 
 == Upgrade Notice ==
 
-N/A, this is version 1.0.0
+= 1.0.1 =
+* Have a pop-up of all of your post images if you check the option.
+
 
 

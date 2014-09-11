@@ -1,7 +1,4 @@
 <?php
-// bwp functions
-// @package wpbootstrap
-
 
 /* cruft: */
 
@@ -54,11 +51,12 @@ function bwp_enqueue_styles() {
 
 function bwp_enqueue_file_followed_by_style_css( $second_bootstrap_css_path ) {
     wp_enqueue_style( BWP_THEME_SLUG . '-second-bootstrap-css' , $second_bootstrap_css_path , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
-    wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_template_directory_uri() . '/style.css' , array( BWP_THEME_SLUG . '-second-bootstrap-css' ) , BWP_THEME_VERSION ) ;        
+    wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_stylesheet_uri() , array( BWP_THEME_SLUG . '-second-bootstrap-css' ) , BWP_THEME_VERSION ) ;        
 }
 
+// should this use get_stylesheet_uri ?  even if child theme, this will have to load
 function bwp_only_enqueue_style_css() {
-  wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_template_directory_uri() . '/style.css' , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
+  wp_enqueue_style( BWP_THEME_SLUG . '-main_css' , get_stylesheet_uri() , array( BWP_THEME_SLUG . '-primary-bootstrap-css' ) , BWP_THEME_VERSION ) ;
 }
 
 add_action( 'wp_enqueue_scripts', 'bwp_enqueue_js' ) ;
@@ -135,7 +133,8 @@ function bwp_the_top_banner_backround_alignment() {
 }
 
 function bwp_maybe_get_bottom_nav() {
-  $do_get_bottom_nav = apply_filters( 'bwp_do_get_bottom_nav' , true ) ;
+  $top_and_bottom_navs_allowed = should_page_have_top_and_bottom_navs() ;
+  $do_get_bottom_nav = apply_filters( 'bwp_do_get_bottom_nav' , $top_and_bottom_navs_allowed ) ;
   if ( $do_get_bottom_nav ) {
     get_template_part( 'navbar-bottom' ) ;
   }
@@ -371,14 +370,6 @@ if ( ! function_exists( 'bwp_echo_list_group_of_pages' ) ) {
 add_filter( 'get_image_tag_class' , 'bwp_image_tag_class_filter' ) ;
 function bwp_image_tag_class_filter( $classes ) {
   return $classes . ' img-responsive' ;
-}
-
-add_filter( 'wp_tag_cloud' , 'bwp_filter_tag_cloud' ) ; 
-function bwp_filter_tag_cloud( $markup ) {
-  $regex = '/(<a[^>]+?>)([^<]+?)(<\/a>)/' ;
-  $replace_with = "$1<span class='label label-primary'>$2</span>$3" ;
-  $markup = preg_replace( $regex , $replace_with , $markup ) ; 
-  return $markup ;
 }
 
 add_filter( 'widget_archives_args' , 'bwp_limit_archives_count' ) ; 
